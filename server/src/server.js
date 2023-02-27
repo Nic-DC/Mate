@@ -23,9 +23,7 @@ const io = new Server(httpServer);
 const _filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(_filename);
 
-io.on("connection", (socket) => {
-  console.log("Socket connection ready");
-});
+io.on("connection", socket);
 
 expressServer.get("/", (req, res) => {
   try {
