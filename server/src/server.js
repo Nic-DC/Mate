@@ -4,7 +4,7 @@ import cors from "cors";
 import mongoose from "mongoose";
 import { Server } from "socket.io";
 import { createServer } from "http"; // CORE MODULE
-import { socket } from "./socket/index.js";
+import { handleSocket } from "./socket/index.js";
 import path from "path";
 import { fileURLToPath } from "url";
 // import usersRouter from "./api/user/index.js";
@@ -23,7 +23,7 @@ const io = new Server(httpServer);
 const _filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(_filename);
 
-io.on("connection", socket);
+io.on("connection", handleSocket);
 
 expressServer.get("/", (req, res) => {
   try {

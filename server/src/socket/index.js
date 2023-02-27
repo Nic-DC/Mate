@@ -1,11 +1,15 @@
-export const socket = (client) => {
-  console.log("NEW CONNECTION WITH CLIENT ID: ", client.id);
+export const handleSocket = (socket) => {
+  console.log("NEW CONNECTION WITH SOCKET ID: ", socket.id);
 
-  client.on("client-message", (message) => {
-    console.log("Message received", message);
+  socket.on("client-message", (message) => {
+    console.log(`Message from ${socket.id} - received: `, message);
 
-    const editedMessage = `${message.message} => WAS EDITED IN THE SERVER`;
+    const editedMessage = `${message.message} => BE`;
 
-    client.emit("server-message", { editedMessage });
+    socket.broadcast.emit("server-message", { editedMessage });
+  });
+
+  socket.on("disconnect", () => {
+    console.log(`User ${socket.id} disconnected`);
   });
 };
