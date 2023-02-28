@@ -16,13 +16,22 @@ const ChatWindow = () => {
   const [socket, setSocket] = useState(null); // socket
   const [message, setMessage] = useState(""); // input message
   const [chat, setChat] = useState([]); // all inputted messages
-  const [isTyping, setIsTyping] = useState(false);
+  const [isTyping, setIsTyping] = useState(false); // for the "typing" render
+  const [typingTimeout, setTypingTimeout] = useState(null); // for the debounce effect - "typing" render
+  console.log("typingTimeout: ", typingTimeout);
 
   console.log("The chat: ", chat);
 
   // when loading the app
   useEffect(() => {
     setSocket(io("http://localhost:3009", { transports: ["websocket"] }));
+
+    // cleanup function
+    // return () => {
+    //   if (typingTimeout) {
+    //     clearTimeout(typingTimeout);
+    //   }
+    // };
   }, []);
 
   // when the socket changes
@@ -33,6 +42,7 @@ const ChatWindow = () => {
       console.log("typing...");
       setIsTyping(true);
     });
+
     socket.on("typing-stopped-server", () => {
       console.log("stoppeedddd...");
       setIsTyping(false);
@@ -43,6 +53,14 @@ const ChatWindow = () => {
       // we save the message and received property that we receive from the server
       setChat((prev) => [...prev, { message: message.message, received: true }]);
     });
+
+    // cleanup function
+    //     return () => {
+    //       if (typingTimeout) {
+    //         clearTimeout(typingTimeout);
+    //       }
+    //     };
+    //   }, [socket, typingTimeout]);
   }, [socket]);
 
   // handleInput function
@@ -50,9 +68,15 @@ const ChatWindow = () => {
     setMessage(e.target.value);
     socket.emit("typing-started-client");
 
-    setTimeout(() => {
-      socket.emit("typing-stopped-client");
-    }, 600);
+    // debounce effect
+    if (typingTimeout) clearTimeout(typingTimeout);
+
+    setTypingTimeout(
+      setTimeout(() => {
+        socket.emit("typing-stopped-client");
+        console.log("stopped..............!!!!!");
+      }, 1000)
+    );
   };
 
   // when we send the message
@@ -76,7 +100,7 @@ const ChatWindow = () => {
         <Box sx={{ marginBottom: 5 }}>
           {isTyping && (
             <InputLabel shrink htmlFor="message-input">
-              Typing...
+              Someone typing...
             </InputLabel>
           )}
 

@@ -12,12 +12,8 @@ export const handleSocket = (socket) => {
   });
 
   socket.on("message-client", (message) => {
-    // const sentMessage = message.message;
     console.log(`Message from ${socket.id} - received: `, message);
-
     socket.broadcast.emit("message-server", { message: message.message });
-    // const editedMessage = `${message.message} => BE`;
-    // socket.broadcast.emit("server-message", { editedMessage });
   });
 
   socket.on("disconnect", () => {
