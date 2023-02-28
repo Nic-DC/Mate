@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { io } from "socket.io-client";
 import Box from "@mui/material/Box";
 
-import { Container } from "@mui/system";
+import Card from "@mui/material/Card";
 import { Typography } from "@mui/material";
 
 import OutlinedInput from "@mui/material/OutlinedInput";
@@ -27,9 +27,9 @@ const ChatWindow = () => {
   useEffect(() => {
     if (!socket) return;
 
-    socket.on("server-message", (serverMessage) => {
-      console.log("FE - the server-message: ", serverMessage);
-      setChat((prev) => [...prev, serverMessage.editedMessage]);
+    socket.on("server-message", (message) => {
+      console.log("FE - the server-message: ", message);
+      setChat((prev) => [...prev, { message: message.message, received: true }]);
     });
   }, [socket]);
 
@@ -39,34 +39,39 @@ const ChatWindow = () => {
 
     // we emit the form input
     socket.emit("client-message", { message });
+    setChat((prev) => [...prev, { message, received: false }]);
 
     // we clear the form input
     setMessage("");
   };
   return (
-    <>
-      <Box sx={{ marginBottom: 5 }}>
-        {chat.map((message) => (
-          <Typography>{message}</Typography>
-        ))}
-      </Box>
+    <Box sx={{ display: "flex", justifyContent: "center" }}>
+      <Card sx={{ padding: 2, marginTop: 10, width: "60%", backgroundColor: "lightgray" }}>
+        <Box sx={{ marginBottom: 5 }}>
+          {chat.map((data) => (
+            <Typography sx={{ textAlign: data.received ? "right" : "left" }}>{data.message}</Typography>
+          ))}
+        </Box>
 
-      <Box component="form" onSubmit={handleSubmit}>
-        <OutlinedInput
-          placeholder="write here"
-          size="small"
-          value={message}
-          onChange={(e) => setMessage(e.target.value)}
-          endAdornment={
-            <InputAdornment position="end">
-              <IconButton type="submit" edge="end">
-                <SendIcon />
-              </IconButton>
-            </InputAdornment>
-          }
-        />
-      </Box>
-    </>
+        <Box component="form" onSubmit={handleSubmit}>
+          <OutlinedInput
+            sx={{ backgroundColor: "white" }}
+            fullWidth
+            placeholder="write here"
+            size="small"
+            value={message}
+            onChange={(e) => setMessage(e.target.value)}
+            endAdornment={
+              <InputAdornment position="end">
+                <IconButton type="submit" edge="end">
+                  <SendIcon />
+                </IconButton>
+              </InputAdornment>
+            }
+          />
+        </Box>
+      </Card>
+    </Box>
   );
 };
 
