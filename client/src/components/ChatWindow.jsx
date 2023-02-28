@@ -3,14 +3,19 @@ import { io } from "socket.io-client";
 import Box from "@mui/material/Box";
 
 import Card from "@mui/material/Card";
-import { Typography } from "@mui/material";
+import { Button, Typography } from "@mui/material";
 
 import OutlinedInput from "@mui/material/OutlinedInput";
 import InputLabel from "@mui/material/InputLabel";
+import Tooltip from "@mui/material/Tooltip";
 
 import InputAdornment from "@mui/material/InputAdornment";
 import IconButton from "@mui/material/IconButton";
 import SendIcon from "@mui/icons-material/Send";
+import ClearIcon from "@mui/icons-material/Clear";
+import CommentIcon from "@mui/icons-material/Comment";
+import SaveIcon from "@mui/icons-material/Save";
+import { useNavigate } from "react-router-dom";
 
 const ChatWindow = () => {
   const [socket, setSocket] = useState(null); // socket
@@ -18,20 +23,12 @@ const ChatWindow = () => {
   const [chat, setChat] = useState([]); // all inputted messages
   const [isTyping, setIsTyping] = useState(false); // for the "typing" render
   const [typingTimeout, setTypingTimeout] = useState(null); // for the debounce effect - "typing" render
-  console.log("typingTimeout: ", typingTimeout);
 
-  console.log("The chat: ", chat);
+  const navigate = useNavigate();
 
   // when loading the app
   useEffect(() => {
     setSocket(io("http://localhost:3009", { transports: ["websocket"] }));
-
-    // cleanup function
-    // return () => {
-    //   if (typingTimeout) {
-    //     clearTimeout(typingTimeout);
-    //   }
-    // };
   }, []);
 
   // when the socket changes
@@ -53,24 +50,16 @@ const ChatWindow = () => {
       // we save the message and received property that we receive from the server
       setChat((prev) => [...prev, { message: message.message, received: true }]);
     });
-
-    // cleanup function
-    //     return () => {
-    //       if (typingTimeout) {
-    //         clearTimeout(typingTimeout);
-    //       }
-    //     };
-    //   }, [socket, typingTimeout]);
   }, [socket]);
 
   // handleInput function
   const handleInput = (e) => {
     setMessage(e.target.value);
-    socket.emit("typing-started-client");
 
+    /* --- emit to the server that we are typing a message ---*/
+    socket.emit("typing-started-client");
     // debounce effect
     if (typingTimeout) clearTimeout(typingTimeout);
-
     setTypingTimeout(
       setTimeout(() => {
         socket.emit("typing-stopped-client");
@@ -89,48 +78,66 @@ const ChatWindow = () => {
     // save the message & received property that we emit
     setChat((prev) => [...prev, { message, received: false }]);
 
-    /* --- emit to the server that we are typing a message ---*/
-
     // we clear the form input
     setMessage("");
   };
   return (
-    <Box sx={{ display: "flex", justifyContent: "center" }}>
-      <Card sx={{ padding: 2, marginTop: 10, width: "60%", backgroundColor: "lightgray" }}>
-        <Box sx={{ marginBottom: 5 }}>
-          {isTyping && (
-            <InputLabel shrink htmlFor="message-input">
-              Someone typing...
-            </InputLabel>
-          )}
+    // <Box sx={{ display: "flex", justifyContent: "center" }}>
+    <Card sx={{ padding: 2, marginTop: 10, width: "60%", backgroundColor: "rgba(255, 255, 255, 0.12)" }}>
+      <Box sx={{ marginBottom: 5 }}>
+        <Tooltip title="Go to room">
+          <Button onClick={() => navigate("/rooms/:roomId")}>
+            <CommentIcon sx={{ color: "#90caf9" }} />
+          </Button>
+        </Tooltip>
 
-          {chat.map((data, index) => (
-            <Typography key={index} sx={{ textAlign: data.received ? "left" : "right" }}>
+        <Tooltip title="Save chat">
+          <Button onClick={() => navigate("/rooms/:roomId")}>
+            <SaveIcon sx={{ color: "#90caf9" }} />
+          </Button>
+        </Tooltip>
+
+        <Tooltip title="Delete messages">
+          <Button onClick={() => navigate("/rooms/:roomId")}>
+            <ClearIcon sx={{ color: "#90caf9" }} />
+          </Button>
+        </Tooltip>
+
+        {isTyping && (
+          <InputLabel shrink htmlFor="message-input">
+            Someone typing...
+          </InputLabel>
+        )}
+
+        {chat.map((data, index) => (
+          <>
+            <Typography key={index} sx={{ textAlign: data.received ? "left" : "right", color: "#90caf9" }}>
               {data.message}
             </Typography>
-          ))}
-        </Box>
+          </>
+        ))}
+      </Box>
 
-        <Box component="form" onSubmit={handleSubmit}>
-          <OutlinedInput
-            id="message-input"
-            sx={{ backgroundColor: "white" }}
-            fullWidth
-            placeholder="write here"
-            size="small"
-            value={message}
-            onChange={handleInput}
-            endAdornment={
-              <InputAdornment position="end">
-                <IconButton type="submit" edge="end">
-                  <SendIcon />
-                </IconButton>
-              </InputAdornment>
-            }
-          />
-        </Box>
-      </Card>
-    </Box>
+      <Box component="form" onSubmit={handleSubmit}>
+        <OutlinedInput
+          id="message-input"
+          sx={{ backgroundColor: "rgba(255, 255, 255, 0.12)" }}
+          fullWidth
+          placeholder="write here"
+          size="small"
+          value={message}
+          onChange={handleInput}
+          endAdornment={
+            <InputAdornment position="end">
+              <IconButton type="submit" edge="end">
+                <SendIcon sx={{ color: "#90caf9" }} />
+              </IconButton>
+            </InputAdornment>
+          }
+        />
+      </Box>
+    </Card>
+    // </Box>
   );
 };
 
