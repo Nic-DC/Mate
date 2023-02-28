@@ -9,6 +9,9 @@ import OutlinedInput from "@mui/material/OutlinedInput";
 import InputLabel from "@mui/material/InputLabel";
 import Tooltip from "@mui/material/Tooltip";
 
+import Divider from "@mui/material/Divider";
+import Chip from "@mui/material/Chip";
+
 import InputAdornment from "@mui/material/InputAdornment";
 import IconButton from "@mui/material/IconButton";
 import SendIcon from "@mui/icons-material/Send";
@@ -16,6 +19,8 @@ import ClearIcon from "@mui/icons-material/Clear";
 import CommentIcon from "@mui/icons-material/Comment";
 import SaveIcon from "@mui/icons-material/Save";
 import { useNavigate } from "react-router-dom";
+
+import { v4 as uuidv4 } from "uuid";
 
 const ChatWindow = () => {
   const [socket, setSocket] = useState(null); // socket
@@ -25,6 +30,8 @@ const ChatWindow = () => {
   const [typingTimeout, setTypingTimeout] = useState(null); // for the debounce effect - "typing" render
 
   const navigate = useNavigate();
+
+  const roomId = uuidv4();
 
   // when loading the app
   useEffect(() => {
@@ -86,22 +93,27 @@ const ChatWindow = () => {
     <Card sx={{ padding: 2, marginTop: 10, width: "60%", backgroundColor: "rgba(255, 255, 255, 0.12)" }}>
       <Box sx={{ marginBottom: 5 }}>
         <Tooltip title="Go to room">
-          <Button onClick={() => navigate("/rooms/:roomId")}>
+          <Button onClick={() => navigate(`/rooms/${roomId}`)}>
             <CommentIcon sx={{ color: "#90caf9" }} />
           </Button>
         </Tooltip>
 
         <Tooltip title="Save chat">
-          <Button onClick={() => navigate("/rooms/:roomId")}>
+          <Button onClick={() => console.log("Messages saved")}>
             <SaveIcon sx={{ color: "#90caf9" }} />
           </Button>
         </Tooltip>
 
         <Tooltip title="Delete messages">
-          <Button onClick={() => navigate("/rooms/:roomId")}>
+          <Button onClick={() => console.log("Messages deleted")}>
             <ClearIcon sx={{ color: "#90caf9" }} />
           </Button>
         </Tooltip>
+
+        {/* <Divider /> */}
+        <Divider>
+          <Chip label="AImate" />
+        </Divider>
 
         {isTyping && (
           <InputLabel shrink htmlFor="message-input">
