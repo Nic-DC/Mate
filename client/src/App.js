@@ -30,7 +30,7 @@ function App() {
       <CssBaseline />
       <Router>
         <div className="App">
-          <Navbar />
+          <Navbar socket={socket} />
           <Container>
             <Box sx={{ display: "flex", justifyContent: "center" }}>
               <Routes>

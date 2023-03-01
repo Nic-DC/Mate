@@ -20,7 +20,7 @@ import CommentIcon from "@mui/icons-material/Comment";
 import SaveIcon from "@mui/icons-material/Save";
 import { useNavigate, useParams } from "react-router-dom";
 
-import { v4 as uuidv4 } from "uuid";
+// import { v4 as uuidv4 } from "uuid";
 
 const ChatWindow = ({ socket }) => {
   // const [socket, setSocket] = useState(null); // socket
@@ -32,10 +32,10 @@ const ChatWindow = ({ socket }) => {
   const params = useParams();
 
   const passedSocket = socket;
-
+  console.log("PARAMS - CHATWINDOW: ", params.roomId);
   const navigate = useNavigate();
 
-  const roomId = uuidv4();
+  // const roomId = uuidv4();
 
   // // when loading the app
   // useEffect(() => {
@@ -104,7 +104,7 @@ const ChatWindow = ({ socket }) => {
         )}
 
         <Tooltip title="Go to room">
-          <Button onClick={() => navigate(`/rooms/${roomId}`)}>
+          <Button onClick={() => navigate(`/rooms/${params.roomId}`)}>
             <CommentIcon sx={{ color: "#90caf9" }} />
           </Button>
         </Tooltip>
