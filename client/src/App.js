@@ -11,6 +11,7 @@ import { io } from "socket.io-client";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import ChatRoom from "./components/pages/ChatRoom";
+import Login from "./components/pages/Login";
 
 const darkTheme = createTheme({
   palette: {
@@ -37,6 +38,7 @@ function App() {
                 <Route path="/chat" element={<ChatWindow socket={socket} />} />
                 <Route path="/home" element={<Home socket={socket} />} />
                 <Route path="/rooms/:roomId" element={<ChatRoom socket={socket} />} />
+                <Route path="/login" element={<Login />} />
               </Routes>
             </Box>
           </Container>
