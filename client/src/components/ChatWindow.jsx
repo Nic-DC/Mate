@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { io } from "socket.io-client";
+// import { io } from "socket.io-client";
 import Box from "@mui/material/Box";
 
 import Card from "@mui/material/Card";
@@ -98,7 +98,7 @@ const ChatWindow = ({ socket }) => {
     <Card sx={{ padding: 2, marginTop: 10, width: "60%", backgroundColor: "rgba(255, 255, 255, 0.12)" }}>
       <Box sx={{ marginBottom: 5 }}>
         {params.roomId && (
-          <Divider>
+          <Divider sx={{ marginBottom: 1.5 }}>
             <Chip label={`Room: ${params.roomId}`} />
           </Divider>
         )}

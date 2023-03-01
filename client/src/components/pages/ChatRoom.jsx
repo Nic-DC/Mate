@@ -1,4 +1,3 @@
-import { Typography } from "@mui/material";
 // import { Box } from "@mui/system";
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
@@ -16,7 +15,6 @@ const ChatRoom = ({ socket }) => {
     console.log("ROOM CHAT SOCKET: ", passedSocket);
   }, [passedSocket]);
 
-  //return ({ params?(<h1> Chat room id: { params.chatId }</h1 >) : (<h2>Chat room</h2>)})
   return (
     <>
       <ChatWindow socket={passedSocket} />
