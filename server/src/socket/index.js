@@ -1,39 +1,23 @@
-export const handleSocket = (socket) => {
+import MessageController from "./controllers/MessageController.js";
+import RoomController from "./controllers/RoomController.js";
+import TypingController from "./controllers/TypingController.js";
+
+export const handleSockets = (socket) => {
   console.log("NEW CONNECTION WITH SOCKET ID: ", socket.id);
 
-  socket.on("typing-started-client", ({ roomId }) => {
-    console.log("tyyyyyyweee");
-    let skt = socket.broadcast;
-    // if we have the roomId, emit ONLY on the roomId
-    // otherwise, emit everywhere
-    skt = roomId ? skt.to(roomId) : skt;
-    skt.emit("typing-started-server");
-  });
+  const typingController = new TypingController(socket);
+  const messageController = new MessageController(socket);
+  const roomController = new RoomController(socket);
 
-  socket.on("typing-stopped-client", ({ roomId }) => {
-    console.log("stoppppp");
-    let skt = socket.broadcast;
-    skt = roomId ? skt.to(roomId) : skt;
-    skt.emit("typing-stopped-server");
-  });
+  // typing
+  socket.on("typing-started-client", typingController.typingStarted);
+  socket.on("typing-stopped-client", typingController.typingStopped);
 
-  // socket.on("message-client", (message) => {
-  //   console.log(`Message from ${socket.id} - received: `, message);
-  //   socket.broadcast.emit("message-server", { message: message.message });
-  // });
+  // messages
+  socket.on("message-client", messageController.sendMessage);
 
-  socket.on("message-client", ({ message, roomId }) => {
-    console.log(`Message from ${socket.id} - received: `, message);
-    console.log(`roomId from ${socket.id} - received: `, roomId);
-    let skt = socket.broadcast;
-    skt = roomId ? skt.to(roomId) : skt;
-    skt.emit("message-server", { message });
-  });
-
-  socket.on("join-room", ({ roomId }) => {
-    socket.join(roomId);
-    console.log("Joined the room2");
-  });
+  // rooms
+  socket.on("join-room", roomController.joinRoom);
 
   socket.on("disconnect", () => {
     console.log(`User ${socket.id} disconnected`);
