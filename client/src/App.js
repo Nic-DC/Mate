@@ -5,6 +5,9 @@ import ChatWindow from "./components/ChatWindow";
 import Home from "./components/pages/Home";
 import Navbar from "./components/Navbar";
 
+import { useEffect, useState } from "react";
+import { io } from "socket.io-client";
+
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import ChatRoom from "./components/pages/ChatRoom";
@@ -16,6 +19,12 @@ const darkTheme = createTheme({
 });
 
 function App() {
+  const [socket, setSocket] = useState(null); // socket
+  // when loading the app
+  useEffect(() => {
+    setSocket(io("http://localhost:3009", { transports: ["websocket"] }));
+  }, []);
+
   return (
     <ThemeProvider theme={darkTheme}>
       <CssBaseline />
@@ -25,9 +34,9 @@ function App() {
           <Container>
             <Box sx={{ display: "flex", justifyContent: "center" }}>
               <Routes>
-                <Route path="/chat" element={<ChatWindow />} />
-                <Route path="/home" element={<Home />} />
-                <Route path="/rooms/:chatId" element={<ChatRoom />} />
+                <Route path="/chat" element={<ChatWindow socket={socket} />} />
+                <Route path="/home" element={<Home socket={socket} />} />
+                <Route path="/rooms/:roomId" element={<ChatRoom socket={socket} />} />
               </Routes>
             </Box>
           </Container>

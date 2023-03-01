@@ -18,58 +18,63 @@ import SendIcon from "@mui/icons-material/Send";
 import ClearIcon from "@mui/icons-material/Clear";
 import CommentIcon from "@mui/icons-material/Comment";
 import SaveIcon from "@mui/icons-material/Save";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 import { v4 as uuidv4 } from "uuid";
 
-const ChatWindow = () => {
-  const [socket, setSocket] = useState(null); // socket
+const ChatWindow = ({ socket }) => {
+  // const [socket, setSocket] = useState(null); // socket
   const [message, setMessage] = useState(""); // input message
   const [chat, setChat] = useState([]); // all inputted messages
   const [isTyping, setIsTyping] = useState(false); // for the "typing" render
   const [typingTimeout, setTypingTimeout] = useState(null); // for the debounce effect - "typing" render
 
+  const params = useParams();
+
+  const passedSocket = socket;
+
   const navigate = useNavigate();
 
   const roomId = uuidv4();
 
-  // when loading the app
-  useEffect(() => {
-    setSocket(io("http://localhost:3009", { transports: ["websocket"] }));
-  }, []);
+  // // when loading the app
+  // useEffect(() => {
+  //   setSocket(io("http://localhost:3009", { transports: ["websocket"] }));
+  // }, []);
 
   // when the socket changes
   useEffect(() => {
-    if (!socket) return;
+    if (!passedSocket) return;
 
-    socket.on("typing-started-server", () => {
+    passedSocket.on("typing-started-server", () => {
       console.log("typing...");
       setIsTyping(true);
     });
 
-    socket.on("typing-stopped-server", () => {
+    passedSocket.on("typing-stopped-server", () => {
       console.log("stoppeedddd...");
       setIsTyping(false);
     });
 
-    socket.on("message-server", (message) => {
+    passedSocket.on("message-server", (message) => {
       console.log("FE - the message-server: ", message);
       // we save the message and received property that we receive from the server
       setChat((prev) => [...prev, { message: message.message, received: true }]);
     });
-  }, [socket]);
+  }, [passedSocket]);
 
   // handleInput function
   const handleInput = (e) => {
     setMessage(e.target.value);
 
     /* --- emit to the server that we are typing a message ---*/
-    socket.emit("typing-started-client");
+    const roomId = params.roomId;
+    passedSocket.emit("typing-started-client", { roomId });
     // debounce effect
     if (typingTimeout) clearTimeout(typingTimeout);
     setTypingTimeout(
       setTimeout(() => {
-        socket.emit("typing-stopped-client");
+        passedSocket.emit("typing-stopped-client", { roomId });
         console.log("stopped..............!!!!!");
       }, 1000)
     );
@@ -81,7 +86,7 @@ const ChatWindow = () => {
 
     /* --- sending the message ---*/
     // we emit the form input
-    socket.emit("message-client", { message });
+    passedSocket.emit("message-client", { message });
     // save the message & received property that we emit
     setChat((prev) => [...prev, { message, received: false }]);
 
@@ -92,6 +97,12 @@ const ChatWindow = () => {
     // <Box sx={{ display: "flex", justifyContent: "center" }}>
     <Card sx={{ padding: 2, marginTop: 10, width: "60%", backgroundColor: "rgba(255, 255, 255, 0.12)" }}>
       <Box sx={{ marginBottom: 5 }}>
+        {params.roomId && (
+          <Divider>
+            <Chip label={`Room: ${params.roomId}`} />
+          </Divider>
+        )}
+
         <Tooltip title="Go to room">
           <Button onClick={() => navigate(`/rooms/${roomId}`)}>
             <CommentIcon sx={{ color: "#90caf9" }} />
@@ -110,7 +121,6 @@ const ChatWindow = () => {
           </Button>
         </Tooltip>
 
-        {/* <Divider /> */}
         <Divider>
           <Chip label="AImate" />
         </Divider>
