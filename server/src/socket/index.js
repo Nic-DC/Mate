@@ -17,9 +17,17 @@ export const handleSocket = (socket) => {
     skt.emit("typing-stopped-server");
   });
 
-  socket.on("message-client", (message) => {
+  // socket.on("message-client", (message) => {
+  //   console.log(`Message from ${socket.id} - received: `, message);
+  //   socket.broadcast.emit("message-server", { message: message.message });
+  // });
+
+  socket.on("message-client", ({ message, roomId }) => {
     console.log(`Message from ${socket.id} - received: `, message);
-    socket.broadcast.emit("message-server", { message: message.message });
+    console.log(`roomId from ${socket.id} - received: `, roomId);
+    let skt = socket.broadcast;
+    skt = roomId ? skt.to(roomId) : skt;
+    skt.emit("message-server", { message });
   });
 
   socket.on("join-room", ({ roomId }) => {

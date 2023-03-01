@@ -83,10 +83,10 @@ const ChatWindow = ({ socket }) => {
   // when we send the message
   const handleSubmit = (e) => {
     e.preventDefault();
-
+    const roomId = params.roomId;
     /* --- sending the message ---*/
     // we emit the form input
-    passedSocket.emit("message-client", { message });
+    passedSocket.emit("message-client", { message, roomId });
     // save the message & received property that we emit
     setChat((prev) => [...prev, { message, received: false }]);
 
