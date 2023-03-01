@@ -7,9 +7,8 @@ import { createServer } from "http"; // CORE MODULE
 import { handleSockets } from "./socket/index.js";
 import path from "path";
 import { fileURLToPath } from "url";
-// import usersRouter from "./api/user/index.js";
-// import chatRouter from "./api/chat/index.js";
-// import messageRouter from "./api/message/index.js";
+import roomsRouter from "./api/rooms/roomRoutes.js";
+
 import { badRequestHandler, genericErrorHandler, notFoundHandler } from "./errorHandlers.js";
 
 const expressServer = express();
@@ -58,7 +57,7 @@ expressServer.use(cors());
 expressServer.use(express.json());
 
 // ******************************** ENDPOINTS *****************************************
-// expressServer.use("/chats", chatRouter);
+expressServer.use("/rooms", roomsRouter);
 // expressServer.use("/messages", messageRouter);
 // expressServer.use("/users", usersRouter);
 

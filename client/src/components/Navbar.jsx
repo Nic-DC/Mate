@@ -1,16 +1,14 @@
 import { AppBar, Box, Button, IconButton, Toolbar, Typography } from "@mui/material";
 import { Stack } from "@mui/system";
 import Tooltip from "@mui/material/Tooltip";
-import Fab from "@mui/material/Fab";
-// import AddIcon from "@mui/icons-material/Add";
 import ChatIcon from "@mui/icons-material/Chat";
 import CreateIcon from "@mui/icons-material/Create";
 import Diversity2Icon from "@mui/icons-material/Diversity2";
 import CottageIcon from "@mui/icons-material/Cottage";
-
-import { useNavigate, useParams } from "react-router-dom";
-import { v4 as uuidv4 } from "uuid";
 import ImageAvatar from "./ImageAvatar";
+import Logo from "./Logo";
+import { useNavigate } from "react-router-dom";
+import { v4 as uuidv4 } from "uuid";
 import { useEffect, useState } from "react";
 
 const Navbar = ({ socket }) => {
@@ -28,7 +26,32 @@ const Navbar = ({ socket }) => {
     // emit an event when creating a new room
     passedSocket.emit("new-room-created", { roomId });
     console.log("EMITING NEW ROOM NAVBAR: ", roomId);
+    setRooms([...rooms, roomId]);
   };
+
+  // fetch the rooms
+  const baseEndpoint = process.env.BE_URL;
+  console.log("baseendpoint: ", baseEndpoint);
+  const fetchRooms = async () => {
+    try {
+      const endpoint = `http://localhost:3009/rooms`;
+      const response = await fetch(endpoint);
+
+      if (!response.ok) {
+        throw new Error("Network response was not ok. Failed to register user");
+      }
+
+      const rooms = await response.json();
+      console.log("the fetched rooms are: ", rooms);
+      setRooms(rooms);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchRooms();
+  }, []);
 
   useEffect(() => {
     if (!passedSocket) return;
@@ -37,67 +60,54 @@ const Navbar = ({ socket }) => {
       console.log(`RECEIVING NEW ROOM - on window load - ${roomId}`);
       setRooms([...rooms, roomId]);
     });
-  }, [passedSocket]);
+  }, [passedSocket, rooms]);
 
   return (
     <AppBar position="static" color="secondary">
       <Toolbar>
-        {/* <Box sx={{ display: "flex", justifyContent: "space-between" }}>
-          <Box> */}
-        <IconButton size="large" edge="start" color="inherit" aria-label="logo"></IconButton>
+        {/* <IconButton size="large" edge="start" color="inherit" aria-label="logo"></IconButton>
         <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
           AImate
-        </Typography>
-        <Stack direction="row" spacing={2}>
-          <Button onClick={() => navigate("/home")}>
-            <CottageIcon />
-          </Button>
-        </Stack>
-        {/* </Box>
+        </Typography> */}
+        <Box>
+          <Logo />
+        </Box>
 
-          <Box> */}
-        <Stack direction="row" spacing={2}>
-          <Button>
-            <ImageAvatar />
-          </Button>
-        </Stack>
-        {/* <Stack direction="row" spacing={2}>
-          <Button onClick={() => navigate("/room/:roomId")}>Room</Button>
-        </Stack> */}
-        {rooms.map((room) => (
+        <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
           <Stack direction="row" spacing={2}>
-            <Button onClick={() => navigate(`rooms/${room}`)}>Room {room.slice(-2)}</Button>
+            <Button onClick={() => navigate("/home")}>
+              <CottageIcon />
+            </Button>
           </Stack>
-        ))}
-        <Stack direction="row" spacing={2}>
-          <Tooltip title="New journal entry">
-            <Button>
-              <Fab color="primary" aria-label="add">
+          {rooms.map((room) => (
+            <Stack direction="row" spacing={2} key={room._id}>
+              <Button onClick={() => navigate(`rooms/${room.roomId}`)}>Room {room.roomId.slice(-2)}</Button>
+            </Stack>
+          ))}
+
+          <Stack direction="row" spacing={2}>
+            <Tooltip title="New journal entry">
+              <Button>
                 <CreateIcon />
-              </Fab>
-            </Button>
-          </Tooltip>
-        </Stack>
-        <Stack direction="row" spacing={2}>
-          <Tooltip title="New room">
-            <Button onClick={createRoom}>
-              <Fab color="primary" aria-label="add">
+              </Button>
+            </Tooltip>
+          </Stack>
+          <Stack direction="row" spacing={2}>
+            <Tooltip title="New room">
+              <Button onClick={createRoom}>
                 <ChatIcon />
-              </Fab>
-            </Button>
-          </Tooltip>
-        </Stack>
-        <Stack direction="row" spacing={2}>
-          <Tooltip title="Ai counselor">
-            <Button>
-              <Fab color="primary" aria-label="add">
+              </Button>
+            </Tooltip>
+          </Stack>
+          <Stack direction="row" spacing={2}>
+            <Tooltip title="Ai counselor">
+              <Button>
                 <Diversity2Icon />
-              </Fab>
-            </Button>
-          </Tooltip>
-        </Stack>
-        {/* </Box>
-        </Box> */}
+              </Button>
+            </Tooltip>
+          </Stack>
+          <ImageAvatar />
+        </Box>
       </Toolbar>
     </AppBar>
   );

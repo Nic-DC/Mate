@@ -20,10 +20,7 @@ import CommentIcon from "@mui/icons-material/Comment";
 import SaveIcon from "@mui/icons-material/Save";
 import { useNavigate, useParams } from "react-router-dom";
 
-// import { v4 as uuidv4 } from "uuid";
-
 const ChatWindow = ({ socket }) => {
-  // const [socket, setSocket] = useState(null); // socket
   const [message, setMessage] = useState(""); // input message
   const [chat, setChat] = useState([]); // all inputted messages
   const [isTyping, setIsTyping] = useState(false); // for the "typing" render
@@ -34,13 +31,6 @@ const ChatWindow = ({ socket }) => {
   const passedSocket = socket;
   console.log("PARAMS - CHATWINDOW: ", params.roomId);
   const navigate = useNavigate();
-
-  // const roomId = uuidv4();
-
-  // // when loading the app
-  // useEffect(() => {
-  //   setSocket(io("http://localhost:3009", { transports: ["websocket"] }));
-  // }, []);
 
   // when the socket changes
   useEffect(() => {
@@ -84,6 +74,7 @@ const ChatWindow = ({ socket }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     const roomId = params.roomId;
+
     /* --- sending the message ---*/
     // we emit the form input
     passedSocket.emit("message-client", { message, roomId });

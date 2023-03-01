@@ -4,7 +4,6 @@ import { useParams } from "react-router-dom";
 import ChatWindow from "../ChatWindow";
 
 const ChatRoom = ({ socket }) => {
-  const [roomId, setRoomId] = useState("");
   const params = useParams();
   const passedSocket = socket;
   console.log("PARAMS - CHAT ROOM: ", params.roomId);
@@ -12,11 +11,10 @@ const ChatRoom = ({ socket }) => {
   useEffect(() => {
     if (!passedSocket) return;
 
-    setRoomId(params.roomId);
-    passedSocket.emit("join-room", { roomId: roomId });
-    console.log("ROOM CHAT ID: ", roomId);
+    passedSocket.emit("join-room", { roomId: params.roomId });
+    console.log("ROOM CHAT ID: ", params.roomId);
     console.log("ROOM CHAT SOCKET: ", passedSocket);
-  }, [passedSocket, roomId]);
+  }, [passedSocket]);
 
   return (
     <>
