@@ -94,10 +94,10 @@ const Register = ({ handleOpenRegister, handleCloseRegister, openRegister }) => 
     event.preventDefault();
     // if (passwordStrength < 1) {
     //   toast.error("Password is too weak. Please choose a stronger password.");
-    // } else {
+    // }
+    // else {
     //   console.log("Registered");
     // }
-
     const options = {
       method: "POST",
       headers: {

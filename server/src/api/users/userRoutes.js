@@ -4,6 +4,7 @@ import UsersModel from "./userModel.js";
 import { checkFilteredSchema, checkUserSchema, triggerBadRequest } from "./userValidator.js";
 import { JWTAuthMiddleware } from "../../lib/auth/JWTAuth.js";
 // import { createAccessToken } from "../../lib/tools/tools.js";
+import sendRegistrationMail from "../../lib/tools/email-tools.js";
 import {
   createTokens,
   verifyRefreshAndCreateNewTokens,
@@ -35,9 +36,12 @@ usersRouter.post("/account", checkUserSchema, triggerBadRequest, async (req, res
   try {
     const body = req.body;
     const user = new UsersModel(body);
+    user.isRegistered = true;
 
     const { accessToken, refreshToken } = await createTokens(user);
     const { _id, email, username, avatar } = await user.save();
+
+    await sendRegistrationMail(email, username);
 
     res.status(201).send({ _id, username, email, avatar, accessToken, refreshToken });
   } catch (error) {
