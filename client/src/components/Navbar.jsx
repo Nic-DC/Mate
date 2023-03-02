@@ -10,6 +10,25 @@ import Logo from "./Logo";
 import { useNavigate } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
 import { useEffect, useState } from "react";
+import { styled } from "@mui/material/styles";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
+import { orange } from "@mui/material/colors";
+
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: "#90caf9",
+    },
+    secondary: {
+      main: orange[500],
+    },
+  },
+});
+const StyledButton = styled(Button)({
+  margin: theme.spacing(1),
+});
 
 const Navbar = ({ socket }) => {
   const [rooms, setRooms] = useState([]);
@@ -17,6 +36,23 @@ const Navbar = ({ socket }) => {
   const navigate = useNavigate();
   const passedSocket = socket;
   console.log("NAVBAR SOCKET: ", passedSocket);
+
+  const [openLogin, setOpenLogin] = useState(false);
+  const [openRegister, setOpenRegister] = useState(false);
+  const handleOpenLogin = () => {
+    setOpenLogin(true);
+  };
+
+  const handleCloseLogin = () => {
+    setOpenLogin(false);
+  };
+  const handleOpenRegister = () => {
+    setOpenRegister(true);
+  };
+
+  const handleCloseRegister = () => {
+    setOpenRegister(false);
+  };
 
   // create new room
   const createRoom = () => {
@@ -106,7 +142,21 @@ const Navbar = ({ socket }) => {
               </Button>
             </Tooltip>
           </Stack>
-          <ImageAvatar />
+          <Stack spacing={2}>
+            <ImageAvatar direction="row" />
+          </Stack>
+
+          {/* {!open && ( */}
+          {/* <StyledButton variant="contained" color="primary" onClick={handleOpen}> */}
+          <Login handleCloseLogin={handleCloseLogin} handleOpenLogin={handleOpenLogin} openLogin={openLogin} />
+          {/* </StyledButton>
+          )} */}
+
+          <Register
+            handleCloseRegister={handleCloseRegister}
+            handleOpenRegister={handleOpenRegister}
+            openRegister={openRegister}
+          />
         </Box>
       </Toolbar>
     </AppBar>

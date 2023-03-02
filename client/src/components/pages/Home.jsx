@@ -1,7 +1,6 @@
-import Register from "./Register";
 const Home = ({ socket }) => {
   const passedSocket = socket;
   console.log("HOME SOCKET: ", passedSocket);
-  return <Register />;
+  return <h1>Welcome home!</h1>;
 };
 export default Home;

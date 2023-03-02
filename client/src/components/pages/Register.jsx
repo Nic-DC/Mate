@@ -4,20 +4,63 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import zxcvbn from "zxcvbn";
-import OutlinedInput from "@mui/material/OutlinedInput";
-import InputLabel from "@mui/material/InputLabel";
-import Tooltip from "@mui/material/Tooltip";
 
-import Divider from "@mui/material/Divider";
-import Chip from "@mui/material/Chip";
 import Box from "@mui/material/Box";
 
-import Card from "@mui/material/Card";
-import InputAdornment from "@mui/material/InputAdornment";
-import IconButton from "@mui/material/IconButton";
 import { Button } from "@mui/material";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { styled } from "@mui/material/styles";
+import TextField from "@mui/material/TextField";
 
-const Register = () => {
+import Modal from "@mui/material/Modal";
+// import { orange } from "@mui/material/colors";
+
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: "#90caf9",
+    },
+  },
+});
+
+const StyledForm = styled("form")({
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "center",
+  justifyContent: "center",
+  marginTop: theme.spacing(4),
+});
+
+const StyledTextField = styled(TextField)({
+  margin: theme.spacing(1),
+  "& .MuiOutlinedInput-root": {
+    color: "white",
+    "& fieldset": {
+      borderColor: "rgba(255, 255, 255, 0.12)",
+    },
+    "&:hover fieldset": {
+      borderColor: "rgba(255, 255, 255, 0.2)",
+    },
+    "&.Mui-focused fieldset": {
+      borderColor: "rgba(255, 255, 255, 0.6)",
+    },
+  },
+  "& .MuiInputLabel-root": {
+    color: "rgba(255, 255, 255, 0.6)",
+  },
+});
+
+const StyledButton = styled(Button)({
+  margin: theme.spacing(2),
+});
+
+const PasswordStrengthText = styled("div")({
+  color: (props) => (props.passwordStrength >= 2 ? theme.palette.success.main : theme.palette.error.main),
+  fontSize: "0.75rem",
+  color: "rgba(255,255,255,0.4)",
+});
+
+const Register = ({ handleOpenRegister, handleCloseRegister, openRegister }) => {
   const [formData, setFormData] = useState({
     username: "",
     email: "",
@@ -48,39 +91,41 @@ const Register = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    // if (passwordStrength < 1) {
-    //   toast.error("Password is too weak. Please choose a stronger password.");
-    //   return;
-    // }
-    const options = {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(formData),
-    };
-    const endpoint = "http://localhost:3001/users/account";
-    try {
-      const response = await fetch(endpoint, options);
-      if (!response.ok) {
-        throw new Error("Network response was not ok. Failed to register user");
-      }
-      const data = await response.json();
-      console.log("data from fetch: ", data);
-      // dispatch(setUserInfoAction(data));
-
-      console.log("REGISTER data from fetch: ", data);
-      localStorage.setItem("accessToken", `${data.accessToken}`);
-      localStorage.setItem("refreshToken", `${data.refreshToken}`);
-      setIsRegistered(true);
-
-      toast.success("Registration successful!");
-    } catch (error) {
-      console.error("There was a problem with the fetch operation:", error);
-      const errorMessage = "Registration failed. Please try again later.";
-
-      toast.error(errorMessage);
+    if (passwordStrength < 1) {
+      toast.error("Password is too weak. Please choose a stronger password.");
+    } else {
+      console.log("Registered");
     }
+
+    // const options = {
+    //   method: "POST",
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //   },
+    //   body: JSON.stringify(formData),
+    // };
+    // const endpoint = "http://localhost:3001/users/account";
+    // try {
+    //   const response = await fetch(endpoint, options);
+    //   if (!response.ok) {
+    //     throw new Error("Network response was not ok. Failed to register user");
+    //   }
+    //   const data = await response.json();
+    //   console.log("data from fetch: ", data);
+    //   // dispatch(setUserInfoAction(data));
+
+    //   console.log("REGISTER data from fetch: ", data);
+    //   localStorage.setItem("accessToken", `${data.accessToken}`);
+    //   localStorage.setItem("refreshToken", `${data.refreshToken}`);
+    //   setIsRegistered(true);
+
+    //   toast.success("Registration successful!");
+    // } catch (error) {
+    //   console.error("There was a problem with the fetch operation:", error);
+    //   const errorMessage = "Registration failed. Please try again later.";
+
+    //   toast.error(errorMessage);
+    // }
   };
 
   useEffect(() => {
@@ -90,46 +135,54 @@ const Register = () => {
   }, [isRegistered]);
 
   return (
-    <Card sx={{ padding: 2, marginTop: 10, width: "30%", backgroundColor: "rgba(255, 255, 255, 0.12)" }}>
-      <Box>
-        <Box component="form" onSubmit={handleSubmit}>
-          <OutlinedInput
-            // id="message-input"
-            type="text"
-            sx={{ backgroundColor: "rgba(255, 255, 255, 0.12)", marginBottom: 1.5 }}
-            fullWidth
-            placeholder="username"
-            size="small"
-            name="username"
-            value={formData.username}
-            onChange={handleChange}
-          />
-
-          <OutlinedInput
-            type="email"
-            sx={{ backgroundColor: "rgba(255, 255, 255, 0.12)", marginBottom: 1.5 }}
-            fullWidth
-            placeholder="email"
-            size="small"
-            name="email"
-            value={formData.email}
-            onChange={handleChange}
-          />
-
-          <OutlinedInput
-            type="password"
-            sx={{ backgroundColor: "rgba(255, 255, 255, 0.12)", marginBottom: 1.5 }}
-            fullWidth
-            placeholder="password"
-            size="small"
-            name="password"
-            value={formData.password}
-            onChange={handleChange}
-          />
-          <Button>REGISTER</Button>
+    <>
+      {!openRegister && (
+        <StyledButton variant="contained" color="primary" onClick={handleOpenRegister}>
+          Register
+        </StyledButton>
+      )}
+      <Modal
+        open={openRegister}
+        onClose={handleCloseRegister}
+        aria-labelledby="login-modal-title"
+        aria-describedby="login-modal-description"
+      >
+        <Box sx={{ ...theme.palette.primary, backgroundColor: "rgba(0, 0, 0, 0.1)", p: 2, m: 12 }}>
+          <ThemeProvider theme={theme}>
+            <StyledForm onSubmit={handleSubmit}>
+              <StyledTextField
+                label="Username"
+                variant="outlined"
+                name="username"
+                value={formData.username}
+                onChange={handleChange}
+              />
+              <StyledTextField
+                label="Email"
+                variant="outlined"
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
+              />
+              <StyledTextField
+                label="Password"
+                variant="outlined"
+                type="password"
+                name="password"
+                value={formData.password}
+                onChange={handleChange}
+              />
+              <PasswordStrengthText passwordStrength={passwordStrength}>
+                Password strength: {passwordStrengthArray[passwordStrength]}
+              </PasswordStrengthText>
+              <StyledButton variant="contained" color="primary" type="submit">
+                Register
+              </StyledButton>
+            </StyledForm>
+          </ThemeProvider>
         </Box>
-      </Box>
-    </Card>
+      </Modal>
+    </>
   );
 };
 export default Register;
