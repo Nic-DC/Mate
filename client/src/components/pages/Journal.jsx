@@ -6,6 +6,7 @@ import { styled } from "@mui/material/styles";
 import { Box } from "@mui/system";
 import Search from "../Search";
 import Entries from "../Entries";
+import EntriesList from "../EntriesList";
 
 const theme = createTheme({
   palette: {
@@ -160,6 +161,7 @@ const Journal = () => {
         <Box sx={{ width: "40%", display: "flex", flexDirection: "column", alignItems: "flex-end" }}>
           <Search />
           <Entries count={count} />
+          <EntriesList />
         </Box>
       </Box>
     </ThemeProvider>
