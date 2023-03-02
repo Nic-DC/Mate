@@ -38,20 +38,13 @@ const Navbar = ({ socket }) => {
   console.log("NAVBAR SOCKET: ", passedSocket);
 
   const [openLogin, setOpenLogin] = useState(false);
-  const [openRegister, setOpenRegister] = useState(false);
+
   const handleOpenLogin = () => {
     setOpenLogin(true);
   };
 
   const handleCloseLogin = () => {
     setOpenLogin(false);
-  };
-  const handleOpenRegister = () => {
-    setOpenRegister(true);
-  };
-
-  const handleCloseRegister = () => {
-    setOpenRegister(false);
   };
 
   // create new room
@@ -100,16 +93,16 @@ const Navbar = ({ socket }) => {
 
   return (
     <AppBar position="static" color="secondary">
-      <Toolbar>
-        {/* <IconButton size="large" edge="start" color="inherit" aria-label="logo"></IconButton>
+      {/* <Toolbar> */}
+      {/* <IconButton size="large" edge="start" color="inherit" aria-label="logo"></IconButton>
         <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
           AImate
         </Typography> */}
-        <Box>
-          <Logo />
-        </Box>
-
-        <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
+      <Box sx={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+        <Box sx={{ display: "flex", justifyContent: "flex-start" }}>
+          <Box>
+            <Logo />
+          </Box>
           <Stack direction="row" spacing={2}>
             <Button onClick={() => navigate("/home")}>
               <CottageIcon />
@@ -142,23 +135,13 @@ const Navbar = ({ socket }) => {
               </Button>
             </Tooltip>
           </Stack>
-          <Stack spacing={2}>
-            <ImageAvatar direction="row" />
-          </Stack>
-
-          {/* {!open && ( */}
-          {/* <StyledButton variant="contained" color="primary" onClick={handleOpen}> */}
-          <Login handleCloseLogin={handleCloseLogin} handleOpenLogin={handleOpenLogin} openLogin={openLogin} />
-          {/* </StyledButton>
-          )} */}
-
-          <Register
-            handleCloseRegister={handleCloseRegister}
-            handleOpenRegister={handleOpenRegister}
-            openRegister={openRegister}
-          />
         </Box>
-      </Toolbar>
+
+        <Box sx={{ display: "flex", justifyContent: "flex-end", alignItems: "center" }}>
+          <ImageAvatar direction="row" />
+          <Login handleCloseLogin={handleCloseLogin} handleOpenLogin={handleOpenLogin} openLogin={openLogin} />
+        </Box>
+      </Box>
     </AppBar>
   );
 };

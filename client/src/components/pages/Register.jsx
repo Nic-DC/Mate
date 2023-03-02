@@ -147,7 +147,7 @@ const Register = ({ handleOpenRegister, handleCloseRegister, openRegister }) => 
         aria-labelledby="login-modal-title"
         aria-describedby="login-modal-description"
       >
-        <Box sx={{ ...theme.palette.primary, backgroundColor: "rgba(0, 0, 0, 0.1)", p: 2, m: 12 }}>
+        <Box sx={{ ...theme.palette.primary, backgroundColor: "rgba(0, 0, 0, 1)", p: 2, m: 12 }}>
           <ThemeProvider theme={theme}>
             <StyledForm onSubmit={handleSubmit}>
               <StyledTextField
