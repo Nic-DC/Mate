@@ -4,20 +4,15 @@ import Box from "@mui/material/Box";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemAvatar from "@mui/material/ListItemAvatar";
-import ListItemIcon from "@mui/material/ListItemIcon";
+
 import ListItemText from "@mui/material/ListItemText";
 import Avatar from "@mui/material/Avatar";
 import IconButton from "@mui/material/IconButton";
-import FormGroup from "@mui/material/FormGroup";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
-import Grid from "@mui/material/Grid";
-import { useEffect, useState } from "react";
-import FolderIcon from "@mui/icons-material/Folder";
+
 import DeleteIcon from "@mui/icons-material/Delete";
-import TextField from "@mui/material/TextField";
+
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import Button from "@mui/material/Button";
+
 import CreateIcon from "@mui/icons-material/Create";
 
 // function generate(element) {
@@ -61,7 +56,7 @@ const EntriesList = () => {
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
-              border: "1px solid rgba(255, 255, 255, 0.2)",
+              border: "1px solid rgba(255, 255, 255, 0.12)",
               borderRadius: 1,
               width: "92.5%",
             }}

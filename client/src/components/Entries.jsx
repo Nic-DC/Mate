@@ -56,6 +56,8 @@ const Entries = ({ count }) => {
         width: 50,
         height: 50,
         padding: 0,
+        marginTop: 0.5,
+        marginBottom: 0.5,
         position: "relative",
         "&:hover, &:focus": {
           backgroundColor: "#90caf9",
