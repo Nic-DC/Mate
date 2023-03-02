@@ -34,7 +34,6 @@ usersSchema.methods.toJSON = function () {
   console.log("this in methods.toJSON", this);
   const user = userDocument.toObject();
 
-  delete user.password;
   delete user.createdAt;
   delete user.updatedAt;
   delete user.__v;

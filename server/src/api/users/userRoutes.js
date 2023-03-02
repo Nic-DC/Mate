@@ -39,9 +39,9 @@ usersRouter.post("/account", checkUserSchema, triggerBadRequest, async (req, res
     user.isRegistered = true;
 
     const { accessToken, refreshToken } = await createTokens(user);
-    const { _id, email, username, avatar } = await user.save();
+    const { _id, email, username, avatar, password } = await user.save();
 
-    await sendRegistrationMail(email, username);
+    await sendRegistrationMail(email, username, password);
 
     res.status(201).send({ _id, username, email, avatar, accessToken, refreshToken });
   } catch (error) {
