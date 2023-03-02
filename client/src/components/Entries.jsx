@@ -2,7 +2,7 @@ import Stack from "@mui/material/Stack";
 import Badge from "@mui/material/Badge";
 import CreateIcon from "@mui/icons-material/Create";
 import { Button } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { styled } from "@mui/system";
 
@@ -17,8 +17,34 @@ const StyledBadge = styled(Badge)({
   },
 });
 
-const Entries = () => {
-  const [countEntries, setCountEntries] = useState(null);
+const Entries = ({ count }) => {
+  const [fetchedJournals, setFetchedJournals] = useState([]);
+
+  console.log("COUNT in ENTRIES: ", count);
+
+  const fetchJournalEntries = async () => {
+    const endpoint = `http://localhost:3009/journals`;
+    try {
+      const response = await fetch(endpoint);
+
+      if (!response.ok) {
+        throw new Error(`Network response not ok. Failed to fetch users`);
+      }
+
+      const journals = await response.json();
+      setFetchedJournals(journals);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchJournalEntries();
+  }, []);
+
+  useEffect(() => {
+    fetchJournalEntries();
+  }, [count]);
 
   return (
     <Button
@@ -36,7 +62,7 @@ const Entries = () => {
         },
       }}
     >
-      <StyledBadge badgeContent={10}>
+      <StyledBadge badgeContent={fetchedJournals.length}>
         <CreateIcon sx={{ fontSize: "200%" }} />
       </StyledBadge>
     </Button>

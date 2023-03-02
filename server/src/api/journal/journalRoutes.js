@@ -19,4 +19,14 @@ journalRoutes.post("/", async (req, res, next) => {
   }
 });
 
+journalRoutes.get("/", async (req, res, next) => {
+  try {
+    const journals = await Journal.find();
+    res.status(200).send(journals);
+  } catch (error) {
+    console.log(error);
+    next(error);
+  }
+});
+
 export default journalRoutes;

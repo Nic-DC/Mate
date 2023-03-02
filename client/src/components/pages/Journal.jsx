@@ -59,8 +59,11 @@ const Journal = () => {
     content: "",
   });
 
+  const [count, setCount] = useState(0);
+  //const [isCreated, setIsCreated] = useState(false);
   const [successMessage, setSuccessMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
+  console.log("COUNT in JOURNAL: ", count);
 
   const handleChange = (event) => {
     setFormData({
@@ -87,7 +90,7 @@ const Journal = () => {
       }
 
       console.log("POST journal successfull!");
-
+      setCount(count + 1);
       setFormData({
         title: "",
         topic: "",
@@ -156,7 +159,7 @@ const Journal = () => {
         </Box>
         <Box sx={{ width: "40%", display: "flex", flexDirection: "column", alignItems: "flex-end" }}>
           <Search />
-          <Entries />
+          <Entries count={count} />
         </Box>
       </Box>
     </ThemeProvider>
