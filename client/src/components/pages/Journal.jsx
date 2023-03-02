@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import TextField from "@mui/material/TextField";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { Button } from "@mui/material";
+import { Button, Typography } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { Box } from "@mui/system";
+import Search from "../Search";
+import Entries from "../Entries";
 
 const theme = createTheme({
   palette: {
@@ -56,6 +58,7 @@ const Journal = () => {
     // date: "",
     content: "",
   });
+
   const [successMessage, setSuccessMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
 
@@ -101,44 +104,60 @@ const Journal = () => {
 
   return (
     <ThemeProvider theme={theme}>
-      <Box sx={{ ...theme.palette.primary, backgroundColor: "rgba(0, 0, 0, 1)", p: 2, m: 6, width: "40%" }}>
-        <FormContainer onSubmit={handleSubmit}>
-          <StyledTextField
-            label="Title"
-            variant="outlined"
-            name="title"
-            value={formData.title}
-            onChange={handleChange}
-          />
-          <StyledTextField
-            label="Topic"
-            variant="outlined"
-            name="topic"
-            value={formData.topic}
-            onChange={handleChange}
-          />
-          {/* <StyledTextField
-            label="Date"
-            variant="outlined"
-            type="date"
-            name="date"
-            value={formData.date}
-            onChange={handleChange}
-          /> */}
-          <StyledTextField
-            label="Content"
-            variant="outlined"
-            name="content"
-            value={formData.content}
-            onChange={handleChange}
-            multiline
-            rows={4}
-          />
-          <StyledButton type="submit" variant="contained" color="primary">
-            Save entry
-          </StyledButton>
-          {successMessage && <div style={{ color: theme.palette.primary.main }}>{successMessage}</div>}
-        </FormContainer>
+      <Box
+        sx={{
+          ...theme.palette.primary,
+          display: "flex",
+          justifyContent: "space-between",
+          backgroundColor: "rgba(0, 0, 0, 1)",
+          p: 2,
+          m: 6,
+          width: "60%",
+        }}
+      >
+        <Box sx={{ width: "65%" }}>
+          <FormContainer onSubmit={handleSubmit}>
+            <StyledTextField
+              label="Title"
+              variant="outlined"
+              name="title"
+              value={formData.title}
+              onChange={handleChange}
+            />
+            <StyledTextField
+              label="Topic"
+              variant="outlined"
+              name="topic"
+              value={formData.topic}
+              onChange={handleChange}
+            />
+            {/* <StyledTextField
+          label="Date"
+          variant="outlined"
+          type="date"
+          name="date"
+          value={formData.date}
+          onChange={handleChange}
+        /> */}
+            <StyledTextField
+              label="Content"
+              variant="outlined"
+              name="content"
+              value={formData.content}
+              onChange={handleChange}
+              multiline
+              rows={4}
+            />
+            <StyledButton type="submit" variant="contained" color="primary">
+              Save entry
+            </StyledButton>
+            {successMessage && <div style={{ color: theme.palette.primary.main }}>{successMessage}</div>}
+          </FormContainer>
+        </Box>
+        <Box sx={{ width: "40%", display: "flex", flexDirection: "column", alignItems: "flex-end" }}>
+          <Search />
+          <Entries />
+        </Box>
       </Box>
     </ThemeProvider>
   );
