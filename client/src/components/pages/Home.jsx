@@ -8,6 +8,7 @@ import { Box } from "@mui/system";
 import { useEffect, useState } from "react";
 import Register from "./Register";
 import Login from "./Login";
+import { TextareaAutosize } from "@mui/material";
 const theme = createTheme({
   palette: {
     primary: {

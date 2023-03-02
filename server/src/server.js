@@ -8,6 +8,7 @@ import { handleSockets } from "./socket/index.js";
 import path from "path";
 import { fileURLToPath } from "url";
 import roomsRouter from "./api/rooms/roomRoutes.js";
+import journalRoutes from "./api/journal/journalRoutes.js";
 import usersRouter from "./api/users/userRoutes.js";
 import { badRequestHandler, genericErrorHandler, notFoundHandler } from "./errorHandlers.js";
 
@@ -58,7 +59,7 @@ expressServer.use(express.json());
 
 // ******************************** ENDPOINTS *****************************************
 expressServer.use("/rooms", roomsRouter);
-// expressServer.use("/messages", messageRouter);
+expressServer.use("/journals", journalRoutes);
 expressServer.use("/users", usersRouter);
 
 // ***************************** ERROR HANDLERS ***************************************
