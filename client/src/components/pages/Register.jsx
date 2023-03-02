@@ -67,6 +67,7 @@ const Register = ({ handleOpenRegister, handleCloseRegister, openRegister }) => 
     password: "",
   });
 
+  console.log("ON _ REGISTER: ", openRegister);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -91,46 +92,46 @@ const Register = ({ handleOpenRegister, handleCloseRegister, openRegister }) => 
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    if (passwordStrength < 1) {
-      toast.error("Password is too weak. Please choose a stronger password.");
-    } else {
-      console.log("Registered");
-    }
-
-    // const options = {
-    //   method: "POST",
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //   },
-    //   body: JSON.stringify(formData),
-    // };
-    // const endpoint = "http://localhost:3001/users/account";
-    // try {
-    //   const response = await fetch(endpoint, options);
-    //   if (!response.ok) {
-    //     throw new Error("Network response was not ok. Failed to register user");
-    //   }
-    //   const data = await response.json();
-    //   console.log("data from fetch: ", data);
-    //   // dispatch(setUserInfoAction(data));
-
-    //   console.log("REGISTER data from fetch: ", data);
-    //   localStorage.setItem("accessToken", `${data.accessToken}`);
-    //   localStorage.setItem("refreshToken", `${data.refreshToken}`);
-    //   setIsRegistered(true);
-
-    //   toast.success("Registration successful!");
-    // } catch (error) {
-    //   console.error("There was a problem with the fetch operation:", error);
-    //   const errorMessage = "Registration failed. Please try again later.";
-
-    //   toast.error(errorMessage);
+    // if (passwordStrength < 1) {
+    //   toast.error("Password is too weak. Please choose a stronger password.");
+    // } else {
+    //   console.log("Registered");
     // }
+
+    const options = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(formData),
+    };
+    const endpoint = "http://localhost:3009/users/account";
+    try {
+      const response = await fetch(endpoint, options);
+      if (!response.ok) {
+        throw new Error("Network response was not ok. Failed to register user");
+      }
+      const data = await response.json();
+      console.log("data from fetch: ", data);
+      // dispatch(setUserInfoAction(data));
+
+      console.log("REGISTER data from fetch: ", data);
+      localStorage.setItem("accessToken", `${data.accessToken}`);
+      localStorage.setItem("refreshToken", `${data.refreshToken}`);
+      setIsRegistered(true);
+
+      toast.success("Registration successful!");
+    } catch (error) {
+      console.error("There was a problem with the fetch operation:", error);
+      const errorMessage = "Registration failed. Please try again later.";
+
+      toast.error(errorMessage);
+    }
   };
 
   useEffect(() => {
     if (isRegistered) {
-      navigate("/home");
+      navigate("/journal");
     }
   }, [isRegistered]);
 
@@ -185,4 +186,5 @@ const Register = ({ handleOpenRegister, handleCloseRegister, openRegister }) => 
     </>
   );
 };
+
 export default Register;

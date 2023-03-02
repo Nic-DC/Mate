@@ -116,7 +116,7 @@ const Navbar = ({ socket }) => {
 
           <Stack direction="row" spacing={2}>
             <Tooltip title="New journal entry">
-              <Button>
+              <Button onClick={() => navigate(`/journal`)}>
                 <CreateIcon />
               </Button>
             </Tooltip>

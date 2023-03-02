@@ -12,6 +12,7 @@ import { ThemeProvider, createTheme } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import ChatRoom from "./components/pages/ChatRoom";
 import Login from "./components/pages/Login";
+import Journal from "./components/pages/Journal";
 
 const darkTheme = createTheme({
   palette: {
@@ -39,6 +40,7 @@ function App() {
                 <Route path="/home" element={<Home socket={socket} />} />
                 <Route path="/rooms/:roomId" element={<ChatRoom socket={socket} />} />
                 <Route path="/login" element={<Login />} />
+                <Route path="/journal" element={<Journal />} />
               </Routes>
             </Box>
           </Container>

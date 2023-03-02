@@ -1,7 +1,7 @@
 import express from "express";
 import createHttpError from "http-errors";
-import UsersModel from "./model.js";
-import { checkFilteredSchema, checkUserSchema, triggerBadRequest } from "./validator.js";
+import UsersModel from "./userModel.js";
+import { checkFilteredSchema, checkUserSchema, triggerBadRequest } from "./userValidator.js";
 import { JWTAuthMiddleware } from "../../lib/auth/JWTAuth.js";
 // import { createAccessToken } from "../../lib/tools/tools.js";
 import {

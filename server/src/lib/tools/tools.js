@@ -1,6 +1,6 @@
 import { check } from "express-validator";
 import jwt from "jsonwebtoken";
-import UsersModel from "../../api/user/model.js";
+import UsersModel from "../../api/users/userModel.js";
 import createHttpError from "http-errors";
 
 export const createTokens = async (user) => {
