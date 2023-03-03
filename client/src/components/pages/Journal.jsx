@@ -5,7 +5,7 @@ import { Button, Typography } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { Box } from "@mui/system";
 import Search from "../Search";
-import Entries from "../Entries";
+import EntriesBadge from "../EntriesBadge";
 import EntriesList from "../EntriesList";
 
 const theme = createTheme({
@@ -61,6 +61,7 @@ const Journal = () => {
   });
 
   const [count, setCount] = useState(0);
+  const [fetchedJournals, setFetchedJournals] = useState([]);
   //const [isCreated, setIsCreated] = useState(false);
   const [successMessage, setSuccessMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
@@ -71,6 +72,22 @@ const Journal = () => {
       ...formData,
       [event.target.name]: event.target.value,
     });
+  };
+
+  const fetchJournalEntries = async () => {
+    const endpoint = `http://localhost:3009/journals`;
+    try {
+      const response = await fetch(endpoint);
+
+      if (!response.ok) {
+        throw new Error(`Network response not ok. Failed to fetch users`);
+      }
+
+      const journals = await response.json();
+      setFetchedJournals(journals);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const handleSubmit = async (event) => {
@@ -91,6 +108,7 @@ const Journal = () => {
       }
 
       console.log("POST journal successfull!");
+
       setCount(count + 1);
       setFormData({
         title: "",
@@ -153,15 +171,15 @@ const Journal = () => {
               rows={4}
             />
             <StyledButton type="submit" variant="contained" color="primary">
-              Save entry
+              Save journal
             </StyledButton>
             {successMessage && <div style={{ color: theme.palette.primary.main }}>{successMessage}</div>}
           </FormContainer>
         </Box>
         <Box sx={{ width: "40%", display: "flex", flexDirection: "column", alignItems: "flex-end" }}>
           <Search />
-          <Entries count={count} />
-          <EntriesList />
+          <EntriesBadge count={count} fetchedJournals={fetchedJournals} fetchJournalEntries={fetchJournalEntries} />
+          <EntriesList count={count} fetchedJournals={fetchedJournals} />
         </Box>
       </Box>
     </ThemeProvider>

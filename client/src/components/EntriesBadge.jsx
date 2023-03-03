@@ -17,26 +17,10 @@ const StyledBadge = styled(Badge)({
   },
 });
 
-const Entries = ({ count }) => {
-  const [fetchedJournals, setFetchedJournals] = useState([]);
+const EntriesBadge = ({ count, fetchedJournals, fetchJournalEntries }) => {
+  //const [fetchedJournals, setFetchedJournals] = useState([]);
 
   console.log("COUNT in ENTRIES: ", count);
-
-  const fetchJournalEntries = async () => {
-    const endpoint = `http://localhost:3009/journals`;
-    try {
-      const response = await fetch(endpoint);
-
-      if (!response.ok) {
-        throw new Error(`Network response not ok. Failed to fetch users`);
-      }
-
-      const journals = await response.json();
-      setFetchedJournals(journals);
-    } catch (error) {
-      console.log(error);
-    }
-  };
 
   useEffect(() => {
     fetchJournalEntries();
@@ -71,4 +55,4 @@ const Entries = ({ count }) => {
   );
 };
 
-export default Entries;
+export default EntriesBadge;

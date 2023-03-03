@@ -3,25 +3,9 @@ import { styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
-import ListItemAvatar from "@mui/material/ListItemAvatar";
-
-import ListItemText from "@mui/material/ListItemText";
-import Avatar from "@mui/material/Avatar";
-import IconButton from "@mui/material/IconButton";
-
-import DeleteIcon from "@mui/icons-material/Delete";
-
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-
-import CreateIcon from "@mui/icons-material/Create";
-
-// function generate(element) {
-//   return [0, 1, 2].map((value) =>
-//     React.cloneElement(element, {
-//       key: value,
-//     })
-//   );
-// }
+import Entry from "./Entry";
+import { useEffect } from "react";
 
 const theme = createTheme({
   palette: {
@@ -38,7 +22,10 @@ const Demo = styled("div")(({ theme }) => ({
   backgroundColor: theme.palette.background.default,
 }));
 
-const EntriesList = () => {
+const EntriesList = ({ count, fetchedJournals }) => {
+  useEffect(() => {}, [count]);
+
+  console.log("ENTRIES LIST - fethcedJournals: ", fetchedJournals);
   return (
     <ThemeProvider theme={theme}>
       <Box sx={{ width: "100%" }}>
@@ -63,21 +50,11 @@ const EntriesList = () => {
           >
             <Demo>
               <List sx={{ color: "white" }}>
-                <ListItem>
-                  <ListItemAvatar>
-                    <Avatar>
-                      <CreateIcon />
-                    </Avatar>
-                  </ListItemAvatar>
-                  <ListItemText
-                    primary="Single-line item"
-                    secondaryTypographyProps={{ color: "rgba(255, 255, 255, 0.6)" }}
-                    secondary="Secondary text"
-                  />
-                  <IconButton edge="end" aria-label="delete">
-                    <DeleteIcon sx={{ color: "rgba(255, 255, 255, 0.6)" }} />
-                  </IconButton>
-                </ListItem>
+                {fetchedJournals.map((journal) => (
+                  <ListItem key={journal._id}>
+                    <Entry title={journal.title} topic={journal.topic} />
+                  </ListItem>
+                ))}
               </List>
             </Demo>
           </Box>
