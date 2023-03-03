@@ -5,6 +5,10 @@ import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import SearchIcon from "@mui/icons-material/Search";
 import { styled } from "@mui/material/styles";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { getFilteredJournalsAction } from "../redux/actions";
+import EntriesList from "./EntriesList";
 
 const theme = createTheme({
   palette: {
@@ -41,16 +45,47 @@ const StyledButton = styled(Button)({
 });
 
 const Search = () => {
+  /* ------ SEARCH: JOURNAL ENTRIES ------- */
   const [searchTerm, setSearchTerm] = useState("");
+  const [filteredJournals, setFilteredJournals] = useState([]);
+
+  console.log("SEARCH TERM - search: ", searchTerm);
+  console.log("FILTERED JOURNALS - search: ", filteredJournals);
 
   const handleChange = (event) => {
     setSearchTerm(event.target.value);
   };
 
-  const handleSubmit = (event) => {
+  const dispatch = useDispatch();
+
+  /* ------ SEARCH: JOURNAL ENTRIES ------- */
+  const fetchFilteredJournals = async () => {
+    const endpoint = `http://localhost:3009/journals/filtered?topic=${searchTerm}`;
+
+    try {
+      const response = await fetch(endpoint);
+
+      if (!response.ok) {
+        throw new Error(`Network response not ok. Problem fetching the filterd journals`);
+      }
+
+      const fetchedFilteredJournals = await response.json();
+
+      // storing the filtered journals in the REDUX STORE
+      dispatch(getFilteredJournalsAction(fetchedFilteredJournals));
+
+      setFilteredJournals(fetchedFilteredJournals);
+      // setCountFetches(countFetches + 1);
+      setSearchTerm("");
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleSubmit = async (event) => {
     event.preventDefault();
     console.log(`Search term: ${searchTerm}`);
-    setSearchTerm("");
+    fetchFilteredJournals();
   };
 
   return (
@@ -82,6 +117,7 @@ const Search = () => {
             </Box>
           </form>
         </Box>
+        <EntriesList filteredJournals={filteredJournals} setFilteredJournals={setFilteredJournals} />
       </Box>
     </ThemeProvider>
   );

@@ -3,9 +3,13 @@ import { styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
+import IconButton from "@mui/material/IconButton";
+
+import DeleteIcon from "@mui/icons-material/Delete";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Entry from "./Entry";
 import { useEffect } from "react";
+import { useSelector } from "react-redux";
 
 const theme = createTheme({
   palette: {
@@ -22,10 +26,10 @@ const Demo = styled("div")(({ theme }) => ({
   backgroundColor: theme.palette.background.default,
 }));
 
-const EntriesList = ({ count, fetchedJournals }) => {
-  useEffect(() => {}, [count]);
+const EntriesList = ({ filteredJournals }) => {
+  // const filteredJournals = useSelector((store) => store.journals.filteredJournals);
+  // console.log("FILTERED JOURNALS - Entries List", filteredJournals);
 
-  console.log("ENTRIES LIST - fethcedJournals: ", fetchedJournals);
   return (
     <ThemeProvider theme={theme}>
       <Box sx={{ width: "100%" }}>
@@ -50,11 +54,26 @@ const EntriesList = ({ count, fetchedJournals }) => {
           >
             <Demo>
               <List sx={{ color: "white" }}>
-                {fetchedJournals.map((journal) => (
+                {/* {filteredJournals &&
+                  filteredJournals.map((journal) => (
+                    <ListItem key={journal._id}>
+                      <Entry title={journal.title} topic={journal.topic} />
+                    </ListItem>
+                  ))} */}
+                {filteredJournals && filteredJournals.length > 0 ? (
+                  filteredJournals.map((journal) => (
+                    <ListItem key={journal._id}>
+                      <Entry title={journal.title} topic={journal.topic} />
+                    </ListItem>
+                  ))
+                ) : (
+                  <ListItem sx={{ fontSize: "0.8rem", color: "rgba(255, 255, 255, 0.6)" }}>No journals match</ListItem>
+                )}
+                {/* {fetchedJournals.map((journal) => (
                   <ListItem key={journal._id}>
                     <Entry title={journal.title} topic={journal.topic} />
                   </ListItem>
-                ))}
+                ))} */}
               </List>
             </Demo>
           </Box>

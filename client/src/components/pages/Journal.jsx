@@ -60,8 +60,11 @@ const Journal = () => {
     content: "",
   });
 
+  /* ------ BADGE: JOURNAL ENTRIES ------- */
   const [count, setCount] = useState(0);
   const [fetchedJournals, setFetchedJournals] = useState([]);
+
+  /* ------ JOURNAL: SUBMIT ------- */
   //const [isCreated, setIsCreated] = useState(false);
   const [successMessage, setSuccessMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
@@ -74,6 +77,7 @@ const Journal = () => {
     });
   };
 
+  /* ------ BADGE: JOURNAL ENTRIES ------- */
   const fetchJournalEntries = async () => {
     const endpoint = `http://localhost:3009/journals`;
     try {
@@ -90,6 +94,7 @@ const Journal = () => {
     }
   };
 
+  /* ------ JOURNAL: SUBMIT ------- */
   const handleSubmit = async (event) => {
     event.preventDefault();
     const endpoint = "http://localhost:3009/journals";
@@ -177,9 +182,15 @@ const Journal = () => {
           </FormContainer>
         </Box>
         <Box sx={{ width: "40%", display: "flex", flexDirection: "column", alignItems: "flex-end" }}>
-          <Search />
+          {/* <Search
+            fetchFilteredJournals={fetchFilteredJournals}
+            searchTerm={searchTerm}
+            setSearchTerm={setSearchTerm}
+            filteredJournals={filteredJournals}
+          /> */}
+
           <EntriesBadge count={count} fetchedJournals={fetchedJournals} fetchJournalEntries={fetchJournalEntries} />
-          <EntriesList count={count} fetchedJournals={fetchedJournals} />
+          <Search />
         </Box>
       </Box>
     </ThemeProvider>
