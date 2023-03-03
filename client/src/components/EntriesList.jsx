@@ -10,6 +10,8 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Entry from "./Entry";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { setSelectedJournalAction } from "../redux/actions";
 
 const theme = createTheme({
   palette: {
@@ -29,6 +31,8 @@ const Demo = styled("div")(({ theme }) => ({
 const EntriesList = ({ filteredJournals }) => {
   // const filteredJournals = useSelector((store) => store.journals.filteredJournals);
   // console.log("FILTERED JOURNALS - Entries List", filteredJournals);
+
+  const dispatch = useDispatch();
 
   return (
     <ThemeProvider theme={theme}>
@@ -62,8 +66,8 @@ const EntriesList = ({ filteredJournals }) => {
                   ))} */}
                 {filteredJournals && filteredJournals.length > 0 ? (
                   filteredJournals.map((journal) => (
-                    <ListItem key={journal._id}>
-                      <Entry title={journal.title} topic={journal.topic} />
+                    <ListItem key={journal._id} onClick={() => dispatch(setSelectedJournalAction(journal))}>
+                      <Entry title={journal.title} topic={journal.topic} content={journal.content} />
                     </ListItem>
                   ))
                 ) : (

@@ -1,4 +1,4 @@
-import { GET_FILTERED_JOURNALS, SET_NEW_ROOM } from "../actions";
+import { GET_FILTERED_JOURNALS, SET_NEW_ROOM, SELECTED_JOURNAL } from "../actions";
 
 const initialState = {
   rooms: {
@@ -6,6 +6,7 @@ const initialState = {
   },
   journals: {
     filteredJournals: [],
+    selectedJournal: null,
   },
 };
 
@@ -29,6 +30,14 @@ const mainReducer = (state = initialState, action) => {
         },
       };
 
+    case SELECTED_JOURNAL:
+      return {
+        ...state,
+        journals: {
+          ...state.journals,
+          selectedJournal: action.payload,
+        },
+      };
     default:
       return state;
   }

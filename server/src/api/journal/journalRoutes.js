@@ -51,4 +51,23 @@ journalRoutes.get("/filtered", async (req, res, next) => {
   }
 });
 
+journalRoutes.put("/journal/:id", async (req, res, next) => {
+  try {
+    const { id } = req.params;
+
+    const updatedJournal = await Journal.findByIdAndUpdate(id, req.body, {
+      new: true,
+      runValidators: true,
+    });
+    if (updatedJournal) {
+      res.send({ updatedJournal });
+    } else {
+      res.status(404).send({ notFound: `Journal with id: ${id} not found` });
+    }
+  } catch (error) {
+    console.log(error);
+    next(error);
+  }
+});
+
 export default journalRoutes;

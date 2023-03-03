@@ -4,6 +4,7 @@
 // as well as when logging in and retrieving the user info.
 export const SET_NEW_ROOM = `SET_NEW_ROOM`;
 export const GET_FILTERED_JOURNALS = `GET_FILTERED_JOURNALS`;
+export const SELECTED_JOURNAL = `SELECT_JOURNAL`;
 
 export const setNewRoomAction = (room) => {
   return {
@@ -16,5 +17,12 @@ export const getFilteredJournalsAction = (filteredJournals) => {
   return {
     type: GET_FILTERED_JOURNALS,
     payload: filteredJournals,
+  };
+};
+
+export const setSelectedJournalAction = (selectedJournal) => {
+  return {
+    type: SELECTED_JOURNAL,
+    payload: selectedJournal,
   };
 };

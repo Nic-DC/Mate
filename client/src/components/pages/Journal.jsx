@@ -190,6 +190,7 @@ const Journal = () => {
           /> */}
 
           <EntriesBadge count={count} fetchedJournals={fetchedJournals} fetchJournalEntries={fetchJournalEntries} />
+
           <Search />
         </Box>
       </Box>

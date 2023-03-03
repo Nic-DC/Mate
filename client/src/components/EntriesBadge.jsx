@@ -2,6 +2,7 @@ import Stack from "@mui/material/Stack";
 import Badge from "@mui/material/Badge";
 import CreateIcon from "@mui/icons-material/Create";
 import { Button } from "@mui/material";
+import Tooltip from "@mui/material/Tooltip";
 import { useEffect, useState } from "react";
 
 import { styled } from "@mui/system";
@@ -31,27 +32,29 @@ const EntriesBadge = ({ count, fetchedJournals, fetchJournalEntries }) => {
   }, [count]);
 
   return (
-    <Button
-      variant="contained"
-      color="secondary"
-      sx={{
-        borderRadius: "15%",
-        minWidth: 0,
-        width: 50,
-        height: 50,
-        padding: 0,
-        marginTop: 0.5,
-        marginBottom: 0.5,
-        position: "relative",
-        "&:hover, &:focus": {
-          backgroundColor: "#90caf9",
-        },
-      }}
-    >
-      <StyledBadge badgeContent={fetchedJournals.length}>
-        <CreateIcon sx={{ fontSize: "200%" }} />
-      </StyledBadge>
-    </Button>
+    <Tooltip title="All journals">
+      <Button
+        variant="contained"
+        color="secondary"
+        sx={{
+          borderRadius: "15%",
+          minWidth: 0,
+          width: 50,
+          height: 50,
+          padding: 0,
+          marginTop: 0.5,
+          marginBottom: 0.5,
+          position: "relative",
+          "&:hover, &:focus": {
+            backgroundColor: "#90caf9",
+          },
+        }}
+      >
+        <StyledBadge badgeContent={fetchedJournals.length}>
+          <CreateIcon sx={{ fontSize: "200%" }} />
+        </StyledBadge>
+      </Button>
+    </Tooltip>
   );
 };
 
