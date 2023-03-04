@@ -1,5 +1,7 @@
 import { Router } from "express";
 import Journal from "./journalModel.js";
+import { getPdfReadableStream } from "../../lib/tools/pdf-tools.js";
+import { pipeline } from "stream";
 
 const journalRoutes = new Router();
 
@@ -82,6 +84,31 @@ journalRoutes.delete("/journal/:id", async (req, res, next) => {
     }
   } catch (error) {
     console.log(error);
+    next(error);
+  }
+});
+
+// PDF - DOWNLOAD
+journalRoutes.get("/journal/:id/pdf", async (req, res, next) => {
+  try {
+    const { id } = req.params;
+
+    const journal = await Journal.findById(id);
+    // console.log("user", user);
+
+    if (journal) {
+      res.setHeader("Content-Disposition", "attachment; journal.pdf");
+
+      const source = getPdfReadableStream(journal);
+      const destination = res;
+
+      pipeline(source, destination, (err) => {
+        if (err) console.log(err);
+      });
+    } else {
+      console.log(`There is no journal with this id: ${id}`);
+    }
+  } catch (error) {
     next(error);
   }
 });
