@@ -28,7 +28,7 @@ const Demo = styled("div")(({ theme }) => ({
   backgroundColor: theme.palette.background.default,
 }));
 
-const EntriesList = ({ filteredJournals }) => {
+const EntriesList = ({ filteredJournals, count, setCount }) => {
   // const filteredJournals = useSelector((store) => store.journals.filteredJournals);
   // console.log("FILTERED JOURNALS - Entries List", filteredJournals);
 
@@ -67,7 +67,13 @@ const EntriesList = ({ filteredJournals }) => {
                 {filteredJournals && filteredJournals.length > 0 ? (
                   filteredJournals.map((journal) => (
                     <ListItem key={journal._id} onClick={() => dispatch(setSelectedJournalAction(journal))}>
-                      <Entry title={journal.title} topic={journal.topic} content={journal.content} />
+                      <Entry
+                        title={journal.title}
+                        topic={journal.topic}
+                        content={journal.content}
+                        count={count}
+                        setCount={setCount}
+                      />
                     </ListItem>
                   ))
                 ) : (

@@ -4,14 +4,15 @@ import ListItemText from "@mui/material/ListItemText";
 import Avatar from "@mui/material/Avatar";
 import IconButton from "@mui/material/IconButton";
 import CreateIcon from "@mui/icons-material/Create";
-import DeleteIcon from "@mui/icons-material/Delete";
+
 import { useState } from "react";
 import EntryEditModal from "./EntryEditModal";
 import { Box } from "@mui/system";
 import { useDispatch } from "react-redux";
 import { setSelectedJournalAction } from "../redux/actions";
+import EntryDeleteModal from "./EntryDeleteModal";
 
-const Entry = ({ title, topic, content }) => {
+const Entry = ({ title, topic, content, count, setCount }) => {
   const [openEdit, setOpenEdit] = useState(false);
   const [openDelete, setOpenDelete] = useState(false);
 
@@ -53,9 +54,13 @@ const Entry = ({ title, topic, content }) => {
         />
       </Box>
 
-      {/* <IconButton edge="end" aria-label="delete">
-        <DeleteIcon sx={{ color: "rgba(255, 255, 255, 0.6)" }} onClick={() => console.log("CreateIcon clicked")} />
-      </IconButton> */}
+      <EntryDeleteModal
+        handleOpenDelete={handleOpenDelete}
+        handleCloseDelete={handleCloseDelete}
+        openDelete={openDelete}
+        count={count}
+        setCount={setCount}
+      />
     </>
   );
 };

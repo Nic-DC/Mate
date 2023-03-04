@@ -191,7 +191,7 @@ const Journal = () => {
 
           <EntriesBadge count={count} fetchedJournals={fetchedJournals} fetchJournalEntries={fetchJournalEntries} />
 
-          <Search />
+          <Search count={count} setCount={setCount} />
         </Box>
       </Box>
     </ThemeProvider>

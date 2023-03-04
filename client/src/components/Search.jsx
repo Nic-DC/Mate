@@ -44,7 +44,7 @@ const StyledButton = styled(Button)({
   margin: theme.spacing(2),
 });
 
-const Search = () => {
+const Search = ({ count, setCount }) => {
   /* ------ SEARCH: JOURNAL ENTRIES ------- */
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredJournals, setFilteredJournals] = useState([]);
@@ -75,6 +75,7 @@ const Search = () => {
       dispatch(getFilteredJournalsAction(fetchedFilteredJournals));
 
       setFilteredJournals(fetchedFilteredJournals);
+
       // setCountFetches(countFetches + 1);
       setSearchTerm("");
     } catch (error) {
@@ -117,7 +118,12 @@ const Search = () => {
             </Box>
           </form>
         </Box>
-        <EntriesList filteredJournals={filteredJournals} setFilteredJournals={setFilteredJournals} />
+        <EntriesList
+          count={count}
+          setCount={setCount}
+          filteredJournals={filteredJournals}
+          setFilteredJournals={setFilteredJournals}
+        />
       </Box>
     </ThemeProvider>
   );

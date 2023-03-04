@@ -9,7 +9,8 @@ import TextField from "@mui/material/TextField";
 import Modal from "@mui/material/Modal";
 // import { orange } from "@mui/material/colors";
 import Box from "@mui/material/Box";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { setSelectedJournalAction } from "../redux/actions";
 
 const theme = createTheme({
   palette: {
@@ -50,15 +51,13 @@ const StyledButton = styled(Button)({
   margin: theme.spacing(2),
 });
 
-const EntryEditModal = ({ content, title, topic }) => {
+const EntryEditModal = ({ content, title, topic, isFetched }) => {
   const [formData, setFormData] = useState({
     title: title,
     topic: topic,
     content: content,
   });
   console.log("formData", formData);
-
-  // openEdit, handleCloseEdit, handleOpenEdit,
 
   const [openEdit, setOpenEdit] = useState(false);
   const handleOpenEdit = () => {
@@ -91,17 +90,15 @@ const EntryEditModal = ({ content, title, topic }) => {
     try {
       const response = await fetch(endpoint, options);
       if (!response.ok) {
-        throw new Error("Network response was not ok. Failed to register user");
+        throw new Error("Network response was not ok. Failed to EDIT journal");
       }
       const data = await response.json();
-      console.log("data from fetch: ", data);
-      // dispatch(setUserInfoAction(data));
+      console.log("EDIT data journal: ", data);
 
-      console.log("REGISTER data from fetch: ", data);
       if (data) {
         handleCloseEdit();
       } else {
-        console.log("EDIT DID NOT GO THROUGH");
+        console.log("EDIT journal DID NOT GO THROUGH");
       }
 
       // setIsRegistered(true);
@@ -112,7 +109,7 @@ const EntryEditModal = ({ content, title, topic }) => {
   return (
     <>
       {!openEdit && (
-        <IconButton edge="end" aria-label="delete" onClick={handleOpenEdit}>
+        <IconButton edge="end" aria-label="create" onClick={handleOpenEdit}>
           <CreateIcon sx={{ color: "rgba(0, 0, 0, 0.7)" }} />
         </IconButton>
       )}

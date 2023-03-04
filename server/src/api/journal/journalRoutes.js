@@ -70,4 +70,20 @@ journalRoutes.put("/journal/:id", async (req, res, next) => {
   }
 });
 
+journalRoutes.delete("/journal/:id", async (req, res, next) => {
+  try {
+    const { id } = req.params;
+
+    const deletedJournal = await Journal.findByIdAndDelete(id);
+    if (deletedJournal) {
+      res.send({ message: "Journal deleted successfully" });
+    } else {
+      res.status(404).send({ notFound: `Journal with id: ${id} not found` });
+    }
+  } catch (error) {
+    console.log(error);
+    next(error);
+  }
+});
+
 export default journalRoutes;
