@@ -11,6 +11,7 @@ import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
 import { useDispatch, useSelector } from "react-redux";
 import { setSelectedJournalAction } from "../redux/actions";
+import JournalPDFbutton from "./JournalPDFbutton";
 
 const theme = createTheme({
   palette: {
@@ -151,6 +152,7 @@ const EntryEditModal = ({ content, title, topic, isFetched }) => {
               <StyledButton variant="contained" color="primary" type="submit">
                 Edit
               </StyledButton>
+              <JournalPDFbutton id={id} />
             </StyledForm>
           </ThemeProvider>
         </Box>
