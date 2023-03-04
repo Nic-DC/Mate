@@ -121,7 +121,16 @@ const EntryEditModal = ({ content, title, topic, isFetched }) => {
         aria-labelledby="login-modal-title"
         aria-describedby="login-modal-description"
       >
-        <Box sx={{ ...theme.palette.primary, backgroundColor: "rgba(0, 0, 0, 1)", p: 2, m: 5 }}>
+        <Box
+          sx={{
+            ...theme.palette.primary,
+            height: "100vh",
+            width: "100vw",
+            backgroundColor: "rgba(0, 0, 0, 1)",
+            p: 2,
+            m: 5,
+          }}
+        >
           <ThemeProvider theme={theme}>
             <StyledForm onSubmit={handleSubmit}>
               <StyledTextField

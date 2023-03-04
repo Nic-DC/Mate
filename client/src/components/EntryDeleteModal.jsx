@@ -79,7 +79,7 @@ const EntryDeleteModal = ({ openDelete, handleOpenDelete, handleCloseDelete, cou
   return (
     <>
       {!openDelete && (
-        <IconButton edge="end" aria-label="delete" onClick={handleOpenDelete}>
+        <IconButton edge="end" aria-label="delete" onClick={handleOpenDelete} sx={{ alignSelf: "center" }}>
           <DeleteIcon sx={{ color: "rgba(255, 255, 255, 0.6)" }} />
         </IconButton>
       )}
