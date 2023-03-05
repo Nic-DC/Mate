@@ -43,6 +43,7 @@ function App() {
                 <Route path="/login" element={<Login />} />
                 <Route path="/journal" element={<Journal />} />
                 <Route path="/chatPage" element={<ChatPage />} />
+                <Route path="/" element={<ChatWindow socket={socket} />} />
               </Routes>
             </Box>
           </Container>

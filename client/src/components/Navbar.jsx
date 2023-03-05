@@ -16,6 +16,7 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import { orange } from "@mui/material/colors";
 import WeekendIcon from "@mui/icons-material/Weekend";
+import BugReportIcon from "@mui/icons-material/BugReport";
 
 const theme = createTheme({
   palette: {
@@ -139,6 +140,13 @@ const Navbar = ({ socket }) => {
               <Tooltip title="Chat page">
                 <Button>
                   <WeekendIcon onClick={() => navigate("/chatPage")} />
+                </Button>
+              </Tooltip>
+            </Stack>
+            <Stack direction="row" spacing={2}>
+              <Tooltip title="Chat page">
+                <Button>
+                  <BugReportIcon onClick={() => navigate("/")} />
                 </Button>
               </Tooltip>
             </Stack>

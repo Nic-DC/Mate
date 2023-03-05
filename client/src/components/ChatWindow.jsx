@@ -19,6 +19,7 @@ import ClearIcon from "@mui/icons-material/Clear";
 import CommentIcon from "@mui/icons-material/Comment";
 import SaveIcon from "@mui/icons-material/Save";
 import { useNavigate, useParams } from "react-router-dom";
+import ChatTest from "./ChatTest";
 
 const ChatWindow = ({ socket }) => {
   const [message, setMessage] = useState(""); // input message
@@ -30,6 +31,8 @@ const ChatWindow = ({ socket }) => {
 
   const passedSocket = socket;
   console.log("PARAMS - CHATWINDOW: ", params.roomId);
+  const [rooms, setRooms] = useState([]);
+
   const navigate = useNavigate();
 
   // when the socket changes
@@ -84,73 +87,85 @@ const ChatWindow = ({ socket }) => {
     // we clear the form input
     setMessage("");
   };
+
   return (
-    // <Box sx={{ display: "flex", justifyContent: "center" }}>
-    <Card sx={{ padding: 2, marginTop: 10, width: "60%", backgroundColor: "rgba(255, 255, 255, 0.12)" }}>
-      <Box sx={{ marginBottom: 5 }}>
-        {params.roomId && (
-          <Divider sx={{ marginBottom: 1.5 }}>
-            <Chip label={`Room: ${params.roomId}`} />
+    <Box sx={{ display: "flex", justifyContent: "space-around", width: "80%" }}>
+      <Card
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+
+          padding: 2,
+          marginTop: 10,
+          width: "60%",
+          backgroundColor: "rgba(255, 255, 255, 0.12)",
+        }}
+      >
+        <Box sx={{ marginBottom: 5 }}>
+          {params.roomId && (
+            <Divider sx={{ marginBottom: 1.5 }}>
+              <Chip label={`Room: ${params.roomId}`} />
+            </Divider>
+          )}
+
+          <Tooltip title="Go to room">
+            <Button onClick={() => navigate(`/rooms/${params.roomId}`)}>
+              <CommentIcon sx={{ color: "#90caf9" }} />
+            </Button>
+          </Tooltip>
+
+          <Tooltip title="Save chat">
+            <Button onClick={() => console.log("Messages saved")}>
+              <SaveIcon sx={{ color: "#90caf9" }} />
+            </Button>
+          </Tooltip>
+
+          <Tooltip title="Delete messages">
+            <Button onClick={() => console.log("Messages deleted")}>
+              <ClearIcon sx={{ color: "#90caf9" }} />
+            </Button>
+          </Tooltip>
+
+          <Divider>
+            <Chip label="AImate" />
           </Divider>
-        )}
 
-        <Tooltip title="Go to room">
-          <Button onClick={() => navigate(`/rooms/${params.roomId}`)}>
-            <CommentIcon sx={{ color: "#90caf9" }} />
-          </Button>
-        </Tooltip>
+          {isTyping && (
+            <InputLabel shrink htmlFor="message-input">
+              Someone typing...
+            </InputLabel>
+          )}
 
-        <Tooltip title="Save chat">
-          <Button onClick={() => console.log("Messages saved")}>
-            <SaveIcon sx={{ color: "#90caf9" }} />
-          </Button>
-        </Tooltip>
+          {chat.map((data, index) => (
+            <>
+              <Typography key={index} sx={{ textAlign: data.received ? "left" : "right", color: "#90caf9" }}>
+                {data.message}
+              </Typography>
+            </>
+          ))}
+        </Box>
 
-        <Tooltip title="Delete messages">
-          <Button onClick={() => console.log("Messages deleted")}>
-            <ClearIcon sx={{ color: "#90caf9" }} />
-          </Button>
-        </Tooltip>
-
-        <Divider>
-          <Chip label="AImate" />
-        </Divider>
-
-        {isTyping && (
-          <InputLabel shrink htmlFor="message-input">
-            Someone typing...
-          </InputLabel>
-        )}
-
-        {chat.map((data, index) => (
-          <>
-            <Typography key={index} sx={{ textAlign: data.received ? "left" : "right", color: "#90caf9" }}>
-              {data.message}
-            </Typography>
-          </>
-        ))}
-      </Box>
-
-      <Box component="form" onSubmit={handleSubmit}>
-        <OutlinedInput
-          id="message-input"
-          sx={{ backgroundColor: "rgba(255, 255, 255, 0.12)" }}
-          fullWidth
-          placeholder="write here"
-          size="small"
-          value={message}
-          onChange={handleInput}
-          endAdornment={
-            <InputAdornment position="end">
-              <IconButton type="submit" edge="end">
-                <SendIcon sx={{ color: "#90caf9" }} />
-              </IconButton>
-            </InputAdornment>
-          }
-        />
-      </Box>
-    </Card>
-    // </Box>
+        <Box component="form" onSubmit={handleSubmit}>
+          <OutlinedInput
+            id="message-input"
+            sx={{ backgroundColor: "rgba(255, 255, 255, 0.12)" }}
+            fullWidth
+            placeholder="write here"
+            size="small"
+            value={message}
+            onChange={handleInput}
+            endAdornment={
+              <InputAdornment position="end">
+                <IconButton type="submit" edge="end">
+                  <SendIcon sx={{ color: "#90caf9" }} />
+                </IconButton>
+              </InputAdornment>
+            }
+          />
+        </Box>
+      </Card>
+      <ChatTest />
+    </Box>
   );
 };
 

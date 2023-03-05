@@ -83,14 +83,15 @@ const ChatPage = () => {
           sx={{
             ...theme.palette.primary,
             display: "flex",
-            justifyContent: "space-between",
+            flexDirection: "column",
+            // justifyContent: "space-between",
             backgroundColor: "rgba(0, 0, 0, 1)",
             p: 2,
             m: 6,
-            width: "60%",
+            width: "40%",
           }}
         >
-          <Box sx={{ width: "65%" }}>
+          <Box sx={{ width: "45%" }}>
             {/* <Card sx={{ padding: 2, marginTop: 10, width: "60%", backgroundColor: "rgba(255, 255, 255, 0.12)" }}>
               <Box sx={{ marginBottom: 5 }}> */}
             {/* {params.roomId && (
@@ -136,6 +137,11 @@ const ChatPage = () => {
         ))} */}
           </Box>
 
+          <Divider sx={{ marginBottom: 1.5 }}>
+            <Chip label={`Rooms:`} sx={{ marginBottom: 1.5, color: "rgba(255, 255, 255, 0.4)" }} />
+          </Divider>
+          <Divider sx={{ marginBottom: 1.5, backgroundColor: "rgba(255, 255, 255, 0.4)" }} />
+
           <Box component="form" onSubmit={handleSubmit}>
             <OutlinedInput
               id="message-input"
@@ -156,7 +162,9 @@ const ChatPage = () => {
             {/* </Box>
             </Card> */}
           </Box>
-          <Box sx={{ width: "40%", display: "flex", flexDirection: "column", alignItems: "flex-end" }}>Write here</Box>
+          <Box sx={{ width: "100%", display: "flex", flexDirection: "column", alignItems: "center", marginTop: 2 }}>
+            Write here
+          </Box>
         </Box>
       </ThemeProvider>
     </>
