@@ -52,7 +52,7 @@ const StyledButton = styled(Button)({
   margin: theme.spacing(2),
 });
 
-const EntryEditModal = ({ content, title, topic, isFetched }) => {
+const EntryEditModal = ({ content, title, topic }) => {
   const [formData, setFormData] = useState({
     title: title,
     topic: topic,
@@ -110,7 +110,7 @@ const EntryEditModal = ({ content, title, topic, isFetched }) => {
   return (
     <>
       {!openEdit && (
-        <IconButton edge="end" aria-label="create" onClick={handleOpenEdit}>
+        <IconButton edge="end" aria-label="create" onClick={handleOpenEdit} sx={{ m: 0 }}>
           <CreateIcon sx={{ color: "rgba(0, 0, 0, 0.7)" }} />
         </IconButton>
       )}
