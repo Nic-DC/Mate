@@ -109,11 +109,11 @@ const Navbar = ({ socket }) => {
               <CottageIcon />
             </Button>
           </Stack>
-          {rooms.map((room) => (
+          {/* {rooms.map((room) => (
             <Stack direction="row" spacing={2} key={room._id}>
               <Button onClick={() => navigate(`rooms/${room.roomId}`)}>Room {room.roomId.slice(-2)}</Button>
             </Stack>
-          ))}
+          ))} */}
 
           <Stack direction="row" spacing={2}>
             <Tooltip title="New journal entry">
