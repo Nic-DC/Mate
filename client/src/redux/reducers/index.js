@@ -6,7 +6,7 @@ const initialState = {
   },
   journals: {
     filteredJournals: [],
-    selectedJournal: { topic: "sdf" },
+    selectedJournal: { topic: "initial" },
   },
 };
 

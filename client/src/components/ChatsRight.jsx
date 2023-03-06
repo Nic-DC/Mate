@@ -11,17 +11,22 @@ import ListItemText from "@mui/material/ListItemText";
 import InboxIcon from "@mui/icons-material/MoveToInbox";
 import MailIcon from "@mui/icons-material/Mail";
 import CommentIcon from "@mui/icons-material/Comment";
+import VisibilityIcon from "@mui/icons-material/Visibility";
 import ClearIcon from "@mui/icons-material/Clear";
 import ChairIcon from "@mui/icons-material/Chair";
 import Tooltip from "@mui/material/Tooltip";
+import { useEffect } from "react";
+import { useState } from "react";
 
-const ChatsRight = () => {
-  const [position, setPosition] = React.useState({
+const ChatsRight = ({ countRooms }) => {
+  const [position, setPosition] = useState({
     // top: false,
     // left: false,
     // bottom: false,
     rooms: false,
   });
+
+  const [rooms, setRooms] = useState([]);
 
   const toggleDrawer = (anchor, open) => (event) => {
     if (event && event.type === "keydown" && (event.key === "Tab" || event.key === "Shift")) {
@@ -30,6 +35,34 @@ const ChatsRight = () => {
 
     setPosition({ ...position, [anchor]: open });
   };
+
+  // fetch the rooms
+  const baseEndpoint = process.env.BE_URL;
+  console.log("baseendpoint: ", baseEndpoint);
+  const fetchRooms = async () => {
+    try {
+      const endpoint = `http://localhost:3009/rooms`;
+      const response = await fetch(endpoint);
+
+      if (!response.ok) {
+        throw new Error("Network response was not ok. Failed to register user");
+      }
+
+      const fetchedRooms = await response.json();
+      console.log("the fetched rooms are: ", rooms);
+      setRooms(fetchedRooms);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchRooms();
+  }, []);
+
+  useEffect(() => {
+    fetchRooms();
+  }, [countRooms]);
 
   const list = (anchor) => (
     <Box
@@ -43,7 +76,7 @@ const ChatsRight = () => {
           <ListItem key={text} disablePadding>
             <ListItemButton>
               <ListItemIcon>
-                <CommentIcon />
+                <VisibilityIcon />
               </ListItemIcon>
               <ListItemText primary={text} />
             </ListItemButton>
@@ -51,8 +84,25 @@ const ChatsRight = () => {
         ))}
       </List>
       <Divider />
+
+      {/* LISTING ALL THE ROOMS IN THE DATABASE */}
+      <List sx={{ overflow: "auto", maxHeight: 400, color: "#90caf9", fontSize: "0.55" }}>
+        {rooms &&
+          rooms.map((room) => (
+            <ListItem key={room.roomId} disablePadding>
+              <ListItemButton>
+                <ListItemIcon>
+                  <ChairIcon sx={{ color: "#90caf9" }} />
+                </ListItemIcon>
+                <ListItemText primary={`Room - ${room.roomId.slice(-4)}`} />
+              </ListItemButton>
+            </ListItem>
+          ))}
+      </List>
+
+      <Divider />
       <List>
-        {["Clear Rooms"].map((text, index) => (
+        {["Clear Rooms"].map((text) => (
           <ListItem key={text} disablePadding>
             <ListItemButton>
               <ListItemIcon>
@@ -72,7 +122,9 @@ const ChatsRight = () => {
         <React.Fragment key={anchor}>
           {/* <Button onClick={toggleDrawer(anchor, true)}>View Rooms</Button> */}
           <Tooltip title="Available rooms">
-            <ChairIcon onClick={toggleDrawer(anchor, true)} />
+            <Button onClick={toggleDrawer(anchor, true)}>
+              <VisibilityIcon />
+            </Button>
           </Tooltip>
 
           <SwipeableDrawer

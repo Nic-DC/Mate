@@ -14,7 +14,7 @@ import ChatRoom from "./components/pages/ChatRoom";
 import Login from "./components/pages/Login";
 import Journal from "./components/pages/Journal";
 import ChatPage from "./components/chat/ChatPage";
-import ChatsLeft from "./components/ChatsLeft";
+import ChatsLeft from "./components/ChatsRight";
 
 const darkTheme = createTheme({
   palette: {
@@ -24,6 +24,10 @@ const darkTheme = createTheme({
 
 function App() {
   const [socket, setSocket] = useState(null); // socket
+
+  // cont variable used to monitor the creation and deletion of rooms
+  const [countRooms, setCountRooms] = useState(0);
+
   // when loading the app
   useEffect(() => {
     setSocket(io("http://localhost:3009", { transports: ["websocket"] }));
@@ -40,12 +44,18 @@ function App() {
               <Routes>
                 <Route path="/chat" element={<ChatRoom socket={socket} />} />
                 <Route path="/home" element={<Home socket={socket} />} />
-                <Route path="/rooms/:roomId" element={<ChatRoom socket={socket} />} />
+                <Route
+                  path="/rooms/:roomId"
+                  element={<ChatRoom socket={socket} countRooms={countRooms} setCountRooms={setCountRooms} />}
+                />
                 <Route path="/login" element={<Login />} />
                 <Route path="/journal" element={<Journal />} />
                 <Route path="/chatPage" element={<ChatPage />} />
                 <Route path="/chats" element={<ChatsLeft />} />
-                <Route path="/" element={<ChatWindow socket={socket} />} />
+                <Route
+                  path="/"
+                  element={<ChatWindow socket={socket} countRooms={countRooms} setCountRooms={setCountRooms} />}
+                />
               </Routes>
             </Box>
           </Container>

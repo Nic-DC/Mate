@@ -1,5 +1,3 @@
-import Box from "@mui/material/Box";
-
 import Card from "@mui/material/Card";
 import { Button, Typography } from "@mui/material";
 import Chip from "@mui/material/Chip";
@@ -7,15 +5,15 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
 import Tooltip from "@mui/material/Tooltip";
-
+import Box from "@mui/material/Box";
 import Divider from "@mui/material/Divider";
 import CommentIcon from "@mui/icons-material/Comment";
 import ChatRoom from "./pages/ChatRoom";
 
-const ChatTest = ({ socket }) => {
+const ChatNewRoom = ({ socket }) => {
   /* ------------------------------------------------------
---------------------- from Navbar ----------------------
------------------------------------------------------- */
+  --------------------- from Navbar ----------------------
+  ------------------------------------------------------ */
   const [rooms, setRooms] = useState([]);
 
   const navigate = useNavigate();
@@ -66,29 +64,33 @@ const ChatTest = ({ socket }) => {
     });
   }, [passedSocket, rooms]);
   return (
-    <Card
-      sx={{
-        display: "flex",
-        flexDirection: "column",
+    <>
+      <h1>New Room</h1>
+      <Card
+        sx={{
+          display: "flex",
+          flexDirection: "column",
 
-        padding: 2,
-        marginTop: 10,
-        width: "35%",
-        backgroundColor: "rgba(255, 255, 255, 0.12)",
-      }}
-    >
-      <Box sx={{ marginBottom: 5 }}>
-        <Tooltip title="Go to room">
-          <Button onClick={createRoom}>
-            <CommentIcon sx={{ color: "#90caf9" }} />
-          </Button>
-        </Tooltip>
-        {/* <Divider> */}
-        <Chip label="Rooms:" sx={{ alignSelf: "center" }} />
-        {/* </Divider> */}
-        {/* <ChatRoom /> */}
-      </Box>
-    </Card>
+          padding: 2,
+          marginTop: 10,
+          width: "35%",
+          backgroundColor: "rgba(255, 255, 255, 0.12)",
+        }}
+      >
+        <Box sx={{ marginBottom: 5 }}>
+          <Tooltip title="Go to room">
+            <Button onClick={createRoom}>
+              <CommentIcon sx={{ color: "#90caf9" }} />
+            </Button>
+          </Tooltip>
+          {/* <Divider> */}
+          <Chip label="Rooms:" sx={{ alignSelf: "center" }} />
+          {/* </Divider> */}
+          {/* <ChatRoom /> */}
+        </Box>
+      </Card>
+    </>
   );
 };
-export default ChatTest;
+
+export default ChatNewRoom;

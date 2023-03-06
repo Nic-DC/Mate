@@ -11,7 +11,7 @@ import Tooltip from "@mui/material/Tooltip";
 
 import Divider from "@mui/material/Divider";
 import Chip from "@mui/material/Chip";
-import { v4 as uuidv4 } from "uuid";
+
 import InputAdornment from "@mui/material/InputAdornment";
 import IconButton from "@mui/material/IconButton";
 import SendIcon from "@mui/icons-material/Send";
@@ -24,7 +24,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import ChatTest from "./ChatTest";
 import ChatsRight from "./ChatsRight";
 
-const ChatWindow = ({ socket, countRooms, setCountRooms }) => {
+const ChatWindow = ({ socket }) => {
   const [message, setMessage] = useState(""); // input message
   const [chat, setChat] = useState([]); // all inputted messages
   const [isTyping, setIsTyping] = useState(false); // for the "typing" render
@@ -34,7 +34,6 @@ const ChatWindow = ({ socket, countRooms, setCountRooms }) => {
 
   const passedSocket = socket;
   console.log("PARAMS - CHATWINDOW: ", params.roomId);
-
   const [rooms, setRooms] = useState([]);
 
   const navigate = useNavigate();
@@ -77,23 +76,6 @@ const ChatWindow = ({ socket, countRooms, setCountRooms }) => {
     );
   };
 
-  // CREATE NEW ROOM
-  const createRoom = () => {
-    console.log("Room created");
-
-    // increase the countRooms variable by 1
-    setCountRooms(countRooms + 1);
-
-    const roomId = uuidv4();
-    navigate(`/rooms/${roomId}`);
-    setMessage("");
-
-    // emit an event when creating a new room
-    passedSocket.emit("new-room-created", { roomId });
-    console.log("EMITING NEW ROOM NAVBAR: ", roomId);
-    // setRooms([...rooms, roomId]);
-  };
-
   // when we send the message
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -129,10 +111,10 @@ const ChatWindow = ({ socket, countRooms, setCountRooms }) => {
             </Divider>
           )}
 
-          <ChatsRight countRooms={countRooms} />
+          <ChatsRight />
 
           <Tooltip title="Create new room">
-            <Button onClick={createRoom}>
+            <Button onClick={() => navigate(`/rooms/${params.roomId}`)}>
               {/* <CommentIcon sx={{ color: "#90caf9" }} /> */}
               <AddIcon /> <ChairIcon />
             </Button>

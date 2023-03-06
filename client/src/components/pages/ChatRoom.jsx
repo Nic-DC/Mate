@@ -3,11 +3,11 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import ChatWindow from "../ChatWindow";
 
-const ChatRoom = ({ socket }) => {
+const ChatRoom = ({ socket, countRooms, setCountRooms }) => {
   const params = useParams();
   const passedSocket = socket;
   console.log("PARAMS - CHAT ROOM: ", params.roomId);
-
+  console.log("COUNT ROOMS: ", countRooms);
   useEffect(() => {
     if (!passedSocket) return;
 
@@ -18,7 +18,8 @@ const ChatRoom = ({ socket }) => {
 
   return (
     <>
-      <ChatWindow socket={passedSocket} />
+      <h6>New chat room: {params.roomId}</h6>
+      <ChatWindow socket={passedSocket} countRooms={countRooms} setCountRooms={setCountRooms} />
     </>
   );
 };
