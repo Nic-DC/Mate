@@ -19,6 +19,7 @@ import ClearIcon from "@mui/icons-material/Clear";
 import CommentIcon from "@mui/icons-material/Comment";
 import ChairIcon from "@mui/icons-material/Chair";
 import SaveIcon from "@mui/icons-material/Save";
+import MessageIcon from "@mui/icons-material/Message";
 import AddIcon from "@mui/icons-material/Add";
 import { useNavigate, useParams } from "react-router-dom";
 import ChatTest from "./ChatTest";
@@ -34,8 +35,6 @@ const ChatWindow = ({ socket, countRooms, setCountRooms }) => {
 
   const passedSocket = socket;
   console.log("PARAMS - CHATWINDOW: ", params.roomId);
-
-  const [rooms, setRooms] = useState([]);
 
   const navigate = useNavigate();
 
@@ -122,36 +121,40 @@ const ChatWindow = ({ socket, countRooms, setCountRooms }) => {
           backgroundColor: "rgba(255, 255, 255, 0.12)",
         }}
       >
-        <Box sx={{ marginBottom: 5 }}>
+        <Box sx={{ marginBottom: 3, display: "flex", justifyContent: "flex-start" }}>
           {params.roomId && (
-            <Divider sx={{ marginBottom: 1.5 }}>
-              <Chip label={`Room: ${params.roomId}`} />
+            <Divider>
+              <Chip
+                label={`Room: ${params.roomId.slice(-4)}`}
+                sx={{ color: "#90caf9", backgroundColor: "rgba(255, 255, 255,0.1)", fontWeight: "bold" }}
+              />
             </Divider>
           )}
 
-          <ChatsRight countRooms={countRooms} />
+          <ChatsRight countRooms={countRooms} socket={socket} />
 
-          <Tooltip title="Create new room">
+          <Tooltip title="Create new room" placement="top">
             <Button onClick={createRoom}>
               {/* <CommentIcon sx={{ color: "#90caf9" }} /> */}
-              <AddIcon /> <ChairIcon />
+              <AddIcon />
+              {/* <ChairIcon /> */}
             </Button>
           </Tooltip>
 
-          <Tooltip title="Save chat">
-            <Button onClick={() => console.log("Messages saved")}>
-              <SaveIcon sx={{ color: "#90caf9" }} />
-            </Button>
-          </Tooltip>
-
-          <Tooltip title="Delete messages">
+          <Tooltip title="Delete room" placement="top">
             <Button onClick={() => console.log("Messages deleted")}>
               <ClearIcon sx={{ color: "#90caf9" }} />
             </Button>
           </Tooltip>
+        </Box>
 
+        <Box sx={{ marginBottom: 3 }}>
           <Divider>
-            <Chip label="AImate" />
+            <Chip
+              // avatar={<MessageIcon sx={{ backgroundColor: "rgba(0, 0, 0,1)", color: "black" }} />}
+              label="AImate"
+              sx={{ backgroundColor: "#90caf9", color: "black" }}
+            />
           </Divider>
 
           {isTyping && (

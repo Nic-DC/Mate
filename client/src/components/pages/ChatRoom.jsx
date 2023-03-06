@@ -6,8 +6,10 @@ import ChatWindow from "../ChatWindow";
 const ChatRoom = ({ socket, countRooms, setCountRooms }) => {
   const params = useParams();
   const passedSocket = socket;
+
   console.log("PARAMS - CHAT ROOM: ", params.roomId);
   console.log("COUNT ROOMS: ", countRooms);
+
   useEffect(() => {
     if (!passedSocket) return;
 

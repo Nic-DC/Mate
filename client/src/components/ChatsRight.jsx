@@ -14,11 +14,13 @@ import CommentIcon from "@mui/icons-material/Comment";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import ClearIcon from "@mui/icons-material/Clear";
 import ChairIcon from "@mui/icons-material/Chair";
+
 import Tooltip from "@mui/material/Tooltip";
 import { useEffect } from "react";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
-const ChatsRight = ({ countRooms }) => {
+const ChatsRight = ({ countRooms, socket }) => {
   const [position, setPosition] = useState({
     // top: false,
     // left: false,
@@ -27,6 +29,8 @@ const ChatsRight = ({ countRooms }) => {
   });
 
   const [rooms, setRooms] = useState([]);
+  const passedSocket = socket;
+  const navigate = useNavigate();
 
   const toggleDrawer = (anchor, open) => (event) => {
     if (event && event.type === "keydown" && (event.key === "Tab" || event.key === "Shift")) {
@@ -64,6 +68,15 @@ const ChatsRight = ({ countRooms }) => {
     fetchRooms();
   }, [countRooms]);
 
+  useEffect(() => {
+    if (!passedSocket) return;
+
+    passedSocket.on("new-room-created", ({ roomId }) => {
+      console.log(`RECEIVING NEW ROOM  - ${roomId}`);
+      setRooms([...rooms, roomId]);
+    });
+  }, [passedSocket]);
+
   const list = (anchor) => (
     <Box
       sx={{ width: 450 }}
@@ -89,12 +102,12 @@ const ChatsRight = ({ countRooms }) => {
       <List sx={{ overflow: "auto", maxHeight: 400, color: "#90caf9", fontSize: "0.55" }}>
         {rooms &&
           rooms.map((room) => (
-            <ListItem key={room.roomId} disablePadding>
+            <ListItem key={room.roomId} disablePadding onClick={() => navigate(`/rooms/${room.roomId}`)}>
               <ListItemButton>
                 <ListItemIcon>
                   <ChairIcon sx={{ color: "#90caf9" }} />
                 </ListItemIcon>
-                <ListItemText primary={`Room - ${room.roomId.slice(-4)}`} />
+                <ListItemText primary={`Room: ${room.roomId.slice(-4)}`} />
               </ListItemButton>
             </ListItem>
           ))}
@@ -121,7 +134,7 @@ const ChatsRight = ({ countRooms }) => {
       {["right"].map((anchor) => (
         <React.Fragment key={anchor}>
           {/* <Button onClick={toggleDrawer(anchor, true)}>View Rooms</Button> */}
-          <Tooltip title="Available rooms">
+          <Tooltip title="See all rooms" placement="top">
             <Button onClick={toggleDrawer(anchor, true)}>
               <VisibilityIcon />
             </Button>
