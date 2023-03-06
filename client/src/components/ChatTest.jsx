@@ -10,10 +10,11 @@ import Tooltip from "@mui/material/Tooltip";
 
 import Divider from "@mui/material/Divider";
 import CommentIcon from "@mui/icons-material/Comment";
+import ChatRoom from "./pages/ChatRoom";
 
 const ChatTest = ({ socket }) => {
   /* ------------------------------------------------------
---------------------- form Navibar ----------------------
+--------------------- form Navbar ----------------------
 ------------------------------------------------------ */
   const [rooms, setRooms] = useState([]);
 
@@ -85,6 +86,7 @@ const ChatTest = ({ socket }) => {
         {/* <Divider> */}
         <Chip label="Rooms:" sx={{ alignSelf: "center" }} />
         {/* </Divider> */}
+        {/* <ChatRoom /> */}
       </Box>
     </Card>
   );
