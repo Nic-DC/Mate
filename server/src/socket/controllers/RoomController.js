@@ -20,4 +20,10 @@ export default class RoomController extends BaseController {
     this.socket.broadcast.emit("new-room-created", { roomId });
     console.log("CREATING NEW ROOM");
   };
+  // roomRemoved = async ({ roomId }) => {
+  //   console.log("THE DELETED ROOM ID: ", roomId);
+  //   await Rooms.findOneAndDelete({ roomId: roomId });
+  //   this.socket.broadcast.emit("room-removed", { roomId });
+  //   console.log("DELETING ROOM");
+  // };
 }

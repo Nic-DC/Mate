@@ -20,7 +20,6 @@ const ChatRoom = ({ socket, countRooms, setCountRooms }) => {
 
   return (
     <>
-      <h6>New chat room: {params.roomId}</h6>
       <ChatWindow socket={passedSocket} countRooms={countRooms} setCountRooms={setCountRooms} />
     </>
   );

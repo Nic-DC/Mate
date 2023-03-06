@@ -25,6 +25,8 @@ const darkTheme = createTheme({
 function App() {
   const [socket, setSocket] = useState(null); // socket
 
+  const [message, setMessage] = useState("");
+
   // cont variable used to monitor the creation and deletion of rooms
   const [countRooms, setCountRooms] = useState(0);
 
@@ -46,7 +48,14 @@ function App() {
                 <Route path="/home" element={<Home socket={socket} />} />
                 <Route
                   path="/rooms/:roomId"
-                  element={<ChatRoom socket={socket} countRooms={countRooms} setCountRooms={setCountRooms} />}
+                  element={
+                    <ChatRoom
+                      socket={socket}
+                      countRooms={countRooms}
+                      setCountRooms={setCountRooms}
+                      setMessage={setMessage}
+                    />
+                  }
                 />
                 <Route path="/login" element={<Login />} />
                 <Route path="/journal" element={<Journal />} />
@@ -54,7 +63,15 @@ function App() {
                 <Route path="/chats" element={<ChatsLeft />} />
                 <Route
                   path="/"
-                  element={<ChatWindow socket={socket} countRooms={countRooms} setCountRooms={setCountRooms} />}
+                  element={
+                    <ChatWindow
+                      socket={socket}
+                      countRooms={countRooms}
+                      setCountRooms={setCountRooms}
+                      message={message}
+                      setMessage={setMessage}
+                    />
+                  }
                 />
               </Routes>
             </Box>

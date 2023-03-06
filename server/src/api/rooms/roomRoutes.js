@@ -18,4 +18,21 @@ roomsRouter.get("/", async (req, res, next) => {
   }
 });
 
+roomsRouter.delete("/:id", async (req, res, next) => {
+  try {
+    const { id } = req.params;
+
+    const deletedRoom = await Rooms.findOneAndDelete({ roomId: id });
+
+    if (!deletedRoom) {
+      res.status(404).send({ message: `Room with ID ${id} not found` });
+    } else {
+      res.status(200).send({ message: `Room with ID ${id} deleted successfully` });
+    }
+  } catch (error) {
+    console.log(error);
+    next(error);
+  }
+});
+
 export default roomsRouter;

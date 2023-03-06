@@ -21,12 +21,14 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const ChatsRight = ({ countRooms, socket }) => {
-  const [position, setPosition] = useState({
-    // top: false,
-    // left: false,
-    // bottom: false,
-    rooms: false,
-  });
+  // const [position, setPosition] = useState({
+  //   // top: false,
+  //   // left: false,
+  //   // bottom: false,
+  //   rooms: false,
+  // });
+
+  const [position, setPosition] = useState({});
 
   const [rooms, setRooms] = useState([]);
   const passedSocket = socket;
@@ -49,7 +51,7 @@ const ChatsRight = ({ countRooms, socket }) => {
       const response = await fetch(endpoint);
 
       if (!response.ok) {
-        throw new Error("Network response was not ok. Failed to register user");
+        throw new Error("Network response was not ok. Failed to get the available chat rooms");
       }
 
       const fetchedRooms = await response.json();
@@ -58,6 +60,12 @@ const ChatsRight = ({ countRooms, socket }) => {
     } catch (error) {
       console.log(error);
     }
+  };
+
+  // join dynamic room
+  const joinRoom = (roomId) => {
+    passedSocket.emit("join-room", { roomId: roomId });
+    navigate(`/rooms/${roomId}`);
   };
 
   useEffect(() => {
@@ -85,24 +93,22 @@ const ChatsRight = ({ countRooms, socket }) => {
       onKeyDown={toggleDrawer(anchor, false)}
     >
       <List>
-        {["Available Rooms"].map((text, index) => (
-          <ListItem key={text} disablePadding>
-            <ListItemButton>
-              <ListItemIcon>
-                <VisibilityIcon />
-              </ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItemButton>
-          </ListItem>
-        ))}
+        <ListItem disablePadding>
+          <ListItemButton>
+            <ListItemIcon>
+              <VisibilityIcon />
+            </ListItemIcon>
+            <ListItemText primary={`Available Rooms: ${rooms.length === 0 ? "0" : rooms.length}`} />
+          </ListItemButton>
+        </ListItem>
       </List>
       <Divider />
 
       {/* LISTING ALL THE ROOMS IN THE DATABASE */}
       <List sx={{ overflow: "auto", maxHeight: 400, color: "#90caf9", fontSize: "0.55" }}>
-        {rooms &&
+        {rooms.length > 0 ? (
           rooms.map((room) => (
-            <ListItem key={room.roomId} disablePadding onClick={() => navigate(`/rooms/${room.roomId}`)}>
+            <ListItem key={room.roomId} disablePadding onClick={() => joinRoom(room.roomId)}>
               <ListItemButton>
                 <ListItemIcon>
                   <ChairIcon sx={{ color: "#90caf9" }} />
@@ -110,11 +116,21 @@ const ChatsRight = ({ countRooms, socket }) => {
                 <ListItemText primary={`Room: ${room.roomId.slice(-4)}`} />
               </ListItemButton>
             </ListItem>
-          ))}
+          ))
+        ) : (
+          <ListItem>
+            <ListItemButton>
+              <ListItemIcon>
+                <ChairIcon sx={{ color: "#90caf9" }} />
+              </ListItemIcon>
+              <ListItemText primary="No rooms in the db at the moment" />
+            </ListItemButton>
+          </ListItem>
+        )}
       </List>
 
       <Divider />
-      <List>
+      {/* <List>
         {["Clear Rooms"].map((text) => (
           <ListItem key={text} disablePadding>
             <ListItemButton>
@@ -125,7 +141,7 @@ const ChatsRight = ({ countRooms, socket }) => {
             </ListItemButton>
           </ListItem>
         ))}
-      </List>
+      </List> */}
     </Box>
   );
 

@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import Box from "@mui/material/Box";
 
 import Card from "@mui/material/Card";
-import { Button, Typography } from "@mui/material";
+import { Button, List, Typography } from "@mui/material";
 
 import OutlinedInput from "@mui/material/OutlinedInput";
 import InputLabel from "@mui/material/InputLabel";
@@ -30,6 +30,7 @@ const ChatWindow = ({ socket, countRooms, setCountRooms }) => {
   const [chat, setChat] = useState([]); // all inputted messages
   const [isTyping, setIsTyping] = useState(false); // for the "typing" render
   const [typingTimeout, setTypingTimeout] = useState(null); // for the debounce effect - "typing" render
+  const [rooms, setRooms] = useState([]);
 
   const params = useParams();
 
@@ -57,7 +58,30 @@ const ChatWindow = ({ socket, countRooms, setCountRooms }) => {
       // we save the message and received property that we receive from the server
       setChat((prev) => [...prev, { message: message.message, received: true }]);
     });
+
+    // passedSocket.on("room-removed", ({ roomId }) => {
+    //   setRooms(rooms.filter((room) => room.roomId !== roomId));
+    // });
   }, [passedSocket]);
+
+  const fetchRooms = async () => {
+    try {
+      const endpoint = `http://localhost:3009/rooms`;
+      const response = await fetch(endpoint);
+
+      if (!response.ok) {
+        throw new Error("Network response was not ok. Failed to get the available chat rooms");
+      }
+
+      const fetchedRooms = await response.json();
+      setRooms(fetchedRooms);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  useEffect(() => {
+    fetchRooms();
+  }, []);
 
   // handleInput function
   const handleInput = (e) => {
@@ -89,8 +113,43 @@ const ChatWindow = ({ socket, countRooms, setCountRooms }) => {
 
     // emit an event when creating a new room
     passedSocket.emit("new-room-created", { roomId });
-    console.log("EMITING NEW ROOM NAVBAR: ", roomId);
+    console.log("EMITING NEW ROOM CHAT WINDOW: ", roomId);
     // setRooms([...rooms, roomId]);
+  };
+
+  // delete specific room
+  const baseEndpoint = process.env.BE_URL;
+  console.log("baseendpoint: ", baseEndpoint);
+
+  const deleteRoom = async () => {
+    const roomId = params.roomId;
+    const options = {
+      method: "DELETE",
+    };
+    try {
+      const endpoint = `http://localhost:3009/rooms/${roomId}`;
+      const response = await fetch(endpoint, options);
+
+      if (!response.ok) {
+        throw new Error("Network response was not ok. Failed to delete chat room");
+      }
+
+      const deleteMessage = await response.json();
+
+      console.log("DELETE chat room message: ", deleteMessage);
+
+      if (deleteMessage) {
+        // decrease the countRooms variable by 1
+        setCountRooms(countRooms - 1);
+      } else {
+        console.log("DELETE jchat room DID NOT GO THROUGH");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+    // emit an event when creating a new room
+    // passedSocket.emit("room-removed", { roomId });
+    // console.log("DELETING ROOM CHAT WINDOW: ", roomId);
   };
 
   // when we send the message
@@ -125,7 +184,7 @@ const ChatWindow = ({ socket, countRooms, setCountRooms }) => {
           {params.roomId && (
             <Divider>
               <Chip
-                label={`Room: ${params.roomId.slice(-4)}`}
+                label={`${rooms.length > 0 ? `Room: ${params.roomId.slice(-4)}` : "No rooms"}`}
                 sx={{ color: "#90caf9", backgroundColor: "rgba(255, 255, 255,0.1)", fontWeight: "bold" }}
               />
             </Divider>
@@ -142,7 +201,7 @@ const ChatWindow = ({ socket, countRooms, setCountRooms }) => {
           </Tooltip>
 
           <Tooltip title="Delete room" placement="top">
-            <Button onClick={() => console.log("Messages deleted")}>
+            <Button onClick={deleteRoom}>
               <ClearIcon sx={{ color: "#90caf9" }} />
             </Button>
           </Tooltip>
@@ -164,11 +223,11 @@ const ChatWindow = ({ socket, countRooms, setCountRooms }) => {
           )}
 
           {chat.map((data, index) => (
-            <>
+            <List sx={{ overflow: "auto", maxHeight: 400 }}>
               <Typography key={index} sx={{ textAlign: data.received ? "left" : "right", color: "#90caf9" }}>
                 {data.message}
               </Typography>
-            </>
+            </List>
           ))}
         </Box>
 
