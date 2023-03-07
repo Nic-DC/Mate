@@ -62,6 +62,11 @@ const ChatWindow = ({ socket, countRooms, setCountRooms }) => {
       setChat((prev) => [...prev, { message: message.message, received: true }]);
     });
 
+    passedSocket.on("uploaded", (data) => {
+      console.log("UPLOADED DATA: ", data);
+      setChat((prev) => [...prev, { message: data.buffer, received: true, type: "image" }]);
+    });
+
     // passedSocket.on("room-removed", ({ roomId }) => {
     //   setRooms(rooms.filter((room) => room.roomId !== roomId));
     // });
@@ -109,7 +114,21 @@ const ChatWindow = ({ socket, countRooms, setCountRooms }) => {
   };
 
   const fileSelected = (e) => {
+    const roomId = params.roomId;
+
     console.log("THE SELECTED FILE: ", e.target.files);
+    const file = e.target.files[0];
+
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+
+    reader.onload = () => {
+      const data = reader.result;
+      socket.emit("upload", { data, roomId });
+      setChat((prev) => [...prev, { message: reader.result, received: false, type: "image" }]);
+    };
   };
 
   // CREATE NEW ROOM
@@ -236,9 +255,13 @@ const ChatWindow = ({ socket, countRooms, setCountRooms }) => {
 
           {chat.map((data, index) => (
             <List sx={{ overflow: "auto", maxHeight: 400 }}>
-              <Typography key={index} sx={{ textAlign: data.received ? "left" : "right", color: "#90caf9" }}>
-                {data.message}
-              </Typography>
+              {data.type === "image" ? (
+                <img src={data.message} alt="uploaded" width="100" />
+              ) : (
+                <Typography key={index} sx={{ textAlign: data.received ? "left" : "right", color: "#90caf9" }}>
+                  {data.message}
+                </Typography>
+              )}
             </List>
           ))}
         </Box>
