@@ -74,7 +74,7 @@ const Navbar = () => {
           </Stack>
           <Stack direction="row" spacing={2}>
             <Tooltip title="Ai counselor">
-              <Button>
+              <Button onClick={() => navigate(`/aimate`)}>
                 <Diversity2Icon />
               </Button>
             </Tooltip>

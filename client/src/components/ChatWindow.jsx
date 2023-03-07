@@ -256,7 +256,12 @@ const ChatWindow = ({ socket, countRooms, setCountRooms }) => {
           {chat.map((data, index) => (
             <List sx={{ overflow: "auto", maxHeight: 400 }}>
               {data.type === "image" ? (
-                <img src={data.message} alt="uploaded" width="100" />
+                <img
+                  src={data.message}
+                  alt="uploaded"
+                  width="150"
+                  style={{ float: data.received ? "left" : "right", color: "#90caf9" }}
+                />
               ) : (
                 <Typography key={index} sx={{ textAlign: data.received ? "left" : "right", color: "#90caf9" }}>
                   {data.message}
@@ -289,7 +294,6 @@ const ChatWindow = ({ socket, countRooms, setCountRooms }) => {
           />
         </Box>
       </Card>
-      {/* <ChatTest /> */}
     </Box>
   );
 };

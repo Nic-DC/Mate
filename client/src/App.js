@@ -15,6 +15,7 @@ import Login from "./components/pages/Login";
 import Journal from "./components/pages/Journal";
 import ChatPage from "./components/chat/ChatPage";
 import ChatsLeft from "./components/ChatsRight";
+import AImate from "./components/ai/AImate";
 
 const darkTheme = createTheme({
   palette: {
@@ -73,6 +74,7 @@ function App() {
                     />
                   }
                 />
+                <Route path="/aimate" element={<AImate />} />
               </Routes>
             </Box>
           </Container>
