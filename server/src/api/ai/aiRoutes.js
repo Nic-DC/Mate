@@ -1,9 +1,11 @@
 import openai from "openai";
+// const openai = require("openai");
 import { Router } from "express";
 
 const aiRoutes = Router();
 
-openai.api_key = process.env.OPEN_AI_KEY;
+openai.api_key = "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";
+console.log("process.env.OPEN_AI_KEY", process.env.OPEN_AI_KEY);
 const model_engine = "text-davinci-003";
 const chatbot_prompt = `
 As an advanced chatbot, your primary goal is to assist users to the best of your ability. This may involve answering questions, providing helpful information, or completing tasks based on user input. In order to effectively assist users, it is important to be detailed and thorough in your responses. Use examples and evidence to support your points and justify your recommendations or solutions.
