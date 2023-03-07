@@ -8,7 +8,7 @@ import { Button, List, Typography } from "@mui/material";
 import OutlinedInput from "@mui/material/OutlinedInput";
 import InputLabel from "@mui/material/InputLabel";
 import Tooltip from "@mui/material/Tooltip";
-
+import AttachFileIcon from "@mui/icons-material/AttachFile";
 import Divider from "@mui/material/Divider";
 import Chip from "@mui/material/Chip";
 import { v4 as uuidv4 } from "uuid";
@@ -24,6 +24,7 @@ import AddIcon from "@mui/icons-material/Add";
 import { useNavigate, useParams } from "react-router-dom";
 import ChatTest from "./ChatTest";
 import ChatsRight from "./ChatsRight";
+import { useRef } from "react";
 
 const ChatWindow = ({ socket, countRooms, setCountRooms }) => {
   const [message, setMessage] = useState(""); // input message
@@ -38,6 +39,8 @@ const ChatWindow = ({ socket, countRooms, setCountRooms }) => {
   console.log("PARAMS - CHATWINDOW: ", params.roomId);
 
   const navigate = useNavigate();
+
+  const fileRef = useRef();
 
   // when the socket changes
   useEffect(() => {
@@ -98,6 +101,15 @@ const ChatWindow = ({ socket, countRooms, setCountRooms }) => {
         console.log("stopped..............!!!!!");
       }, 1000)
     );
+  };
+
+  // file sharing
+  const selectFile = () => {
+    fileRef.current.click();
+  };
+
+  const fileSelected = (e) => {
+    console.log("THE SELECTED FILE: ", e.target.files);
   };
 
   // CREATE NEW ROOM
@@ -242,8 +254,12 @@ const ChatWindow = ({ socket, countRooms, setCountRooms }) => {
             onChange={handleInput}
             endAdornment={
               <InputAdornment position="end">
+                <input ref={fileRef} onChange={fileSelected} type="file" style={{ display: "none" }} />
+                <IconButton type="button" edge="end" onClick={selectFile}>
+                  <AttachFileIcon sx={{ color: "#90caf9" }} />
+                </IconButton>
                 <IconButton type="submit" edge="end">
-                  <SendIcon sx={{ color: "#90caf9" }} />
+                  <SendIcon sx={{ color: "#90caf9", marginLeft: 1 }} />
                 </IconButton>
               </InputAdornment>
             }
