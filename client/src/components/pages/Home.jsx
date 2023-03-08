@@ -24,10 +24,11 @@ const Background = styled("div")({
   width: "100%",
   height: "100%",
   zIndex: -1,
-  backgroundImage: `url(https://picsum.photos/id/237/1920/1080)`,
+  // backgroundImage: `url(https://picsum.photos/id/237/1920/1080)`,
+  backgroundImage: `url(background.png)`,
   backgroundRepeat: "no-repeat",
   backgroundPosition: "center center",
-  backgroundSize: "cover",
+  backgroundSize: "contain",
 });
 
 const ButtonContainer = styled("div")({
