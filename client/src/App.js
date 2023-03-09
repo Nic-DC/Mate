@@ -45,7 +45,7 @@ function App() {
           <Container>
             <Box sx={{ display: "flex", justifyContent: "center" }}>
               <Routes>
-                <Route path="/chat" element={<ChatRoom socket={socket} />} />
+                {/* <Route path="/chat" element={<ChatRoom socket={socket} />} /> */}
                 <Route path="/home" element={<Home socket={socket} />} />
                 <Route
                   path="/rooms/:roomId"
@@ -63,7 +63,7 @@ function App() {
                 <Route path="/chatPage" element={<ChatPage />} />
                 <Route path="/chats" element={<ChatsLeft />} />
                 <Route
-                  path="/"
+                  path="/chat"
                   element={
                     <ChatWindow
                       socket={socket}

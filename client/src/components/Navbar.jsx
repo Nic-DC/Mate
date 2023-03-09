@@ -59,39 +59,27 @@ const Navbar = () => {
           </Stack>
 
           <Stack direction="row" spacing={2}>
-            <Tooltip title="New journal entry">
+            <Tooltip title="My journal">
               <Button onClick={() => navigate(`/journal`)}>
                 <CreateIcon />
               </Button>
             </Tooltip>
           </Stack>
+
           <Stack direction="row" spacing={2}>
-            <Tooltip title="New room">
-              <Button onClick={() => console.log("Navbar - New room clicked")}>
-                <ChatIcon />
+            <Tooltip title="My chat">
+              <Button>
+                <ChatIcon onClick={() => navigate("/chat")} />
               </Button>
             </Tooltip>
           </Stack>
+
           <Stack direction="row" spacing={2}>
             <Tooltip title="Ai counselor">
               <Button onClick={() => navigate(`/aimate`)}>
                 <Diversity2Icon />
               </Button>
             </Tooltip>
-            <Stack direction="row" spacing={2}>
-              <Tooltip title="Chat page">
-                <Button>
-                  <WeekendIcon onClick={() => navigate("/chatPage")} />
-                </Button>
-              </Tooltip>
-            </Stack>
-            <Stack direction="row" spacing={2}>
-              <Tooltip title="Chat page">
-                <Button>
-                  <BugReportIcon onClick={() => navigate("/")} />
-                </Button>
-              </Tooltip>
-            </Stack>
           </Stack>
         </Box>
 

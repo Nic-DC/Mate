@@ -94,7 +94,7 @@ const AImate = () => {
             alignItems: "center",
           }}
         >
-          <Chip label="AImate" sx={{ backgroundColor: "#90caf9", color: "black", mr: 1 }} />
+          <Chip label="AImate" sx={{ backgroundColor: "#90caf9", color: "black", mr: 1, fontWeight: "bold" }} />
           {chatbotResponse && (
             <>
               <Divider orientation="vertical" sx={{ bgcolor: "#90caf9", height: "100%" }} />
@@ -102,12 +102,12 @@ const AImate = () => {
                 <List sx={{ maxHeight: 200, overflow: "auto" }}>
                   <ListItem alignItems="flex-start" sx={{ py: 0, pl: 0, pr: 1 }}>
                     <ListItemText
-                      primary="Chatbot response:"
-                      primaryTypographyProps={{ color: "#90caf9", marginRight: 12, fontWeight: "bold" }}
+                      primary="response:"
+                      primaryTypographyProps={{ color: "#90caf9", marginRight: 1, fontWeight: "bold" }}
                     />
                     <ListItemText
                       primary={chatbotResponse}
-                      primaryTypographyProps={{ color: "rgba(255,255,255,0.6)", marginTop: 6 }}
+                      primaryTypographyProps={{ color: "rgba(255,255,255,0.8)", marginTop: 3 }}
                     />
                   </ListItem>
                 </List>
@@ -117,9 +117,9 @@ const AImate = () => {
         </Box>
         <Box component="form" onSubmit={handleSubmit}>
           <OutlinedInput
-            sx={{ backgroundColor: "rgba(255, 255, 255, 0.12)" }}
+            sx={{ backgroundColor: "rgba(255, 255, 255, 0.12)", color: "rgba(255,255,255,0.8)" }}
             fullWidth
-            placeholder="write here"
+            placeholder="ask AImate here"
             size="small"
             value={userInput}
             onChange={handleUserInput}

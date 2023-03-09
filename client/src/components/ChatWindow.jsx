@@ -243,7 +243,7 @@ const ChatWindow = ({ socket, countRooms, setCountRooms }) => {
             <Chip
               // avatar={<MessageIcon sx={{ backgroundColor: "rgba(0, 0, 0,1)", color: "black" }} />}
               label="AImate"
-              sx={{ backgroundColor: "#90caf9", color: "black" }}
+              sx={{ backgroundColor: "#90caf9", color: "black", fontWeight: "bold" }}
             />
           </Divider>
 
@@ -274,7 +274,7 @@ const ChatWindow = ({ socket, countRooms, setCountRooms }) => {
         <Box component="form" onSubmit={handleSubmit}>
           <OutlinedInput
             id="message-input"
-            sx={{ backgroundColor: "rgba(255, 255, 255, 0.12)" }}
+            sx={{ backgroundColor: "rgba(255, 255, 255, 0.12)", color: "rgba(255, 255, 255, 0.8)" }}
             fullWidth
             placeholder="write here"
             size="small"
@@ -283,12 +283,16 @@ const ChatWindow = ({ socket, countRooms, setCountRooms }) => {
             endAdornment={
               <InputAdornment position="end">
                 <input ref={fileRef} onChange={fileSelected} type="file" style={{ display: "none" }} />
-                <IconButton type="button" edge="end" onClick={selectFile}>
-                  <AttachFileIcon sx={{ color: "#90caf9" }} />
-                </IconButton>
-                <IconButton type="submit" edge="end">
-                  <SendIcon sx={{ color: "#90caf9", marginLeft: 1 }} />
-                </IconButton>
+                <Tooltip title="Attach image" placement="top">
+                  <IconButton type="button" edge="end" onClick={selectFile}>
+                    <AttachFileIcon sx={{ color: "#90caf9" }} />
+                  </IconButton>
+                </Tooltip>
+                <Tooltip title="Send message" placement="top">
+                  <IconButton type="submit" edge="end">
+                    <SendIcon sx={{ color: "#90caf9", marginLeft: 1 }} />
+                  </IconButton>
+                </Tooltip>
               </InputAdornment>
             }
           />
