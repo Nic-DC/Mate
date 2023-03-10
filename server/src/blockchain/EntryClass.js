@@ -5,8 +5,8 @@ class Entry {
     this.title = title;
     this.topic = topic;
     this.content = content;
-    this.hash = this.calculateHash();
     this.timestamp = Date.now();
+    this.hash = this.calculateHash();
   }
 
   calculateHash() {
@@ -27,18 +27,15 @@ class Entry {
     console.log(`Entry ${this.title} is valid`);
     return true;
   }
+
+  // update the hash value of the entry with its current timestamp
+  updateHash() {
+    this.timestamp = Date.now();
+    this.hash = this.calculateHash();
+  }
 }
 
 export default Entry;
-// isValid() {
-//   if (this.calculateHash() !== this.hash) {
-//     return false;
-//   }
-//   if (this.title === "" || this.topic === "" || this.content === "") {
-//     return false;
-//   }
-//   return true;
-// }
 
 /*
     The digest() method is a method of the Hash object that is returned by 

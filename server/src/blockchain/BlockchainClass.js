@@ -38,23 +38,6 @@ class Blockchain {
 
     return true;
   }
-
-  //   isChainValid() {
-  //     for (let i = 1; i < this.chain.length; i++) {
-  //       const currentBlock = this.chain[i];
-  //       const previousBlock = this.chain[i - 1];
-
-  //       if (!currentBlock.hasValidEntries() || currentBlock.hash !== currentBlock.calculateHash()) {
-  //         return false;
-  //       }
-
-  //       if (currentBlock.previousHash !== previousBlock.hash) {
-  //         return false;
-  //       }
-  //     }
-
-  //     return true;
-  //   }
 }
 
 export default Blockchain;

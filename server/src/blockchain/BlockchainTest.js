@@ -25,7 +25,8 @@ console.log(newBlockGenesis.entries[0]);
 console.log("Is blockchain valid? " + myBlockchain.isChainValid());
 
 // create a new entry with the same data as entry#1 and the current timestamp
-const entry1New = new Entry("My first entry", "Technology", "I wrote my first entry on the blockchain!");
+const entry1New = new Entry(entry1.title, entry1.topic, entry1.content);
+entry1New.updateHash(); // recalculate the hash value of the new entry with the current timestamp
 entry1New.hash = entry1.hash; // set the hash value to the one stored in entry#1
 
 // check if the new entry is valid
