@@ -19,6 +19,7 @@ import Tooltip from "@mui/material/Tooltip";
 import { useEffect } from "react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { Typography } from "@mui/material";
 
 const ChatsRight = ({ countRooms, socket }) => {
   // const [position, setPosition] = useState({
