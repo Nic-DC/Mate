@@ -23,7 +23,7 @@ let newBlock1 = new Block(Date.now(), [entry4, entry5, entry6]);
 myBlockchain.addBlock(newBlockGenesis);
 myBlockchain.addBlock(newBlock1);
 
-blockRoutes.get("/blocks", async (req, res, next) => {
+blockRoutes.get("/", async (req, res, next) => {
   try {
     res.json(myBlockchain.chain);
   } catch (error) {

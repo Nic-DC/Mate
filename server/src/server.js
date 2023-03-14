@@ -64,7 +64,7 @@ expressServer.use("/rooms", roomsRouter);
 expressServer.use("/journals", journalRoutes);
 expressServer.use("/users", usersRouter);
 expressServer.use("/api", aiRoutes);
-expressServer.use("/blockchain", blockRoutes);
+expressServer.use("/blocks", blockRoutes);
 
 // ***************************** ERROR HANDLERS ***************************************
 expressServer.use(badRequestHandler);

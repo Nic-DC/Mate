@@ -16,6 +16,7 @@ import Journal from "./components/pages/Journal";
 import ChatPage from "./components/chat/ChatPage";
 import ChatsLeft from "./components/ChatsRight";
 import AImate from "./components/ai/AImate";
+import BlockExplorer from "./components/blockchain/BlockExplorer";
 
 const darkTheme = createTheme({
   palette: {
@@ -74,6 +75,7 @@ function App() {
                     />
                   }
                 />
+                <Route path="/blocks" element={<BlockExplorer />} />
                 <Route path="/aimate" element={<AImate />} />
               </Routes>
             </Box>

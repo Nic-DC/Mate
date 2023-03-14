@@ -17,6 +17,7 @@ import Register from "./pages/Register";
 import { orange } from "@mui/material/colors";
 import WeekendIcon from "@mui/icons-material/Weekend";
 import BugReportIcon from "@mui/icons-material/BugReport";
+import ViewInArIcon from "@mui/icons-material/ViewInAr";
 
 const theme = createTheme({
   palette: {
@@ -62,6 +63,14 @@ const Navbar = () => {
             <Tooltip title="My journal">
               <Button onClick={() => navigate(`/journal`)}>
                 <CreateIcon />
+              </Button>
+            </Tooltip>
+          </Stack>
+
+          <Stack direction="row" spacing={2}>
+            <Tooltip title="My blocks">
+              <Button onClick={() => navigate(`/blocks`)}>
+                <ViewInArIcon />
               </Button>
             </Tooltip>
           </Stack>
