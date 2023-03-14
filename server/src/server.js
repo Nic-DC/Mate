@@ -12,6 +12,7 @@ import journalRoutes from "./api/journal/journalRoutes.js";
 import usersRouter from "./api/users/userRoutes.js";
 import { badRequestHandler, genericErrorHandler, notFoundHandler } from "./errorHandlers.js";
 import aiRoutes from "./api/ai/aiRoutes.js";
+import blockRoutes from "./api/blockChain/blockRoutes.js";
 
 const expressServer = express();
 const port = process.env.PORT || 3009;
@@ -63,6 +64,7 @@ expressServer.use("/rooms", roomsRouter);
 expressServer.use("/journals", journalRoutes);
 expressServer.use("/users", usersRouter);
 expressServer.use("/api", aiRoutes);
+expressServer.use("/blockchain", blockRoutes);
 
 // ***************************** ERROR HANDLERS ***************************************
 expressServer.use(badRequestHandler);

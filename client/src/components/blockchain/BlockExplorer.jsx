@@ -17,16 +17,17 @@ const BlockExplorer = () => {
   const classes = useStyles();
   const [blocks, setBlocks] = useState([]);
 
+  const getBlocks = async () => {
+    try {
+      const response = await fetch("/api/blocks");
+      const data = await response.json();
+      setBlocks(data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   useEffect(() => {
-    const getBlocks = async () => {
-      try {
-        const response = await fetch("/api/blocks");
-        const data = await response.json();
-        setBlocks(data);
-      } catch (error) {
-        console.error(error);
-      }
-    };
     getBlocks();
   }, []);
 
