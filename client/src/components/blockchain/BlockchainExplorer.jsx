@@ -44,7 +44,7 @@ const StyledButton = styled(Button)(({ theme }) => ({
   margin: theme.spacing(2),
 }));
 
-const BlockExplorer = () => {
+const BlockchainExplorer = () => {
   const [blocks, setBlocks] = useState([]);
 
   const timestamp = 1678787443821; // Replace this with your actual timestamp
@@ -53,7 +53,7 @@ const BlockExplorer = () => {
 
   const getBlocks = async () => {
     try {
-      const response = await fetch("http://localhost:3009/blocks");
+      const response = await fetch("http://localhost:3009/blockchain");
       const data = await response.json();
       setBlocks(data);
     } catch (error) {
@@ -68,12 +68,14 @@ const BlockExplorer = () => {
   return (
     <ThemeProvider theme={theme}>
       <div style={{ margin: theme.spacing(2) }}>
-        <Typography variant="h4">Block Explorer</Typography>
+        <Typography variant="h4" style={{ color: "#90caf9" }}>
+          Block Explorer
+        </Typography>
         <List style={{ backgroundColor: theme.palette.background.default, marginBottom: theme.spacing(2) }}>
-          {blocks.map((block) => (
+          {blocks.map((block, index) => (
             <ListItem key={block.hash}>
               <ListItemText
-                primary={`Block hash: ${block.hash}`}
+                primary={`Block ${index} hash: ${block.hash}`}
                 secondary={`Timestamp: ${dayjs(block.timestamp).format("MMM D, YYYY h:mm A")}`}
                 primaryTypographyProps={{ style: { color: "rgba(255, 255, 255, 0.8)" } }}
                 secondaryTypographyProps={{ style: { color: "rgba(255, 255, 255, 0.6)" } }}
@@ -81,13 +83,13 @@ const BlockExplorer = () => {
             </ListItem>
           ))}
         </List>
-        {/* <StyledTextField label="Enter your name" variant="outlined" />
+        <StyledTextField label="Enter block index" variant="outlined" />
         <StyledButton variant="contained" color="primary">
-          Submit
-        </StyledButton> */}
+          Find block
+        </StyledButton>
       </div>
     </ThemeProvider>
   );
 };
 
-export default BlockExplorer;
+export default BlockchainExplorer;

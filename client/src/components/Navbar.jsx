@@ -84,6 +84,12 @@ const Navbar = () => {
           </Stack>
 
           <Stack direction="row" spacing={2}>
+            <Tooltip title="Valid entries">
+              <Button onClick={() => navigate(`/blockchain`)}>JB</Button>
+            </Tooltip>
+          </Stack>
+
+          <Stack direction="row" spacing={2}>
             <Tooltip title="Ai counselor">
               <Button onClick={() => navigate(`/aimate`)}>
                 <Diversity2Icon />

@@ -1,35 +1,36 @@
 import { Router } from "express";
+import Journal from "../journal/journalModel.js";
+import Blockchain from "./blockchainModel.js";
 
-import Blockchain from "../../blockchain/BlockchainClass.js";
-import Block from "../../blockchain/BlockClass.js";
-import Entry from "../../blockchain/EntryClass.js";
-
-const blockRoutes = new Router();
+const blockchainRoutes = new Router();
 
 // create a new blockchain instance
 let myBlockchain = new Blockchain();
 
-// add some new entries to the blockchain
-let entry1 = new Entry("My first entry", "Technology", "I wrote my first entry on the blockchain!");
-let entry2 = new Entry("My second entry", "Politics", "I want to talk about the political climate.");
-let entry3 = new Entry("My third entry", "Personal", "I'm feeling really good today!");
-let entry4 = new Entry("My fourth entry", "Personality", "I'm feeling really good today4!");
-let entry5 = new Entry("My fifth entry", "Personally", "I'm feeling really good today5!");
-let entry6 = new Entry("My sixth entry", "Persona", "I'm feeling really good today6!");
-
-// create a new block and add it to the blockchain
-let newBlockGenesis = new Block(Date.now(), [entry1, entry2, entry3]);
-let newBlock1 = new Block(Date.now(), [entry4, entry5, entry6]);
-myBlockchain.addBlock(newBlockGenesis);
-myBlockchain.addBlock(newBlock1);
-
-blockRoutes.get("/", async (req, res, next) => {
+blockchainRoutes.get("/", async (req, res, next) => {
   try {
-    res.json(myBlockchain.chain);
+    const query = {};
+
+    if (req.query.title) {
+      const titleIncludes = req.query.title;
+      query.title = { $regex: `${titleIncludes}`, $options: "i" };
+    }
+
+    if (req.query.topic) {
+      const topicIncludes = req.query.topic;
+      query.topic = { $regex: `${topicIncludes}`, $options: "i" };
+    }
+
+    const journals = await Journal.find(query);
+    const validatedJournals = journals.filter((journal) => {
+      const entry = new Entry(journal.title, journal.topic, journal.content);
+      return entry.isValid();
+    });
+    res.status(200).send(validatedJournals);
   } catch (error) {
     console.log(error);
-    next(error);
+    next(createHttpError(500, "An error occurred while getting journals"));
   }
 });
 
-export default blockRoutes;
+export default blockchainRoutes;
