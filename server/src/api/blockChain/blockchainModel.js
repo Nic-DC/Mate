@@ -17,6 +17,8 @@ class Blockchain {
   constructor() {
     this.chain = [this.createGenesisBlock()];
     this.difficulty = 2;
+    this.pendingEntries = [];
+    this.maxEntriesPerBlock = 5;
     this.blockchainModel = new BlockchainModel({ chain: this.chain });
   }
 
@@ -29,14 +31,31 @@ class Blockchain {
     return this.chain[this.chain.length - 1];
   }
 
-  addBlock(newBlock) {
+  async addBlock(newBlock) {
     newBlock.previousHash = this.getLatestBlock().hash;
     newBlock.mineBlock(this.difficulty);
     this.chain.push(newBlock);
 
     // Update the chain in the database
     this.blockchainModel.chain = this.chain;
-    this.blockchainModel.save();
+    await this.blockchainModel.save();
+  }
+
+  async addEntry(entry) {
+    // Check if the entry already exists in the pending entries or the chain
+    const entryExists =
+      this.pendingEntries.some((e) => e.hash === entry.hash) ||
+      this.chain.some((block) => block.entries.some((e) => e.hash === entry.hash));
+
+    if (!entryExists) {
+      this.pendingEntries.push(entry);
+
+      if (this.pendingEntries.length === this.maxEntriesPerBlock) {
+        const newBlock = new Block(Date.now(), this.pendingEntries);
+        await this.addBlock(newBlock);
+        this.pendingEntries = [];
+      }
+    }
   }
 
   isChainValid() {

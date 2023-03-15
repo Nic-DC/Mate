@@ -23,15 +23,48 @@ blockchainRoutes.get("/", async (req, res, next) => {
     }
 
     const journals = await Journal.find(query);
-    const validatedJournals = journals.map((journal) => {
-      const entry = new Entry(journal.title, journal.topic, journal.content);
-      const valid = entry.isValid();
-      const journalObject = journal.toObject();
-      journalObject.valid = valid;
-      return journalObject;
-    });
+    const processEntries = async () => {
+      const entryPromises = journals.map(async (journal) => {
+        const entry = new Entry(journal.title, journal.topic, journal.content);
+        if (entry.isValid()) {
+          await myBlockchain.addEntry(entry);
+        }
+        return entry;
+      });
 
-    res.status(200).send(validatedJournals);
+      const entries = await Promise.all(entryPromises);
+
+      const validatedJournals = entries.map((entry) => {
+        const valid = entry.isValid();
+        const block = myBlockchain.chain.find((block) => block.entries.some((e) => e.hash === entry.hash));
+        const blockHash = block ? block.hash : "Not found";
+        return { ...entry, valid, blockHash };
+      });
+
+      res.status(200).send(validatedJournals);
+    };
+
+    await processEntries();
+    // const processEntries = async () => {
+    //   for (const journal of journals) {
+    //     const entry = new Entry(journal.title, journal.topic, journal.content);
+    //     if (entry.isValid()) {
+    //       await myBlockchain.addEntry(entry);
+    //     }
+    //   }
+    // };
+
+    // await processEntries();
+
+    // const validatedJournals = journals.map((journal) => {
+    //   const entry = new Entry(journal.title, journal.topic, journal.content);
+    //   const valid = entry.isValid();
+    //   const block = myBlockchain.chain.find((block) => block.entries.some((e) => e.hash === entry.hash));
+    //   const blockHash = block ? block.hash : "Not found";
+    //   return { ...journal.toObject(), valid, blockHash };
+    // });
+
+    // res.status(200).send(validatedJournals);
   } catch (error) {
     console.log(error);
     next(error);
@@ -39,3 +72,10 @@ blockchainRoutes.get("/", async (req, res, next) => {
 });
 
 export default blockchainRoutes;
+// const validatedJournals = journals.map((journal) => {
+//   const entry = new Entry(journal.title, journal.topic, journal.content);
+//   const valid = entry.isValid();
+//   const journalObject = journal.toObject();
+//   journalObject.valid = valid;
+//   return journalObject;
+// });

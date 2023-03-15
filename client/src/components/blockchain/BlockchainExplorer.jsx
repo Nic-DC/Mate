@@ -1,13 +1,14 @@
 import { useEffect, useState } from "react";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
-import { Typography } from "@mui/material";
+import { IconButton, Tooltip, Typography } from "@mui/material";
 import ListItemText from "@mui/material/ListItemText";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import { styled } from "@mui/system";
 import dayjs from "dayjs";
+import ViewInArIcon from "@mui/icons-material/ViewInAr";
 
 const theme = createTheme({
   palette: {
@@ -144,6 +145,12 @@ function JournalEntries() {
     flexShrink: 0,
   });
 
+  const BlockHash = styled(Typography)({
+    fontSize: "10px",
+    color: "rgba(255, 255, 255, 0.6)",
+    // margin: 0,
+  });
+
   return (
     <ThemeProvider theme={theme}>
       <div style={{ width: "50%" }}>
@@ -174,7 +181,9 @@ function JournalEntries() {
           }}
           fullWidth
         />
+
         <List style={{ height: "300px", overflowY: "scroll", overflowX: "hidden" }}>
+          ViewInArIcon
           {entries.slice(0, 5).map((entry) => (
             <EntryWrapper key={entry._id}>
               <EntryDetails>
@@ -185,9 +194,16 @@ function JournalEntries() {
               <div>
                 <EntryTimestamp>{dayjs(entry.createdAt).format("YYYY-MM-DD HH:mm")}</EntryTimestamp>
 
-                <EntryValidity valid={entry.valid} color={entry.valid ? "green" : "red"}>
-                  {entry.valid ? "Valid" : "Invalid"}
-                </EntryValidity>
+                <div style={{ display: "flex", alignItems: "center" }}>
+                  <EntryValidity valid={entry.valid} color={entry.valid ? "green" : "red"}>
+                    {entry.valid ? "Valid" : "Invalid"}
+                  </EntryValidity>
+                  <Tooltip title={`Block Hash: ${entry.blockHash}`}>
+                    <IconButton>
+                      <ViewInArIcon style={{ color: "#90caf9" }} />
+                    </IconButton>
+                  </Tooltip>
+                </div>
               </div>
             </EntryWrapper>
           ))}
