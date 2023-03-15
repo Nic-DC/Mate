@@ -1,6 +1,7 @@
 import { Router } from "express";
 import Journal from "../journal/journalModel.js";
 import Blockchain from "./blockchainModel.js";
+import Entry from "../../blockchain/EntryClass.js";
 
 const blockchainRoutes = new Router();
 
@@ -22,14 +23,18 @@ blockchainRoutes.get("/", async (req, res, next) => {
     }
 
     const journals = await Journal.find(query);
-    const validatedJournals = journals.filter((journal) => {
+    const validatedJournals = journals.map((journal) => {
       const entry = new Entry(journal.title, journal.topic, journal.content);
-      return entry.isValid();
+      const valid = entry.isValid();
+      const journalObject = journal.toObject();
+      journalObject.valid = valid;
+      return journalObject;
     });
+
     res.status(200).send(validatedJournals);
   } catch (error) {
     console.log(error);
-    next(createHttpError(500, "An error occurred while getting journals"));
+    next(error);
   }
 });
 

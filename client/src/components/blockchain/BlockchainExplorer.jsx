@@ -11,20 +11,14 @@ import dayjs from "dayjs";
 
 const theme = createTheme({
   palette: {
-    background: {
-      default: "rgba(0, 0, 0, 1)",
-    },
     primary: {
-      main: "#90caf9",
+      main: "rgba(255, 255, 255, 0.6)",
     },
   },
 });
 
-const StyledTextField = styled(TextField)(({ theme }) => ({
-  margin: theme.spacing(1),
-  width: "100%",
+const StyledTextField = styled(TextField)({
   "& .MuiOutlinedInput-root": {
-    color: "white",
     "& fieldset": {
       borderColor: "rgba(255, 255, 255, 0.12)",
     },
@@ -34,62 +28,173 @@ const StyledTextField = styled(TextField)(({ theme }) => ({
     "&.Mui-focused fieldset": {
       borderColor: "rgba(255, 255, 255, 0.6)",
     },
+    "& input": {
+      color: "rgba(255, 255, 255, 0.6)",
+    },
   },
-  "& .MuiInputLabel-root": {
+  "& label.MuiInputLabel-root": {
     color: "rgba(255, 255, 255, 0.6)",
   },
-}));
+  "& label.Mui-focused": {
+    color: "white",
+  },
+  "& .MuiInputLabel-outlined.MuiInputLabel-shrink": {
+    transform: "translate(14px, -6px) scale(0.75)",
+  },
+});
 
-const StyledButton = styled(Button)(({ theme }) => ({
-  margin: theme.spacing(2),
-}));
-
-const BlockchainExplorer = () => {
-  const [blocks, setBlocks] = useState([]);
-
-  const timestamp = 1678787443821; // Replace this with your actual timestamp
-  const formattedTimestamp = dayjs(timestamp).format("MMM D, YYYY h:mm A");
-  console.log("FORMAT TIME:", formattedTimestamp);
-
-  const getBlocks = async () => {
-    try {
-      const response = await fetch("http://localhost:3009/blockchain");
-      const data = await response.json();
-      setBlocks(data);
-    } catch (error) {
-      console.error(error);
-    }
-  };
+function JournalEntries() {
+  const [entries, setEntries] = useState([]);
+  const [titleFilter, setTitleFilter] = useState("");
+  const [topicFilter, setTopicFilter] = useState("");
 
   useEffect(() => {
-    getBlocks();
-  }, []);
+    const fetchEntries = async () => {
+      try {
+        const response = await fetch(`http://localhost:3009/blockchain?title=${titleFilter}&topic=${topicFilter}`);
+        const data = await response.json();
+        setEntries(data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    fetchEntries();
+  }, [titleFilter, topicFilter]);
+
+  const handleTitleFilterChange = (event) => {
+    setTitleFilter(event.target.value);
+  };
+
+  const handleTopicFilterChange = (event) => {
+    setTopicFilter(event.target.value);
+  };
+
+  const theme = createTheme({
+    palette: {
+      primary: {
+        main: "rgba(255, 255, 255, 0.6)",
+      },
+      background: {
+        default: "#1E1E1E",
+      },
+    },
+    typography: {
+      fontFamily: "sans-serif",
+    },
+  });
+
+  const EntryWrapper = styled(ListItem)({
+    borderBottom: "1px solid rgba(255, 255, 255, 0.2)",
+    color: "rgba(255, 255, 255, 0.6)",
+    padding: "10px",
+    width: "100%",
+    boxSizing: "border-box",
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+    "&:last-child": {
+      borderBottom: "none",
+    },
+  });
+
+  const EntryTitle = styled(Typography)({
+    fontWeight: "bold",
+    fontSize: "1.2rem",
+    whiteSpace: "nowrap",
+    overflow: "hidden",
+    textOverflow: "ellipsis",
+    marginRight: "10px",
+    maxWidth: "50%",
+    color: "#90caf9",
+  });
+
+  const EntryTimestamp = styled(Typography)({
+    fontWeight: "bold",
+    fontSize: "0.9rem",
+    whiteSpace: "nowrap",
+    overflow: "hidden",
+    textOverflow: "ellipsis",
+    flexShrink: 0,
+  });
+
+  const EntryContent = styled(Typography)({
+    fontSize: "1rem",
+    whiteSpace: "nowrap",
+    overflow: "hidden",
+    textOverflow: "ellipsis",
+    maxWidth: "50%",
+  });
+
+  const EntryDetails = styled("div")({
+    display: "flex",
+    flexDirection: "column",
+    flexGrow: 1,
+    marginRight: "10px",
+    overflow: "hidden",
+  });
+
+  const EntryValidity = styled(Typography)({
+    fontWeight: "bold",
+    fontSize: "0.9rem",
+    // color: (props) => (props.valid ? "green" : "red"),
+    color: `${({ color }) => color}`,
+    whiteSpace: "nowrap",
+    overflow: "hidden",
+    textOverflow: "ellipsis",
+    flexShrink: 0,
+  });
 
   return (
     <ThemeProvider theme={theme}>
-      <div style={{ margin: theme.spacing(2) }}>
-        <Typography variant="h4" style={{ color: "#90caf9" }}>
-          Block Explorer
-        </Typography>
-        <List style={{ backgroundColor: theme.palette.background.default, marginBottom: theme.spacing(2) }}>
-          {blocks.map((block, index) => (
-            <ListItem key={block.hash}>
-              <ListItemText
-                primary={`Block ${index} hash: ${block.hash}`}
-                secondary={`Timestamp: ${dayjs(block.timestamp).format("MMM D, YYYY h:mm A")}`}
-                primaryTypographyProps={{ style: { color: "rgba(255, 255, 255, 0.8)" } }}
-                secondaryTypographyProps={{ style: { color: "rgba(255, 255, 255, 0.6)" } }}
-              />
-            </ListItem>
+      <div style={{ width: "50%" }}>
+        <StyledTextField
+          label="Filter by title"
+          value={titleFilter}
+          onChange={handleTitleFilterChange}
+          InputProps={{
+            style: {
+              color: "rgba(255, 255, 255, 0.6)",
+              border: "1px solid rgba(255, 255, 255, 0.2)",
+              marginTop: 5,
+              marginBottom: 3,
+            },
+          }}
+          fullWidth
+        />
+        <StyledTextField
+          label="Filter by topic"
+          value={topicFilter}
+          onChange={handleTopicFilterChange}
+          InputProps={{
+            style: {
+              color: "rgba(255, 255, 255, 0.6)",
+              border: "1px solid rgba(255, 255, 255, 0.2)",
+              marginBottom: 3,
+            },
+          }}
+          fullWidth
+        />
+        <List style={{ height: "300px", overflowY: "scroll", overflowX: "hidden" }}>
+          {entries.slice(0, 5).map((entry) => (
+            <EntryWrapper key={entry._id}>
+              <EntryDetails>
+                <EntryTitle>{entry.title}</EntryTitle>
+                <EntryContent>{entry.content}</EntryContent>
+              </EntryDetails>
+
+              <div>
+                <EntryTimestamp>{dayjs(entry.createdAt).format("YYYY-MM-DD HH:mm")}</EntryTimestamp>
+
+                <EntryValidity valid={entry.valid} color={entry.valid ? "green" : "red"}>
+                  {entry.valid ? "Valid" : "Invalid"}
+                </EntryValidity>
+              </div>
+            </EntryWrapper>
           ))}
         </List>
-        <StyledTextField label="Enter block index" variant="outlined" />
-        <StyledButton variant="contained" color="primary">
-          Find block
-        </StyledButton>
       </div>
     </ThemeProvider>
   );
-};
+}
 
-export default BlockchainExplorer;
+export default JournalEntries;

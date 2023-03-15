@@ -7,6 +7,7 @@ class Entry {
     this.content = content;
     this.timestamp = Date.now();
     this.hash = this.calculateHash();
+    this.valid = false; // Initialize the valid property to false
   }
 
   calculateHash() {
@@ -18,13 +19,16 @@ class Entry {
     const calculatedHash = this.calculateHash();
     if (calculatedHash !== this.hash) {
       console.log(`Entry hash is invalid: ${calculatedHash} !== ${this.hash}`);
+      this.valid = false;
       return false;
     }
     if (this.title === "" || this.topic === "" || this.content === "" || !this.timestamp) {
       console.log("Entry is missing required fields");
+      this.valid = false;
       return false;
     }
     console.log(`Entry ${this.title} is valid`);
+    this.valid = true;
     return true;
   }
 
