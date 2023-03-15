@@ -1,9 +1,66 @@
 import { Router } from "express";
 import Journal from "./journalModel.js";
+import Entry from "../../blockchain/EntryClass.js";
 import { getPdfReadableStream } from "../../lib/tools/pdf-tools.js";
 import { pipeline } from "stream";
 
 const journalRoutes = new Router();
+
+// Make sure the function is marked as async
+journalRoutes.post("/entries", async (req, res, next) => {
+  try {
+    const entryData = req.body;
+    const entry = new Entry(entryData.title, entryData.topic, entryData.content);
+    const isValid = entry.isValid();
+
+    if (isValid) {
+      // Save the entry to the database using the Journal model
+      const journalEntry = new Journal({
+        title: entry.title,
+        topic: entry.topic,
+        content: entry.content,
+        hash: entry.hash,
+        timestamp: entry.timestamp,
+      });
+      await journalEntry.save();
+
+      if (journalEntry) {
+        res.status(201).send({ journalEntry });
+      } else {
+        next({ message: `problem with POST journalEntry entry` });
+      }
+    } else {
+      res.status(400).send("Invalid entry. The entry has not been saved.");
+    }
+  } catch (error) {
+    console.log(error);
+    next(error);
+  }
+});
+
+// journalRoutes.post("/entries", async (req, res, next) => {
+//   try {
+//     const entry = new Entry(req.body.title, req.body.topic, req.body.content);
+//     const journalEntry = new Journal({
+//       title: entry.title,
+//       topic: entry.topic,
+//       content: entry.content,
+//       hash: entry.hash,
+//       timestamp: entry.timestamp,
+//     });
+
+//     await journalEntry.save();
+
+//     if (journalEntry) {
+//       res.status(201).send({ journalEntry });
+//     } else {
+//       next({ message: `problem wiht POST journalEntry entry` });
+//     }
+//   } catch (error) {
+//     console.log(error);
+//     next(error);
+//   }
+// });
 
 journalRoutes.post("/", async (req, res, next) => {
   try {

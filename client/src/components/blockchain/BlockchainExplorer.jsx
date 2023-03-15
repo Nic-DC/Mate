@@ -137,18 +137,12 @@ function JournalEntries() {
   const EntryValidity = styled(Typography)({
     fontWeight: "bold",
     fontSize: "0.9rem",
-    // color: (props) => (props.valid ? "green" : "red"),
+
     color: `${({ color }) => color}`,
     whiteSpace: "nowrap",
     overflow: "hidden",
     textOverflow: "ellipsis",
     flexShrink: 0,
-  });
-
-  const BlockHash = styled(Typography)({
-    fontSize: "10px",
-    color: "rgba(255, 255, 255, 0.6)",
-    // margin: 0,
   });
 
   return (
@@ -183,8 +177,7 @@ function JournalEntries() {
         />
 
         <List style={{ height: "300px", overflowY: "scroll", overflowX: "hidden" }}>
-          ViewInArIcon
-          {entries.slice(0, 5).map((entry) => (
+          {entries.slice(0, 10).map((entry) => (
             <EntryWrapper key={entry._id}>
               <EntryDetails>
                 <EntryTitle>{entry.title}</EntryTitle>
@@ -195,9 +188,13 @@ function JournalEntries() {
                 <EntryTimestamp>{dayjs(entry.createdAt).format("YYYY-MM-DD HH:mm")}</EntryTimestamp>
 
                 <div style={{ display: "flex", alignItems: "center" }}>
-                  <EntryValidity valid={entry.valid} color={entry.valid ? "green" : "red"}>
+                  {/* <EntryValidity valid={entry.valid} color={entry.valid ? "green" : "red"}>
                     {entry.valid ? "Valid" : "Invalid"}
+                  </EntryValidity> */}
+                  <EntryValidity valid={!entry.tampered} color={!entry.tampered ? "green" : "red"}>
+                    {!entry.tampered ? "Valid" : "Invalid"}
                   </EntryValidity>
+
                   <Tooltip title={`Block Hash: ${entry.blockHash}`}>
                     <IconButton>
                       <ViewInArIcon style={{ color: "#90caf9" }} />

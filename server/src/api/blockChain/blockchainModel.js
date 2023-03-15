@@ -74,6 +74,33 @@ class Blockchain {
 
     return true;
   }
+
+  findBlockByEntryHash(hash) {
+    for (const block of this.chain) {
+      const entry = block.entries.find((e) => e.hash === hash);
+      if (entry) {
+        return block;
+      }
+    }
+    return null;
+  }
+
+  async isEntryValid(entry) {
+    // Check if the entry object is valid
+    if (!entry.isValid()) {
+      return false;
+    }
+
+    // Find the block containing the entry hash
+    const block = this.findBlockByEntryHash(entry.hash);
+
+    if (!block) {
+      console.log(`Entry not found in the blockchain: ${entry.hash}`);
+      return false;
+    }
+
+    return true;
+  }
 }
 
 export default Blockchain;

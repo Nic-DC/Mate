@@ -97,7 +97,7 @@ const Journal = () => {
   /* ------ JOURNAL: SUBMIT ------- */
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const endpoint = "http://localhost:3009/journals";
+    const endpoint = "http://localhost:3009/journals/entries";
     const options = {
       method: "POST",
       headers: {

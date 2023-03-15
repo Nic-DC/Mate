@@ -20,6 +20,14 @@ const journalSchema = new Schema(
       type: String,
       required: true,
     },
+    hash: {
+      type: String,
+      required: false,
+    },
+    timestamp: {
+      type: Number,
+      required: false,
+    },
   },
   {
     timestamps: true,
