@@ -2,19 +2,21 @@ import { Router } from "express";
 import Journal from "./journalModel.js";
 import Entry from "../../blockchain/EntryClass.js";
 import { getPdfReadableStream } from "../../lib/tools/pdf-tools.js";
+import myBlockchain from "../blockChain/sharedBlockchain.js";
 import { pipeline } from "stream";
 
 const journalRoutes = new Router();
 
-// Make sure the function is marked as async
 journalRoutes.post("/entries", async (req, res, next) => {
   try {
-    const entryData = req.body;
-    const entry = new Entry(entryData.title, entryData.topic, entryData.content);
-    const isValid = entry.isValid();
+    const { title, topic, content } = req.body;
+    const entry = new Entry(title, topic, content);
 
-    if (isValid) {
-      // Save the entry to the database using the Journal model
+    if (await myBlockchain.isEntryValid(entry)) {
+      console.log("Entry is valid");
+      const newBlock = await myBlockchain.addEntryToBlockchain(entry);
+      console.log("New block:", newBlock);
+
       const journalEntry = new Journal({
         title: entry.title,
         topic: entry.topic,
@@ -22,45 +24,17 @@ journalRoutes.post("/entries", async (req, res, next) => {
         hash: entry.hash,
         timestamp: entry.timestamp,
       });
-      await journalEntry.save();
 
-      if (journalEntry) {
-        res.status(201).send({ journalEntry });
-      } else {
-        next({ message: `problem with POST journalEntry entry` });
-      }
+      await journalEntry.save();
+      res.status(201).json(journalEntry);
     } else {
-      res.status(400).send("Invalid entry. The entry has not been saved.");
+      res.status(400).json({ message: "Invalid entry" });
     }
   } catch (error) {
-    console.log(error);
-    next(error);
+    console.error(error);
+    res.status(500).json({ message: "Problem with POST journalEntry entry" });
   }
 });
-
-// journalRoutes.post("/entries", async (req, res, next) => {
-//   try {
-//     const entry = new Entry(req.body.title, req.body.topic, req.body.content);
-//     const journalEntry = new Journal({
-//       title: entry.title,
-//       topic: entry.topic,
-//       content: entry.content,
-//       hash: entry.hash,
-//       timestamp: entry.timestamp,
-//     });
-
-//     await journalEntry.save();
-
-//     if (journalEntry) {
-//       res.status(201).send({ journalEntry });
-//     } else {
-//       next({ message: `problem wiht POST journalEntry entry` });
-//     }
-//   } catch (error) {
-//     console.log(error);
-//     next(error);
-//   }
-// });
 
 journalRoutes.post("/", async (req, res, next) => {
   try {

@@ -191,8 +191,14 @@ function JournalEntries() {
                   {/* <EntryValidity valid={entry.valid} color={entry.valid ? "green" : "red"}>
                     {entry.valid ? "Valid" : "Invalid"}
                   </EntryValidity> */}
-                  <EntryValidity valid={!entry.tampered} color={!entry.tampered ? "green" : "red"}>
+                  {/* <EntryValidity valid={!entry.tampered} color={!entry.tampered ? "green" : "red"}>
                     {!entry.tampered ? "Valid" : "Invalid"}
+                  </EntryValidity> */}
+                  <EntryValidity
+                    valid={entry.blockHash !== "Not found"}
+                    color={entry.blockHash !== "Not found" ? "green" : "red"}
+                  >
+                    {entry.blockHash !== "Not found" ? "Your entry" : "Tampered"}
                   </EntryValidity>
 
                   <Tooltip title={`Block Hash: ${entry.blockHash}`}>

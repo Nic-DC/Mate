@@ -18,7 +18,7 @@ class Blockchain {
     this.chain = [this.createGenesisBlock()];
     this.difficulty = 2;
     this.pendingEntries = [];
-    this.maxEntriesPerBlock = 5;
+    this.maxEntriesPerBlock = 1;
     this.blockchainModel = new BlockchainModel({ chain: this.chain });
   }
 
@@ -32,6 +32,8 @@ class Blockchain {
   }
 
   async addBlock(newBlock) {
+    console.log("Calling addBlock");
+
     newBlock.previousHash = this.getLatestBlock().hash;
     newBlock.mineBlock(this.difficulty);
     this.chain.push(newBlock);
@@ -41,7 +43,9 @@ class Blockchain {
     await this.blockchainModel.save();
   }
 
-  async addEntry(entry) {
+  async addEntryToBlockchain(entry) {
+    console.log("Calling addEntryToBlockchain");
+
     // Check if the entry already exists in the pending entries or the chain
     const entryExists =
       this.pendingEntries.some((e) => e.hash === entry.hash) ||
@@ -54,8 +58,12 @@ class Blockchain {
         const newBlock = new Block(Date.now(), this.pendingEntries);
         await this.addBlock(newBlock);
         this.pendingEntries = [];
+
+        return newBlock;
       }
     }
+
+    return null;
   }
 
   isChainValid() {
@@ -94,11 +102,17 @@ class Blockchain {
     // Find the block containing the entry hash
     const block = this.findBlockByEntryHash(entry.hash);
 
-    if (!block) {
-      console.log(`Entry not found in the blockchain: ${entry.hash}`);
-      return false;
+    if (block) {
+      // Check if the entry is in the block
+      const blockEntry = block.entries.find((e) => e.hash === entry.hash);
+      if (blockEntry) {
+        return true;
+      }
     }
 
+    // If the entry is not found in the blockchain but is still valid,
+    // it might be in the pending entries or a new entry not added to the blockchain yet.
+    console.log(`Entry not found in the blockchain: ${entry.hash}`);
     return true;
   }
 }
