@@ -1,62 +1,23 @@
 import React, { useState } from "react";
 import TextField from "@mui/material/TextField";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { Button, Typography } from "@mui/material";
+import { Button, Tooltip, Typography } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { Box } from "@mui/system";
 import Search from "../Search";
 import EntriesBadge from "../EntriesBadge";
 import EntriesList from "../EntriesList";
-
-const theme = createTheme({
-  palette: {
-    background: {
-      default: "rgba(0, 0, 0, 1)",
-    },
-    primary: {
-      main: "#90caf9",
-    },
-  },
-});
-
-const FormContainer = styled("form")({
-  display: "flex",
-  flexDirection: "column",
-  alignItems: "center",
-  justifyContent: "center",
-  marginTop: theme.spacing(1),
-  width: "100%",
-});
-
-const StyledTextField = styled(TextField)({
-  margin: theme.spacing(1),
-  width: "100%",
-  "& .MuiOutlinedInput-root": {
-    color: "white",
-    "& fieldset": {
-      borderColor: "rgba(255, 255, 255, 0.12)",
-    },
-    "&:hover fieldset": {
-      borderColor: "rgba(255, 255, 255, 0.2)",
-    },
-    "&.Mui-focused fieldset": {
-      borderColor: "rgba(255, 255, 255, 0.6)",
-    },
-  },
-  "& .MuiInputLabel-root": {
-    color: "rgba(255, 255, 255, 0.6)",
-  },
-});
-
-const StyledButton = styled(Button)({
-  margin: theme.spacing(2),
-});
+import { theme, FormContainer, StyledTextField, StyledButton } from "../_styles/Journal";
+import { useJournalForm, useJournalEntries } from "../_customHooks/Journal";
+import LinearProgress from "@mui/material/LinearProgress";
+import Snackbar from "@mui/material/Snackbar";
+import Alert from "@mui/material/Alert";
+import SaveIcon from "@mui/icons-material/Save";
 
 const Journal = () => {
   const [formData, setFormData] = useState({
     title: "",
     topic: "",
-    // date: "",
     content: "",
   });
 
@@ -65,7 +26,7 @@ const Journal = () => {
   const [fetchedJournals, setFetchedJournals] = useState([]);
 
   /* ------ JOURNAL: SUBMIT ------- */
-  //const [isCreated, setIsCreated] = useState(false);
+
   const [successMessage, setSuccessMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   console.log("COUNT in JOURNAL: ", count);
@@ -75,6 +36,17 @@ const Journal = () => {
       ...formData,
       [event.target.name]: event.target.value,
     });
+  };
+  /* ------ ERROR HANDLING & LOADING ------- */
+  const [loading, setLoading] = useState(false);
+
+  const handleCloseSnackbar = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setSuccessMessage("");
+    setErrorMessage("");
   };
 
   /* ------ BADGE: JOURNAL ENTRIES ------- */
@@ -89,14 +61,17 @@ const Journal = () => {
 
       const journals = await response.json();
       setFetchedJournals(journals);
+      setLoading(false);
     } catch (error) {
       console.log(error);
+      setLoading(false);
     }
   };
 
   /* ------ JOURNAL: SUBMIT ------- */
   const handleSubmit = async (event) => {
     event.preventDefault();
+    setLoading(true);
     const endpoint = "http://localhost:3009/journals/entries";
     const options = {
       method: "POST",
@@ -118,14 +93,16 @@ const Journal = () => {
       setFormData({
         title: "",
         topic: "",
-        // date: "",
         content: "",
       });
-      setSuccessMessage("Journal entry submitted successfully!");
+
+      setSuccessMessage("Journal entry saved to the blockchain!");
       setErrorMessage("");
+      setLoading(false);
     } catch (error) {
       console.log(error);
-      setErrorMessage("An error occurred. Please try again later.");
+      setErrorMessage("An error occurred when saving the journal. Please try again later.");
+      setLoading(false);
     }
   };
 
@@ -136,7 +113,8 @@ const Journal = () => {
           ...theme.palette.primary,
           display: "flex",
           justifyContent: "space-between",
-          backgroundColor: "rgba(0, 0, 0, 1)",
+          backgroundColor: "rgba(0, 0, 0, 0.8)",
+          borderRadius: 3,
           p: 2,
           m: 6,
           width: "60%",
@@ -158,14 +136,7 @@ const Journal = () => {
               value={formData.topic}
               onChange={handleChange}
             />
-            {/* <StyledTextField
-          label="Date"
-          variant="outlined"
-          type="date"
-          name="date"
-          value={formData.date}
-          onChange={handleChange}
-        /> */}
+
             <StyledTextField
               label="Content"
               variant="outlined"
@@ -173,26 +144,45 @@ const Journal = () => {
               value={formData.content}
               onChange={handleChange}
               multiline
-              rows={4}
+              rows={5}
             />
-            <StyledButton type="submit" variant="contained" color="primary">
-              Save journal
-            </StyledButton>
-            {successMessage && <div style={{ color: theme.palette.primary.main }}>{successMessage}</div>}
+            <Tooltip title="Save journal" placement="bottom">
+              <StyledButton type="submit" variant="contained" color="primary">
+                <SaveIcon />
+              </StyledButton>
+            </Tooltip>
           </FormContainer>
         </Box>
-        <Box sx={{ width: "40%", display: "flex", flexDirection: "column", alignItems: "flex-end" }}>
-          {/* <Search
-            fetchFilteredJournals={fetchFilteredJournals}
-            searchTerm={searchTerm}
-            setSearchTerm={setSearchTerm}
-            filteredJournals={filteredJournals}
-          /> */}
-
+        <Box sx={{ width: "40%", display: "flex", flexDirection: "column", alignItems: "flex-end", marginTop: 2 }}>
           <EntriesBadge count={count} fetchedJournals={fetchedJournals} fetchJournalEntries={fetchJournalEntries} />
 
           <Search count={count} setCount={setCount} />
         </Box>
+      </Box>
+      <Box>
+        {loading && <LinearProgress color="primary" />}
+
+        <Snackbar
+          open={!!successMessage}
+          autoHideDuration={6000}
+          onClose={handleCloseSnackbar}
+          anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+        >
+          <Alert onClose={handleCloseSnackbar} severity="success" sx={{ width: "100%", bgcolor: "#90caf9" }}>
+            {successMessage}
+          </Alert>
+        </Snackbar>
+
+        <Snackbar
+          open={!!errorMessage}
+          autoHideDuration={6000}
+          onClose={handleCloseSnackbar}
+          anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+        >
+          <Alert onClose={handleCloseSnackbar} severity="warning" sx={{ width: "100%" }}>
+            {errorMessage}
+          </Alert>
+        </Snackbar>
       </Box>
     </ThemeProvider>
   );

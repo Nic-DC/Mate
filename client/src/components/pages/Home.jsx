@@ -1,14 +1,14 @@
 import React from "react";
 import { styled } from "@mui/material/styles";
-import TextField from "@mui/material/TextField";
-import Button from "@mui/material/Button";
+// import TextField from "@mui/material/TextField";
+// import Button from "@mui/material/Button";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { orange } from "@mui/material/colors";
+// import { orange } from "@mui/material/colors";
 import { Box } from "@mui/system";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Register from "./Register";
 import Login from "./Login";
-import { TextareaAutosize } from "@mui/material";
+// import { TextareaAutosize } from "@mui/material";
 const theme = createTheme({
   palette: {
     primary: {
@@ -39,39 +39,39 @@ const ButtonContainer = styled("div")({
   height: "100vh",
 });
 
-const StyledTextField = styled(TextField)({
-  margin: "1em",
-  "& .MuiOutlinedInput-root": {
-    "& fieldset": {
-      borderColor: "rgba(255, 255, 255, 0.12)",
-    },
-    "&:hover fieldset": {
-      borderColor: "rgba(255, 255, 255, 0.4)",
-    },
-    "&.Mui-focused fieldset": {
-      borderColor: "white",
-    },
-  },
-  "& .MuiOutlinedInput-input": {
-    color: "white",
-  },
-});
+// const StyledTextField = styled(TextField)({
+//   margin: "1em",
+//   "& .MuiOutlinedInput-root": {
+//     "& fieldset": {
+//       borderColor: "rgba(255, 255, 255, 0.12)",
+//     },
+//     "&:hover fieldset": {
+//       borderColor: "rgba(255, 255, 255, 0.4)",
+//     },
+//     "&.Mui-focused fieldset": {
+//       borderColor: "white",
+//     },
+//   },
+//   "& .MuiOutlinedInput-input": {
+//     color: "white",
+//   },
+// });
 
-const StyledButton = styled(Button)({
-  margin: "0.5em",
-  backgroundColor: "#90caf9",
-  color: "black",
-  border: "none",
-  borderRadius: "4px",
-  padding: "12px 24px",
-  cursor: "pointer",
-  fontSize: "1rem",
-  transition: "background-color 0.2s ease-in-out",
+// const StyledButton = styled(Button)({
+//   margin: "0.5em",
+//   backgroundColor: "#90caf9",
+//   color: "black",
+//   border: "none",
+//   borderRadius: "4px",
+//   padding: "12px 24px",
+//   cursor: "pointer",
+//   fontSize: "1rem",
+//   transition: "background-color 0.2s ease-in-out",
 
-  "&:hover": {
-    backgroundColor: "orange",
-  },
-});
+//   "&:hover": {
+//     backgroundColor: "orange",
+//   },
+// });
 
 const Home = ({ socket }) => {
   const passedSocket = socket;
