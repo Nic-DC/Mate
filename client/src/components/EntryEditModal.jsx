@@ -30,7 +30,11 @@ const StyledForm = styled("form")({
 });
 
 const StyledTextField = styled(TextField)({
-  margin: theme.spacing(1),
+  width: "30%", // Add this line
+  margin: theme.spacing(2),
+  marginLeft: "auto", // Add this line
+  marginRight: "auto", // Add this line
+
   "& .MuiOutlinedInput-root": {
     color: "white",
     "& fieldset": {
@@ -124,11 +128,13 @@ const EntryEditModal = ({ content, title, topic }) => {
         <Box
           sx={{
             ...theme.palette.primary,
+            position: "fixed", // Add this line
+            top: 0, // Add this line
+            left: 0, // Add this line
             height: "100vh",
             width: "100vw",
             backgroundColor: "rgba(0, 0, 0, 1)",
             p: 2,
-            m: 5,
           }}
         >
           <ThemeProvider theme={theme}>
@@ -136,7 +142,6 @@ const EntryEditModal = ({ content, title, topic }) => {
               <StyledTextField
                 label="Title"
                 variant="outlined"
-                type="text"
                 name="title"
                 value={formData.title}
                 onChange={handleChange}
@@ -145,15 +150,15 @@ const EntryEditModal = ({ content, title, topic }) => {
                 label="Topic"
                 variant="outlined"
                 name="topic"
-                type="text"
                 value={formData.topic}
                 onChange={handleChange}
               />
               <StyledTextField
                 label="Content"
                 variant="outlined"
-                type="text"
                 name="content"
+                multiline
+                rows={6}
                 value={formData.content}
                 onChange={handleChange}
               />

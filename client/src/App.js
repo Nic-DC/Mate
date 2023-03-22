@@ -18,6 +18,7 @@ import ChatsLeft from "./components/ChatsRight";
 import AImate from "./components/ai/AImate";
 import BlockchainExplorer from "./components/blockchain/BlockchainExplorer";
 import BlockExplorerTest from "./components/blockchain/BlockExplorerTest";
+import Welcome from "./components/pages/Welcome";
 
 const darkTheme = createTheme({
   palette: {
@@ -51,6 +52,7 @@ function App() {
             <Box sx={{ display: "flex", justifyContent: "center" }}>
               <Routes>
                 {/* <Route path="/chat" element={<ChatRoom socket={socket} />} /> */}
+                <Route path="/" element={<Welcome setIsAuthenticated={setIsAuthenticated} />} />
                 <Route path="/home" element={<Home socket={socket} setIsAuthenticated={setIsAuthenticated} />} />
                 <Route
                   path="/rooms/:roomId"

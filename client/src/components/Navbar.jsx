@@ -18,6 +18,7 @@ import { orange } from "@mui/material/colors";
 import WeekendIcon from "@mui/icons-material/Weekend";
 import BugReportIcon from "@mui/icons-material/BugReport";
 import ViewInArIcon from "@mui/icons-material/ViewInAr";
+import { useSelector } from "react-redux";
 
 const theme = createTheme({
   palette: {
@@ -33,8 +34,10 @@ const StyledButton = styled(Button)({
   margin: theme.spacing(1),
 });
 
-const Navbar = ({ isAuthenticated }) => {
+const Navbar = () => {
   const navigate = useNavigate();
+  const isRegistered = useSelector((store) => store.authentication.isRegistered);
+  console.log("IS THE USER REGISTERED: ", isRegistered);
 
   const [openLogin, setOpenLogin] = useState(false);
 
@@ -52,7 +55,7 @@ const Navbar = ({ isAuthenticated }) => {
         <Box>
           <Logo />
         </Box>
-        {isAuthenticated && (
+        {isRegistered && (
           <>
             <Box sx={{ display: "flex", justifyContent: "flex-start" }}>
               <Stack direction="row" spacing={2}>

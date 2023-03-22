@@ -1,4 +1,4 @@
-import { GET_FILTERED_JOURNALS, SET_NEW_ROOM, SELECTED_JOURNAL } from "../actions";
+import { SET_IS_REGISTERED, GET_FILTERED_JOURNALS, SET_NEW_ROOM, SELECTED_JOURNAL } from "../actions";
 
 const initialState = {
   rooms: {
@@ -8,10 +8,22 @@ const initialState = {
     filteredJournals: [],
     selectedJournal: { topic: "initial" },
   },
+  authentication: {
+    user: null,
+    isRegistered: false,
+  },
 };
 
 const mainReducer = (state = initialState, action) => {
   switch (action.type) {
+    case SET_IS_REGISTERED:
+      return {
+        ...state,
+        authentication: {
+          ...state.authentication,
+          isRegistered: action.payload,
+        },
+      };
     case SET_NEW_ROOM:
       return {
         ...state,

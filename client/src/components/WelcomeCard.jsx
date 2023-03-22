@@ -17,12 +17,6 @@ import MoreVertIcon from "@mui/icons-material/MoreVert";
 import Register from "./pages/Register";
 import Login from "./pages/Login";
 import Logo from "./Logo";
-import { Stack } from "@mui/system";
-import { Button, Tooltip } from "@mui/material";
-import ChatIcon from "@mui/icons-material/Chat";
-import CreateIcon from "@mui/icons-material/Create";
-import Diversity2Icon from "@mui/icons-material/Diversity2";
-import { useNavigate } from "react-router-dom";
 
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
@@ -35,58 +29,32 @@ const ExpandMore = styled((props) => {
   }),
 }));
 
-const HomeCard = () => {
+const WelcomeCard = ({
+  handleCloseRegister,
+  handleOpenRegister,
+  openRegister,
+  handleCloseLogin,
+  handleOpenLogin,
+  openLogin,
+  setIsAuthenticated,
+}) => {
   const [expanded, setExpanded] = React.useState(false);
 
-  const navigate = useNavigate();
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
 
   return (
-    <Card sx={{ maxWidth: 1000, bgcolor: "rgba(0, 0, 0, 0.7)", color: "#90caf9" }}>
-      <CardHeader
-        avatar={<Logo />}
-        action={
-          <IconButton aria-label="settings">
-            <MoreVertIcon />
-          </IconButton>
-        }
-        // title="Welcome home!"
-        // subheader="We're helping you to help yourself"
-      />
+    <Card sx={{ maxWidth: 1000, bgcolor: "rgba(0, 0, 0, 0.5)", color: "#90caf9" }}>
+      <CardMedia component="img" height="250" image="/AI.svg" alt="Paella dish" />
 
       <CardContent>
         <Typography variant="body2" color="#90caf9" fontSize={40}>
-          Welcome home!
-        </Typography>
-        <Typography variant="body2" color="#90caf9" fontSize={17}>
-          What do you want to do?
+          Write your path!
         </Typography>
       </CardContent>
       <CardActions disableSpacing>
-        <Stack direction="row" spacing={2}>
-          <Tooltip title="My journal">
-            <Button onClick={() => navigate(`/journal`)}>
-              <CreateIcon sx={{ fontSize: "2.5rem", marginRight: 3 }} />
-            </Button>
-          </Tooltip>
-        </Stack>
-        <Stack direction="row" spacing={2}>
-          <Tooltip title="My chat">
-            <Button onClick={() => navigate("/chat")}>
-              <ChatIcon sx={{ fontSize: "2.5rem", marginRight: 3 }} />
-            </Button>
-          </Tooltip>
-        </Stack>
-        <Stack direction="row" spacing={2}>
-          <Tooltip title="My Mate">
-            <Button onClick={() => navigate(`/aimate`)}>
-              <Diversity2Icon sx={{ fontSize: "2.5rem" }} />
-            </Button>
-          </Tooltip>
-        </Stack>
-        {/* <Register
+        <Register
           handleCloseRegister={handleCloseRegister}
           handleOpenRegister={handleOpenRegister}
           openRegister={openRegister}
@@ -97,7 +65,7 @@ const HomeCard = () => {
           handleOpenLogin={handleOpenLogin}
           openLogin={openLogin}
           setIsAuthenticated={setIsAuthenticated}
-        /> */}
+        />
         <ExpandMore expand={expanded} onClick={handleExpandClick} aria-expanded={expanded} aria-label="show more">
           <ExpandMoreIcon sx={{ color: "#90caf9" }} />
         </ExpandMore>
@@ -118,4 +86,4 @@ const HomeCard = () => {
     </Card>
   );
 };
-export default HomeCard;
+export default WelcomeCard;

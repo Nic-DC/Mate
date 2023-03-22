@@ -13,6 +13,7 @@ import { styled } from "@mui/material/styles";
 import TextField from "@mui/material/TextField";
 
 import Modal from "@mui/material/Modal";
+import { setIsRegisteredAction } from "../../redux/actions";
 // import { orange } from "@mui/material/colors";
 
 const theme = createTheme({
@@ -28,7 +29,7 @@ const StyledForm = styled("form")({
   flexDirection: "column",
   alignItems: "center",
   justifyContent: "center",
-  marginTop: theme.spacing(4),
+  marginTop: theme.spacing(20),
 });
 
 const StyledTextField = styled(TextField)({
@@ -119,7 +120,7 @@ const Register = ({ handleOpenRegister, handleCloseRegister, openRegister, setIs
       localStorage.setItem("accessToken", `${data.accessToken}`);
       localStorage.setItem("refreshToken", `${data.refreshToken}`);
       setIsRegistered(true);
-      setIsAuthenticated(true);
+      dispatch(setIsRegisteredAction(true));
 
       toast.success("Registration successful!");
     } catch (error) {
@@ -132,7 +133,7 @@ const Register = ({ handleOpenRegister, handleCloseRegister, openRegister, setIs
 
   useEffect(() => {
     if (isRegistered) {
-      navigate("/journal");
+      navigate("/home");
     }
   }, [isRegistered]);
 
@@ -149,7 +150,19 @@ const Register = ({ handleOpenRegister, handleCloseRegister, openRegister, setIs
         aria-labelledby="login-modal-title"
         aria-describedby="login-modal-description"
       >
-        <Box sx={{ ...theme.palette.primary, backgroundColor: "rgba(0, 0, 0, 1)", p: 2, m: 12 }}>
+        {/* sx={{ ...theme.palette.primary, backgroundColor: "rgba(0, 0, 0, 1)", p: 2, m: 12 }} */}
+        <Box
+          sx={{
+            ...theme.palette.primary,
+            position: "fixed", // Add this line
+            top: 0, // Add this line
+            left: 0, // Add this line
+            height: "100vh",
+            width: "100vw",
+            backgroundColor: "rgba(0, 0, 0, 1)",
+            p: 2,
+          }}
+        >
           <ThemeProvider theme={theme}>
             <StyledForm onSubmit={handleSubmit}>
               <StyledTextField
