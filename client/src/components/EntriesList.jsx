@@ -24,14 +24,16 @@ const theme = createTheme({
   },
 });
 
+// const Demo = styled("div")(({ theme }) => ({
+//   backgroundColor: theme.palette.background.default,
+// }));
 const Demo = styled("div")(({ theme }) => ({
   backgroundColor: theme.palette.background.default,
+  maxHeight: "calc(1.75rem * 4 + 48px * 4)",
+  overflowY: "auto",
 }));
 
-const EntriesList = ({ filteredJournals, count, setCount }) => {
-  // const filteredJournals = useSelector((store) => store.journals.filteredJournals);
-  // console.log("FILTERED JOURNALS - Entries List", filteredJournals);
-
+const EntriesList = ({ filteredJournals, count, setCount, submittedSearchTerm, searchSubmitted }) => {
   const dispatch = useDispatch();
 
   return (
@@ -57,16 +59,14 @@ const EntriesList = ({ filteredJournals, count, setCount }) => {
             }}
           >
             <Demo>
-              <List sx={{ color: "white" }}>
-                {/* {filteredJournals &&
-                  filteredJournals.map((journal) => (
-                    <ListItem key={journal._id}>
-                      <Entry title={journal.title} topic={journal.topic} />
-                    </ListItem>
-                  ))} */}
+              <List sx={{ color: "white", padding: 0 }}>
                 {filteredJournals && filteredJournals.length > 0 ? (
                   filteredJournals.map((journal) => (
-                    <ListItem key={journal._id} onClick={() => dispatch(setSelectedJournalAction(journal))}>
+                    <ListItem
+                      key={journal._id}
+                      sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}
+                      onClick={() => dispatch(setSelectedJournalAction(journal))}
+                    >
                       <Entry
                         title={journal.title}
                         topic={journal.topic}
@@ -76,14 +76,9 @@ const EntriesList = ({ filteredJournals, count, setCount }) => {
                       />
                     </ListItem>
                   ))
-                ) : (
+                ) : submittedSearchTerm && searchSubmitted ? ( // Update this condition
                   <ListItem sx={{ fontSize: "0.8rem", color: "rgba(255, 255, 255, 0.6)" }}>No journals match</ListItem>
-                )}
-                {/* {fetchedJournals.map((journal) => (
-                  <ListItem key={journal._id}>
-                    <Entry title={journal.title} topic={journal.topic} />
-                  </ListItem>
-                ))} */}
+                ) : null}
               </List>
             </Demo>
           </Box>
@@ -93,3 +88,7 @@ const EntriesList = ({ filteredJournals, count, setCount }) => {
   );
 };
 export default EntriesList;
+
+// ) : (
+//   <ListItem sx={{ fontSize: "0.8rem", color: "rgba(255, 255, 255, 0.6)" }}>No journals match</ListItem>
+// )}

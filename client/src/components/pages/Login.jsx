@@ -51,7 +51,7 @@ const StyledButton = styled(Button)({
   margin: theme.spacing(2),
 });
 
-const Login = ({ handleCloseLogin, handleOpenLogin, openLogin }) => {
+const Login = ({ handleCloseLogin, handleOpenLogin, openLogin, setIsAuthenticated }) => {
   // const [open, setOpen] = useState(false);
   const [formData, setFormData] = useState({
     // username: "",
@@ -90,7 +90,7 @@ const Login = ({ handleCloseLogin, handleOpenLogin, openLogin }) => {
     <>
       {!openLogin && (
         <StyledButton variant="contained" color="primary" onClick={handleOpenLogin}>
-          Log in
+          Log out
         </StyledButton>
       )}
       <Modal
@@ -125,7 +125,7 @@ const Login = ({ handleCloseLogin, handleOpenLogin, openLogin }) => {
                 onChange={handleChange}
               />
               <StyledButton variant="contained" color="primary" type="submit">
-                Login
+                Logout
               </StyledButton>
             </StyledForm>
           </ThemeProvider>

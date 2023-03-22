@@ -242,7 +242,7 @@ const ChatWindow = ({ socket, countRooms, setCountRooms }) => {
           <Divider>
             <Chip
               // avatar={<MessageIcon sx={{ backgroundColor: "rgba(0, 0, 0,1)", color: "black" }} />}
-              label="AImate"
+              label="AImate | Chat"
               sx={{ backgroundColor: "#90caf9", color: "black", fontWeight: "bold" }}
             />
           </Divider>

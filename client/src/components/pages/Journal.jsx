@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import TextField from "@mui/material/TextField";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { Button, Tooltip, Typography } from "@mui/material";
+import { Button, Stack, Tooltip, Typography } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { Box } from "@mui/system";
 import Search from "../Search";
@@ -13,6 +13,8 @@ import LinearProgress from "@mui/material/LinearProgress";
 import Snackbar from "@mui/material/Snackbar";
 import Alert from "@mui/material/Alert";
 import SaveIcon from "@mui/icons-material/Save";
+import { useNavigate } from "react-router-dom";
+import ViewInArIcon from "@mui/icons-material/ViewInAr";
 
 const Journal = () => {
   const [formData, setFormData] = useState({
@@ -21,6 +23,7 @@ const Journal = () => {
     content: "",
   });
 
+  const navigate = useNavigate();
   /* ------ BADGE: JOURNAL ENTRIES ------- */
   const [count, setCount] = useState(0);
   const [fetchedJournals, setFetchedJournals] = useState([]);
@@ -116,7 +119,7 @@ const Journal = () => {
           backgroundColor: "rgba(0, 0, 0, 0.8)",
           borderRadius: 3,
           p: 2,
-          m: 6,
+          m: 4,
           width: "60%",
         }}
       >
@@ -144,7 +147,7 @@ const Journal = () => {
               value={formData.content}
               onChange={handleChange}
               multiline
-              rows={5}
+              rows={12}
             />
             <Tooltip title="Save journal" placement="bottom">
               <StyledButton type="submit" variant="contained" color="primary">
@@ -154,12 +157,23 @@ const Journal = () => {
           </FormContainer>
         </Box>
         <Box sx={{ width: "40%", display: "flex", flexDirection: "column", alignItems: "flex-end", marginTop: 2 }}>
-          <EntriesBadge count={count} fetchedJournals={fetchedJournals} fetchJournalEntries={fetchJournalEntries} />
+          <Box sx={{ display: "flex" }}>
+            <Stack direction="row" spacing={3}>
+              <Tooltip title="Valid entries" placement="top">
+                <Button sx={{ marginRight: 2 }} onClick={() => navigate(`/blockchain`)}>
+                  <ViewInArIcon sx={{ fontSize: "3rem" }} />
+                </Button>
+              </Tooltip>
+            </Stack>
+            <EntriesBadge count={count} fetchedJournals={fetchedJournals} fetchJournalEntries={fetchJournalEntries} />
+          </Box>
+          {/* <EntriesBadge count={count} fetchedJournals={fetchedJournals} fetchJournalEntries={fetchJournalEntries} /> */}
 
           <Search count={count} setCount={setCount} />
         </Box>
       </Box>
       <Box>
+        {/* ------ Loaders, Success, Errors ------ */}
         {loading && <LinearProgress color="primary" />}
 
         <Snackbar

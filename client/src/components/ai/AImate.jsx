@@ -94,7 +94,10 @@ const AImate = () => {
             alignItems: "center",
           }}
         >
-          <Chip label="AImate" sx={{ backgroundColor: "#90caf9", color: "black", mr: 1, fontWeight: "bold" }} />
+          <Chip
+            label="AImate | Counselor"
+            sx={{ backgroundColor: "#90caf9", color: "black", mr: 1, fontWeight: "bold" }}
+          />
           {chatbotResponse && (
             <>
               <Divider orientation="vertical" sx={{ bgcolor: "#90caf9", height: "100%" }} />

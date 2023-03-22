@@ -8,6 +8,7 @@ import { Box } from "@mui/system";
 import { useState } from "react";
 import Register from "./Register";
 import Login from "./Login";
+import HomeCard from "../HomeCard";
 // import { TextareaAutosize } from "@mui/material";
 const theme = createTheme({
   palette: {
@@ -25,7 +26,7 @@ const Background = styled("div")({
   height: "100%",
   zIndex: -1,
   // backgroundImage: `url(https://picsum.photos/id/237/1920/1080)`,
-  backgroundImage: `url(background.png)`,
+  backgroundImage: `url(AIbackground.png)`,
   backgroundRepeat: "no-repeat",
   backgroundPosition: "center center",
   backgroundSize: "contain",
@@ -39,41 +40,7 @@ const ButtonContainer = styled("div")({
   height: "100vh",
 });
 
-// const StyledTextField = styled(TextField)({
-//   margin: "1em",
-//   "& .MuiOutlinedInput-root": {
-//     "& fieldset": {
-//       borderColor: "rgba(255, 255, 255, 0.12)",
-//     },
-//     "&:hover fieldset": {
-//       borderColor: "rgba(255, 255, 255, 0.4)",
-//     },
-//     "&.Mui-focused fieldset": {
-//       borderColor: "white",
-//     },
-//   },
-//   "& .MuiOutlinedInput-input": {
-//     color: "white",
-//   },
-// });
-
-// const StyledButton = styled(Button)({
-//   margin: "0.5em",
-//   backgroundColor: "#90caf9",
-//   color: "black",
-//   border: "none",
-//   borderRadius: "4px",
-//   padding: "12px 24px",
-//   cursor: "pointer",
-//   fontSize: "1rem",
-//   transition: "background-color 0.2s ease-in-out",
-
-//   "&:hover": {
-//     backgroundColor: "orange",
-//   },
-// });
-
-const Home = ({ socket }) => {
+const Home = ({ socket, setIsAuthenticated }) => {
   const passedSocket = socket;
   console.log("HOME SOCKET: ", passedSocket);
 
@@ -102,12 +69,21 @@ const Home = ({ socket }) => {
           <ButtonContainer>
             {/* <StyledButton sx={{ backgroundColor: orange[900] }}>New user</StyledButton>
             <StyledButton>I'm home</StyledButton> */}
-            <Register
+            <HomeCard
+              handleCloseRegister={handleCloseRegister}
+              handleOpenRegister={handleOpenRegister}
+              openRegister={openRegister}
+              handleCloseLogin={handleCloseLogin}
+              handleOpenLogin={handleOpenLogin}
+              openLogin={openLogin}
+              setIsAuthenticated={setIsAuthenticated}
+            />
+            {/* <Register
               handleCloseRegister={handleCloseRegister}
               handleOpenRegister={handleOpenRegister}
               openRegister={openRegister}
             />
-            <Login handleCloseLogin={handleCloseLogin} handleOpenLogin={handleOpenLogin} openLogin={openLogin} />
+            <Login handleCloseLogin={handleCloseLogin} handleOpenLogin={handleOpenLogin} openLogin={openLogin} /> */}
           </ButtonContainer>
         </Box>
       </Background>

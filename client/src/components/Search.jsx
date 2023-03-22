@@ -40,20 +40,19 @@ const StyledTextField = styled(TextField)({
   },
 });
 
-const StyledButton = styled(Button)({
-  margin: theme.spacing(2),
-});
-
 const Search = ({ count, setCount }) => {
   /* ------ SEARCH: JOURNAL ENTRIES ------- */
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredJournals, setFilteredJournals] = useState([]);
+  const [searchSubmitted, setSearchSubmitted] = useState(false);
+  const [submittedSearchTerm, setSubmittedSearchTerm] = useState("");
 
   console.log("SEARCH TERM - search: ", searchTerm);
   console.log("FILTERED JOURNALS - search: ", filteredJournals);
 
   const handleChange = (event) => {
     setSearchTerm(event.target.value);
+    setSearchSubmitted(false);
   };
 
   const dispatch = useDispatch();
@@ -71,10 +70,11 @@ const Search = ({ count, setCount }) => {
 
       const fetchedFilteredJournals = await response.json();
 
-      // storing the filtered journals in the REDUX STORE
       dispatch(getFilteredJournalsAction(fetchedFilteredJournals));
 
       setFilteredJournals(fetchedFilteredJournals);
+      setSubmittedSearchTerm(searchTerm);
+      setSearchSubmitted(true);
 
       // setCountFetches(countFetches + 1);
       setSearchTerm("");
@@ -105,16 +105,13 @@ const Search = ({ count, setCount }) => {
           <form onSubmit={handleSubmit}>
             <Box sx={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
               <StyledTextField
-                placeholder="Search by topic"
+                placeholder=" Search by topic"
                 variant="outlined"
                 name="searchTerm"
                 value={searchTerm}
                 onChange={handleChange}
                 InputProps={{ startAdornment: <SearchIcon color="primary" /> }}
               />
-              {/* <StyledButton type="submit" variant="contained" color="primary">
-                Search
-              </StyledButton> */}
             </Box>
           </form>
         </Box>
@@ -123,6 +120,8 @@ const Search = ({ count, setCount }) => {
           setCount={setCount}
           filteredJournals={filteredJournals}
           setFilteredJournals={setFilteredJournals}
+          submittedSearchTerm={submittedSearchTerm}
+          searchSubmitted={searchSubmitted}
         />
       </Box>
     </ThemeProvider>

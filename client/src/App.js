@@ -33,6 +33,9 @@ function App() {
   // cont variable used to monitor the creation and deletion of rooms
   const [countRooms, setCountRooms] = useState(0);
 
+  // to display the incons in the Navbar
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
   // when loading the app
   useEffect(() => {
     setSocket(io("http://localhost:3009", { transports: ["websocket"] }));
@@ -43,12 +46,12 @@ function App() {
       <CssBaseline />
       <Router>
         <div className="App">
-          <Navbar socket={socket} />
+          <Navbar socket={socket} isAuthenticated={isAuthenticated} />
           <Container>
             <Box sx={{ display: "flex", justifyContent: "center" }}>
               <Routes>
                 {/* <Route path="/chat" element={<ChatRoom socket={socket} />} /> */}
-                <Route path="/home" element={<Home socket={socket} />} />
+                <Route path="/home" element={<Home socket={socket} setIsAuthenticated={setIsAuthenticated} />} />
                 <Route
                   path="/rooms/:roomId"
                   element={

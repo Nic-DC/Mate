@@ -11,6 +11,7 @@ import { Box } from "@mui/system";
 import { useDispatch } from "react-redux";
 import { setSelectedJournalAction } from "../redux/actions";
 import EntryDeleteModal from "./EntryDeleteModal";
+import { Typography } from "@mui/material";
 
 const Entry = ({ title, topic, content, count, setCount }) => {
   const [openEdit, setOpenEdit] = useState(false);
@@ -35,13 +36,8 @@ const Entry = ({ title, topic, content, count, setCount }) => {
     <>
       <Box sx={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
         <Box sx={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
-          {/* <ListItemAvatar sx={{ display: "flex", justifyContent: "center", alignItems: "center", color: "black" }}> */}
           <ListItemAvatar>
             <Avatar sx={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
-              {/* <IconButton edge="end" aria-label="create" onClick={handleOpenEdit} sx={{ m: 0 }}>
-                <CreateIcon sx={{ color: "rgba(0, 0, 0, 0.7)" }} />
-              </IconButton> */}
-              {/* <CreateIcon onClick={() => console.log("Delete clicked")} /> */}
               <EntryEditModal
                 handleOpenEdit={handleOpenEdit}
                 handleCloseEdit={handleCloseEdit}
@@ -52,11 +48,38 @@ const Entry = ({ title, topic, content, count, setCount }) => {
               />
             </Avatar>
           </ListItemAvatar>
-          <ListItemText
-            primary={`${title}`}
-            secondaryTypographyProps={{ color: "rgba(255, 255, 255, 0.6)" }}
-            secondary={`${topic}`}
-          />
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              flexGrow: 1,
+              overflow: "hidden",
+              whiteSpace: "nowrap",
+              textOverflow: "ellipsis",
+            }}
+          >
+            <ListItemText
+              primary={
+                <Typography sx={{ fontSize: "1rem", textOverflow: "ellipsis", overflow: "hidden" }} noWrap>
+                  {title.length > 8 ? title.substring(0, 8) + "..." : title}
+                </Typography>
+              }
+              secondaryTypographyProps={{ color: "rgba(255, 255, 255, 0.6)" }}
+              secondary={
+                <Typography
+                  sx={{
+                    fontSize: "0.8rem",
+                    color: "rgba(255, 255, 255, 0.6)",
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                  }}
+                  noWrap
+                >
+                  {topic.length > 8 ? topic.substring(0, 8) + "..." : topic}
+                </Typography>
+              }
+            />
+          </Box>
         </Box>
 
         <EntryDeleteModal

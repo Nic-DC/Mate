@@ -18,7 +18,7 @@ import Modal from "@mui/material/Modal";
 const theme = createTheme({
   palette: {
     primary: {
-      main: "#90caf9",
+      main: "#90ca",
     },
   },
 });
@@ -60,7 +60,7 @@ const PasswordStrengthText = styled("div")({
   color: "rgba(255,255,255,0.4)",
 });
 
-const Register = ({ handleOpenRegister, handleCloseRegister, openRegister }) => {
+const Register = ({ handleOpenRegister, handleCloseRegister, openRegister, setIsAuthenticated }) => {
   const [formData, setFormData] = useState({
     username: "",
     email: "",
@@ -119,6 +119,7 @@ const Register = ({ handleOpenRegister, handleCloseRegister, openRegister }) => 
       localStorage.setItem("accessToken", `${data.accessToken}`);
       localStorage.setItem("refreshToken", `${data.refreshToken}`);
       setIsRegistered(true);
+      setIsAuthenticated(true);
 
       toast.success("Registration successful!");
     } catch (error) {
@@ -176,7 +177,7 @@ const Register = ({ handleOpenRegister, handleCloseRegister, openRegister }) => 
               <PasswordStrengthText passwordStrength={passwordStrength}>
                 Password strength: {passwordStrengthArray[passwordStrength]}
               </PasswordStrengthText>
-              <StyledButton variant="contained" color="primary" type="submit">
+              <StyledButton variant="contained" type="submit">
                 Register
               </StyledButton>
             </StyledForm>

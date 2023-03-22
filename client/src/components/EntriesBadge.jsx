@@ -32,7 +32,7 @@ const EntriesBadge = ({ count, fetchedJournals, fetchJournalEntries }) => {
   }, [count]);
 
   return (
-    <Tooltip title="All journals">
+    <Tooltip title="All journals" placement="top">
       <Button
         variant="contained"
         color="secondary"

@@ -33,7 +33,7 @@ const StyledButton = styled(Button)({
   margin: theme.spacing(1),
 });
 
-const Navbar = () => {
+const Navbar = ({ isAuthenticated }) => {
   const navigate = useNavigate();
 
   const [openLogin, setOpenLogin] = useState(false);
@@ -49,59 +49,63 @@ const Navbar = () => {
   return (
     <AppBar position="static" color="secondary">
       <Box sx={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-        <Box sx={{ display: "flex", justifyContent: "flex-start" }}>
-          <Box>
-            <Logo />
-          </Box>
-          <Stack direction="row" spacing={2}>
-            <Button onClick={() => navigate("/home")}>
-              <CottageIcon />
-            </Button>
-          </Stack>
-
-          <Stack direction="row" spacing={2}>
-            <Tooltip title="My journal">
-              <Button onClick={() => navigate(`/journal`)}>
-                <CreateIcon />
-              </Button>
-            </Tooltip>
-          </Stack>
-
-          <Stack direction="row" spacing={2}>
-            <Tooltip title="My blocks">
-              <Button onClick={() => navigate(`/blocks`)}>
-                <ViewInArIcon />
-              </Button>
-            </Tooltip>
-          </Stack>
-
-          <Stack direction="row" spacing={2}>
-            <Tooltip title="My chat">
-              <Button>
-                <ChatIcon onClick={() => navigate("/chat")} />
-              </Button>
-            </Tooltip>
-          </Stack>
-
-          <Stack direction="row" spacing={2}>
-            <Tooltip title="Valid entries">
-              <Button onClick={() => navigate(`/blockchain`)}>JB</Button>
-            </Tooltip>
-          </Stack>
-
-          <Stack direction="row" spacing={2}>
-            <Tooltip title="Ai counselor">
-              <Button onClick={() => navigate(`/aimate`)}>
-                <Diversity2Icon />
-              </Button>
-            </Tooltip>
-          </Stack>
+        <Box>
+          <Logo />
         </Box>
+        {isAuthenticated && (
+          <>
+            <Box sx={{ display: "flex", justifyContent: "flex-start" }}>
+              <Stack direction="row" spacing={2}>
+                <Button onClick={() => navigate("/home")}>
+                  <CottageIcon />
+                </Button>
+              </Stack>
 
-        <Box sx={{ display: "flex", justifyContent: "flex-end", alignItems: "center" }}>
-          <ImageAvatar direction="row" />
-          <Login handleCloseLogin={handleCloseLogin} handleOpenLogin={handleOpenLogin} openLogin={openLogin} />
-        </Box>
+              <Stack direction="row" spacing={2}>
+                <Tooltip title="My journal">
+                  <Button onClick={() => navigate(`/journal`)}>
+                    <CreateIcon />
+                  </Button>
+                </Tooltip>
+              </Stack>
+
+              {/* <Stack direction="row" spacing={2}>
+                <Tooltip title="My blocks">
+                  <Button onClick={() => navigate(`/blocks`)}>
+                    <ViewInArIcon />
+                  </Button>
+                </Tooltip>
+              </Stack> */}
+
+              <Stack direction="row" spacing={2}>
+                <Tooltip title="My chat">
+                  <Button>
+                    <ChatIcon onClick={() => navigate("/chat")} />
+                  </Button>
+                </Tooltip>
+              </Stack>
+
+              {/* <Stack direction="row" spacing={2}>
+                <Tooltip title="Valid entries">
+                  <Button onClick={() => navigate(`/blockchain`)}>JB</Button>
+                </Tooltip>
+              </Stack> */}
+
+              <Stack direction="row" spacing={2}>
+                <Tooltip title="Ai counselor">
+                  <Button onClick={() => navigate(`/aimate`)}>
+                    <Diversity2Icon />
+                  </Button>
+                </Tooltip>
+              </Stack>
+            </Box>
+
+            <Box sx={{ display: "flex", justifyContent: "flex-end", alignItems: "center" }}>
+              <ImageAvatar direction="row" />
+              <Login handleCloseLogin={handleCloseLogin} handleOpenLogin={handleOpenLogin} openLogin={openLogin} />
+            </Box>
+          </>
+        )}
       </Box>
     </AppBar>
   );
