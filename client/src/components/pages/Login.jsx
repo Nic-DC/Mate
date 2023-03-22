@@ -90,7 +90,7 @@ const Login = ({ handleCloseLogin, handleOpenLogin, openLogin, setIsAuthenticate
     <>
       {!openLogin && (
         <StyledButton variant="contained" color="primary" onClick={handleOpenLogin}>
-          Log out
+          Login
         </StyledButton>
       )}
       <Modal
@@ -125,7 +125,7 @@ const Login = ({ handleCloseLogin, handleOpenLogin, openLogin, setIsAuthenticate
                 onChange={handleChange}
               />
               <StyledButton variant="contained" color="primary" type="submit">
-                Logout
+                Login
               </StyledButton>
             </StyledForm>
           </ThemeProvider>

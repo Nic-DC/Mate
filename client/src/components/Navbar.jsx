@@ -19,6 +19,7 @@ import WeekendIcon from "@mui/icons-material/Weekend";
 import BugReportIcon from "@mui/icons-material/BugReport";
 import ViewInArIcon from "@mui/icons-material/ViewInAr";
 import { useSelector } from "react-redux";
+import Profile from "./Profile";
 
 const theme = createTheme({
   palette: {
@@ -103,10 +104,12 @@ const Navbar = () => {
               </Stack>
             </Box>
 
-            <Box sx={{ display: "flex", justifyContent: "flex-end", alignItems: "center" }}>
+            <Profile />
+
+            {/* <Box sx={{ display: "flex", justifyContent: "flex-end", alignItems: "center" }}>
               <ImageAvatar direction="row" />
               <Login handleCloseLogin={handleCloseLogin} handleOpenLogin={handleOpenLogin} openLogin={openLogin} />
-            </Box>
+            </Box> */}
           </>
         )}
       </Box>
