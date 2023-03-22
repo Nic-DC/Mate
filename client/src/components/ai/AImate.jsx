@@ -95,7 +95,7 @@ const AImate = () => {
           }}
         >
           <Chip
-            label="AImate | Counselor"
+            label="AImate | My Mate"
             sx={{ backgroundColor: "#90caf9", color: "black", mr: 1, fontWeight: "bold" }}
           />
           {chatbotResponse && (

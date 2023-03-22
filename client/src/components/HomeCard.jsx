@@ -44,7 +44,7 @@ const HomeCard = () => {
   };
 
   return (
-    <Card sx={{ maxWidth: 1000, bgcolor: "rgba(0, 0, 0, 0.7)", color: "#90caf9" }}>
+    <Card sx={{ maxWidth: 1000, bgcolor: "rgba(0, 0, 0, 0.8)", color: "#90caf9" }}>
       <CardHeader
         avatar={<Logo />}
         action={
@@ -66,19 +66,21 @@ const HomeCard = () => {
       </CardContent>
       <CardActions disableSpacing>
         <Stack direction="row" spacing={2}>
-          <Tooltip title="My journal">
-            <Button onClick={() => navigate(`/journal`)}>
-              <CreateIcon sx={{ fontSize: "2.5rem", marginRight: 3 }} />
-            </Button>
-          </Tooltip>
-        </Stack>
-        <Stack direction="row" spacing={2}>
           <Tooltip title="My chat">
             <Button onClick={() => navigate("/chat")}>
               <ChatIcon sx={{ fontSize: "2.5rem", marginRight: 3 }} />
             </Button>
           </Tooltip>
         </Stack>
+
+        <Stack direction="row" spacing={2}>
+          <Tooltip title="My journal">
+            <Button onClick={() => navigate(`/journal`)}>
+              <CreateIcon sx={{ fontSize: "2.5rem", marginRight: 3 }} />
+            </Button>
+          </Tooltip>
+        </Stack>
+
         <Stack direction="row" spacing={2}>
           <Tooltip title="My Mate">
             <Button onClick={() => navigate(`/aimate`)}>

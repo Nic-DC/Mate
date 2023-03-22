@@ -35,7 +35,9 @@ const StyledButton = styled(Button)({
   margin: theme.spacing(1),
 });
 
-const Navbar = () => {
+const Navbar = ({ socket }) => {
+  const passedSocket = socket;
+  console.log("NAVBAR SOCKET: ", passedSocket);
   const navigate = useNavigate();
   const isRegistered = useSelector((store) => store.authentication.isRegistered);
   console.log("IS THE USER REGISTERED: ", isRegistered);
@@ -66,22 +68,6 @@ const Navbar = () => {
               </Stack>
 
               <Stack direction="row" spacing={2}>
-                <Tooltip title="My journal">
-                  <Button onClick={() => navigate(`/journal`)}>
-                    <CreateIcon />
-                  </Button>
-                </Tooltip>
-              </Stack>
-
-              {/* <Stack direction="row" spacing={2}>
-                <Tooltip title="My blocks">
-                  <Button onClick={() => navigate(`/blocks`)}>
-                    <ViewInArIcon />
-                  </Button>
-                </Tooltip>
-              </Stack> */}
-
-              <Stack direction="row" spacing={2}>
                 <Tooltip title="My chat">
                   <Button>
                     <ChatIcon onClick={() => navigate("/chat")} />
@@ -89,11 +75,13 @@ const Navbar = () => {
                 </Tooltip>
               </Stack>
 
-              {/* <Stack direction="row" spacing={2}>
-                <Tooltip title="Valid entries">
-                  <Button onClick={() => navigate(`/blockchain`)}>JB</Button>
+              <Stack direction="row" spacing={2}>
+                <Tooltip title="My journal">
+                  <Button onClick={() => navigate(`/journal`)}>
+                    <CreateIcon />
+                  </Button>
                 </Tooltip>
-              </Stack> */}
+              </Stack>
 
               <Stack direction="row" spacing={2}>
                 <Tooltip title="Ai counselor">

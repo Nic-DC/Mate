@@ -156,11 +156,10 @@ function JournalEntries() {
             style: {
               color: "rgba(255, 255, 255, 0.6)",
               border: "1px solid rgba(255, 255, 255, 0.2)",
-              marginTop: 5,
-              marginBottom: 3,
             },
           }}
           fullWidth
+          sx={{ marginTop: "3rem", marginBottom: 2 }}
         />
         <StyledTextField
           label="Filter by topic"
@@ -170,10 +169,10 @@ function JournalEntries() {
             style: {
               color: "rgba(255, 255, 255, 0.6)",
               border: "1px solid rgba(255, 255, 255, 0.2)",
-              marginBottom: 3,
             },
           }}
           fullWidth
+          sx={{ marginBottom: 2 }}
         />
 
         <List style={{ height: "300px", overflowY: "scroll", overflowX: "hidden" }}>

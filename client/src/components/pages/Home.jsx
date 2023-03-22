@@ -26,10 +26,10 @@ const Background = styled("div")({
   height: "100%",
   zIndex: -1,
   // backgroundImage: `url(https://picsum.photos/id/237/1920/1080)`,
-  backgroundImage: `url(AIbackground.png)`,
+  backgroundImage: `url(AIbackgroundHome.png)`,
   backgroundRepeat: "no-repeat",
   backgroundPosition: "center center",
-  backgroundSize: "contain",
+  backgroundSize: "cover",
 });
 
 const ButtonContainer = styled("div")({
@@ -65,7 +65,7 @@ const Home = ({ socket, setIsAuthenticated }) => {
   return (
     <ThemeProvider theme={theme}>
       <Background>
-        <Box sx={{ borderRadius: 3, backgroundColor: "rgba(0, 0, 0, 0.6)" }}>
+        <Box sx={{ borderRadius: 3, backgroundColor: "rgba(0, 0, 0, 0.1)" }}>
           <ButtonContainer>
             {/* <StyledButton sx={{ backgroundColor: orange[900] }}>New user</StyledButton>
             <StyledButton>I'm home</StyledButton> */}

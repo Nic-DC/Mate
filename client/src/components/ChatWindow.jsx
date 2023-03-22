@@ -25,6 +25,21 @@ import { useNavigate, useParams } from "react-router-dom";
 import ChatTest from "./ChatTest";
 import ChatsRight from "./ChatsRight";
 import { useRef } from "react";
+import { styled } from "@mui/material/styles";
+
+const Background = styled("div")({
+  position: "fixed",
+  top: 0,
+  left: 0,
+  width: "100%",
+  height: "100%",
+  zIndex: -1,
+
+  backgroundImage: `url(AIbackgroundChat.png)`,
+  backgroundRepeat: "no-repeat",
+  backgroundPosition: "center center",
+  backgroundSize: "cover",
+});
 
 const ChatWindow = ({ socket, countRooms, setCountRooms }) => {
   const [message, setMessage] = useState(""); // input message
@@ -199,106 +214,110 @@ const ChatWindow = ({ socket, countRooms, setCountRooms }) => {
   };
 
   return (
-    <Box sx={{ display: "flex", justifyContent: "space-around", width: "80%" }}>
-      <Card
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-
-          padding: 2,
-          marginTop: 10,
-          width: "60%",
-          backgroundColor: "rgba(255, 255, 255, 0.12)",
-        }}
+    <Background>
+      <Box
+        sx={{ display: "flex", justifyContent: "space-around", alignItems: "center", width: "100%", height: "100%" }}
       >
-        <Box sx={{ marginBottom: 3, display: "flex", justifyContent: "flex-start" }}>
-          {params.roomId && (
+        <Card
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+
+            padding: 2,
+            marginTop: 10,
+            width: "60%",
+            backgroundColor: "rgba(0, 0, 0, 0.9)",
+          }}
+        >
+          <Box sx={{ marginBottom: 3, display: "flex", justifyContent: "flex-start" }}>
+            {params.roomId && (
+              <Divider>
+                <Chip
+                  label={`${rooms.length > 0 ? `Room: ${params.roomId.slice(-4)}` : "No rooms"}`}
+                  sx={{ color: "#90caf9", backgroundColor: "rgba(255, 255, 255,0.1)", fontWeight: "bold" }}
+                />
+              </Divider>
+            )}
+
+            <ChatsRight countRooms={countRooms} socket={socket} />
+
+            <Tooltip title="Create new room" placement="top">
+              <Button onClick={createRoom}>
+                {/* <CommentIcon sx={{ color: "#90caf9" }} /> */}
+                <AddIcon />
+                {/* <ChairIcon /> */}
+              </Button>
+            </Tooltip>
+
+            <Tooltip title="Delete room" placement="top">
+              <Button onClick={deleteRoom}>
+                <ClearIcon sx={{ color: "#90caf9" }} />
+              </Button>
+            </Tooltip>
+          </Box>
+
+          <Box sx={{ marginBottom: 3 }}>
             <Divider>
               <Chip
-                label={`${rooms.length > 0 ? `Room: ${params.roomId.slice(-4)}` : "No rooms"}`}
-                sx={{ color: "#90caf9", backgroundColor: "rgba(255, 255, 255,0.1)", fontWeight: "bold" }}
+                // avatar={<MessageIcon sx={{ backgroundColor: "rgba(0, 0, 0,1)", color: "black" }} />}
+                label="AImate | Chat"
+                sx={{ backgroundColor: "#90caf9", color: "black", fontWeight: "bold" }}
               />
             </Divider>
-          )}
 
-          <ChatsRight countRooms={countRooms} socket={socket} />
+            {isTyping && (
+              <InputLabel shrink htmlFor="message-input">
+                Someone typing...
+              </InputLabel>
+            )}
 
-          <Tooltip title="Create new room" placement="top">
-            <Button onClick={createRoom}>
-              {/* <CommentIcon sx={{ color: "#90caf9" }} /> */}
-              <AddIcon />
-              {/* <ChairIcon /> */}
-            </Button>
-          </Tooltip>
+            {chat.map((data, index) => (
+              <List sx={{ overflow: "auto", maxHeight: 400 }}>
+                {data.type === "image" ? (
+                  <img
+                    src={data.message}
+                    alt="uploaded"
+                    width="150"
+                    style={{ float: data.received ? "left" : "right", color: "#90caf9" }}
+                  />
+                ) : (
+                  <Typography key={index} sx={{ textAlign: data.received ? "left" : "right", color: "#90caf9" }}>
+                    {data.message}
+                  </Typography>
+                )}
+              </List>
+            ))}
+          </Box>
 
-          <Tooltip title="Delete room" placement="top">
-            <Button onClick={deleteRoom}>
-              <ClearIcon sx={{ color: "#90caf9" }} />
-            </Button>
-          </Tooltip>
-        </Box>
-
-        <Box sx={{ marginBottom: 3 }}>
-          <Divider>
-            <Chip
-              // avatar={<MessageIcon sx={{ backgroundColor: "rgba(0, 0, 0,1)", color: "black" }} />}
-              label="AImate | Chat"
-              sx={{ backgroundColor: "#90caf9", color: "black", fontWeight: "bold" }}
+          <Box component="form" onSubmit={handleSubmit}>
+            <OutlinedInput
+              id="message-input"
+              sx={{ backgroundColor: "rgba(255, 255, 255, 0.12)", color: "rgba(255, 255, 255, 0.8)" }}
+              fullWidth
+              placeholder="write here"
+              size="small"
+              value={message}
+              onChange={handleInput}
+              endAdornment={
+                <InputAdornment position="end">
+                  <input ref={fileRef} onChange={fileSelected} type="file" style={{ display: "none" }} />
+                  <Tooltip title="Attach image" placement="top">
+                    <IconButton type="button" edge="end" onClick={selectFile}>
+                      <AttachFileIcon sx={{ color: "#90caf9" }} />
+                    </IconButton>
+                  </Tooltip>
+                  <Tooltip title="Send message" placement="top">
+                    <IconButton type="submit" edge="end">
+                      <SendIcon sx={{ color: "#90caf9", marginLeft: 1 }} />
+                    </IconButton>
+                  </Tooltip>
+                </InputAdornment>
+              }
             />
-          </Divider>
-
-          {isTyping && (
-            <InputLabel shrink htmlFor="message-input">
-              Someone typing...
-            </InputLabel>
-          )}
-
-          {chat.map((data, index) => (
-            <List sx={{ overflow: "auto", maxHeight: 400 }}>
-              {data.type === "image" ? (
-                <img
-                  src={data.message}
-                  alt="uploaded"
-                  width="150"
-                  style={{ float: data.received ? "left" : "right", color: "#90caf9" }}
-                />
-              ) : (
-                <Typography key={index} sx={{ textAlign: data.received ? "left" : "right", color: "#90caf9" }}>
-                  {data.message}
-                </Typography>
-              )}
-            </List>
-          ))}
-        </Box>
-
-        <Box component="form" onSubmit={handleSubmit}>
-          <OutlinedInput
-            id="message-input"
-            sx={{ backgroundColor: "rgba(255, 255, 255, 0.12)", color: "rgba(255, 255, 255, 0.8)" }}
-            fullWidth
-            placeholder="write here"
-            size="small"
-            value={message}
-            onChange={handleInput}
-            endAdornment={
-              <InputAdornment position="end">
-                <input ref={fileRef} onChange={fileSelected} type="file" style={{ display: "none" }} />
-                <Tooltip title="Attach image" placement="top">
-                  <IconButton type="button" edge="end" onClick={selectFile}>
-                    <AttachFileIcon sx={{ color: "#90caf9" }} />
-                  </IconButton>
-                </Tooltip>
-                <Tooltip title="Send message" placement="top">
-                  <IconButton type="submit" edge="end">
-                    <SendIcon sx={{ color: "#90caf9", marginLeft: 1 }} />
-                  </IconButton>
-                </Tooltip>
-              </InputAdornment>
-            }
-          />
-        </Box>
-      </Card>
-    </Box>
+          </Box>
+        </Card>
+      </Box>
+    </Background>
   );
 };
 

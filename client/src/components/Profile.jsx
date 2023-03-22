@@ -1,11 +1,12 @@
-import { Avatar, IconButton, Menu, MenuItem, Tooltip, Typography } from "@mui/material";
+import { Avatar, IconButton, Menu, MenuItem, Stack, Tooltip, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { setIsRegisteredAction } from "../redux/actions";
-
-const settings = ["Profile", "Account", "Dashboard", "Logout"];
+import LogoutIcon from "@mui/icons-material/Logout";
+import PersonPinIcon from "@mui/icons-material/PersonPin";
+import SettingsIcon from "@mui/icons-material/Settings";
 
 const Profile = () => {
   const [anchorElUser, setAnchorElUser] = useState(null);
@@ -18,6 +19,10 @@ const Profile = () => {
   };
 
   const handleCloseUserMenu = () => {
+    setAnchorElUser(null);
+  };
+
+  const handleLogOut = () => {
     navigate("/");
     dispatch(setIsRegisteredAction(false));
     setAnchorElUser(null);
@@ -45,13 +50,25 @@ const Profile = () => {
         open={Boolean(anchorElUser)}
         onClose={handleCloseUserMenu}
       >
-        {/* {settings.map((setting) => (
-          <MenuItem key={setting} onClick={handleCloseUserMenu}>
-            <Typography textAlign="center">{setting}</Typography>
-          </MenuItem>
-        ))} */}
-        <MenuItem onClick={handleCloseUserMenu}>
-          <Typography textAlign="center">Logout</Typography>
+        <MenuItem onClick={handleCloseUserMenu} sx={{ marginBottom: 2 }}>
+          <Stack direction="row" alignItems="center" spacing={1}>
+            <PersonPinIcon sx={{ color: "#90caf9" }} />
+            <Typography sx={{ color: "#90caf9" }}>Account</Typography>
+          </Stack>
+        </MenuItem>
+
+        <MenuItem onClick={handleCloseUserMenu} sx={{ marginBottom: 2 }}>
+          <Stack direction="row" alignItems="center" spacing={1}>
+            <SettingsIcon sx={{ color: "#90caf9" }} />
+            <Typography sx={{ color: "#90caf9" }}>Settings</Typography>
+          </Stack>
+        </MenuItem>
+
+        <MenuItem onClick={handleLogOut}>
+          <Stack direction="row" alignItems="center" spacing={1}>
+            <LogoutIcon sx={{ color: "#90caf9" }} />
+            <Typography sx={{ color: "#90caf9" }}>Logout</Typography>
+          </Stack>
         </MenuItem>
       </Menu>
     </Box>

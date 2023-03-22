@@ -16,6 +16,23 @@ import SaveIcon from "@mui/icons-material/Save";
 import { useNavigate } from "react-router-dom";
 import ViewInArIcon from "@mui/icons-material/ViewInAr";
 
+const Background = styled("div")({
+  position: "fixed",
+  top: 0,
+  left: 0,
+  width: "100%",
+  height: "100%",
+  zIndex: -1,
+
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+
+  backgroundImage: `url(AIbackgroundJournal.png)`,
+  backgroundRepeat: "no-repeat",
+  backgroundPosition: "center center",
+  backgroundSize: "contain",
+});
 const Journal = () => {
   const [formData, setFormData] = useState({
     title: "",
@@ -110,95 +127,98 @@ const Journal = () => {
   };
 
   return (
-    <ThemeProvider theme={theme}>
-      <Box
-        sx={{
-          ...theme.palette.primary,
-          display: "flex",
-          justifyContent: "space-between",
-          backgroundColor: "rgba(0, 0, 0, 0.8)",
-          borderRadius: 3,
-          p: 2,
-          m: 4,
-          width: "60%",
-        }}
-      >
-        <Box sx={{ width: "65%" }}>
-          <FormContainer onSubmit={handleSubmit}>
-            <StyledTextField
-              label="Title"
-              variant="outlined"
-              name="title"
-              value={formData.title}
-              onChange={handleChange}
-            />
-            <StyledTextField
-              label="Topic"
-              variant="outlined"
-              name="topic"
-              value={formData.topic}
-              onChange={handleChange}
-            />
+    <Background>
+      <ThemeProvider theme={theme}>
+        <Box
+          sx={{
+            ...theme.palette.primary,
+            display: "flex",
+            justifyContent: "space-between",
+            backgroundColor: "rgba(0, 0, 0, 0.9)",
+            borderRadius: 3,
+            p: 2,
+            m: 2,
+            marginTop: 9,
+            width: "60%",
+          }}
+        >
+          <Box sx={{ width: "65%" }}>
+            <FormContainer onSubmit={handleSubmit}>
+              <StyledTextField
+                label="Title"
+                variant="outlined"
+                name="title"
+                value={formData.title}
+                onChange={handleChange}
+              />
+              <StyledTextField
+                label="Topic"
+                variant="outlined"
+                name="topic"
+                value={formData.topic}
+                onChange={handleChange}
+              />
 
-            <StyledTextField
-              label="Content"
-              variant="outlined"
-              name="content"
-              value={formData.content}
-              onChange={handleChange}
-              multiline
-              rows={12}
-            />
-            <Tooltip title="Save journal" placement="bottom">
-              <StyledButton type="submit" variant="contained" color="primary">
-                <SaveIcon />
-              </StyledButton>
-            </Tooltip>
-          </FormContainer>
-        </Box>
-        <Box sx={{ width: "40%", display: "flex", flexDirection: "column", alignItems: "flex-end", marginTop: 2 }}>
-          <Box sx={{ display: "flex" }}>
-            <Stack direction="row" spacing={3}>
-              <Tooltip title="Valid entries" placement="top">
-                <Button sx={{ marginRight: 2 }} onClick={() => navigate(`/blockchain`)}>
-                  <ViewInArIcon sx={{ fontSize: "3rem" }} />
-                </Button>
+              <StyledTextField
+                label="Content"
+                variant="outlined"
+                name="content"
+                value={formData.content}
+                onChange={handleChange}
+                multiline
+                rows={12}
+              />
+              <Tooltip title="Save journal" placement="bottom">
+                <StyledButton type="submit" variant="contained" color="primary">
+                  <SaveIcon />
+                </StyledButton>
               </Tooltip>
-            </Stack>
-            <EntriesBadge count={count} fetchedJournals={fetchedJournals} fetchJournalEntries={fetchJournalEntries} />
+            </FormContainer>
           </Box>
-          {/* <EntriesBadge count={count} fetchedJournals={fetchedJournals} fetchJournalEntries={fetchJournalEntries} /> */}
+          <Box sx={{ width: "40%", display: "flex", flexDirection: "column", alignItems: "flex-end", marginTop: 2 }}>
+            <Box sx={{ display: "flex" }}>
+              <Stack direction="row" spacing={3}>
+                <Tooltip title="Valid entries" placement="top">
+                  <Button sx={{ marginRight: 2 }} onClick={() => navigate(`/blockchain`)}>
+                    <ViewInArIcon sx={{ fontSize: "3rem" }} />
+                  </Button>
+                </Tooltip>
+              </Stack>
+              <EntriesBadge count={count} fetchedJournals={fetchedJournals} fetchJournalEntries={fetchJournalEntries} />
+            </Box>
+            {/* <EntriesBadge count={count} fetchedJournals={fetchedJournals} fetchJournalEntries={fetchJournalEntries} /> */}
 
-          <Search count={count} setCount={setCount} />
+            <Search count={count} setCount={setCount} />
+          </Box>
         </Box>
-      </Box>
-      <Box>
-        {/* ------ Loaders, Success, Errors ------ */}
-        {loading && <LinearProgress color="primary" />}
+        <Box>
+          {/* ------ Loaders, Success, Errors ------ */}
+          {loading && <LinearProgress color="primary" />}
 
-        <Snackbar
-          open={!!successMessage}
-          autoHideDuration={6000}
-          onClose={handleCloseSnackbar}
-          anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
-        >
-          <Alert onClose={handleCloseSnackbar} severity="success" sx={{ width: "100%", bgcolor: "#90caf9" }}>
-            {successMessage}
-          </Alert>
-        </Snackbar>
+          <Snackbar
+            open={!!successMessage}
+            autoHideDuration={6000}
+            onClose={handleCloseSnackbar}
+            anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+          >
+            <Alert onClose={handleCloseSnackbar} severity="success" sx={{ width: "100%", bgcolor: "#90caf9" }}>
+              {successMessage}
+            </Alert>
+          </Snackbar>
 
-        <Snackbar
-          open={!!errorMessage}
-          autoHideDuration={6000}
-          onClose={handleCloseSnackbar}
-          anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
-        >
-          <Alert onClose={handleCloseSnackbar} severity="warning" sx={{ width: "100%" }}>
-            {errorMessage}
-          </Alert>
-        </Snackbar>
-      </Box>
-    </ThemeProvider>
+          <Snackbar
+            open={!!errorMessage}
+            autoHideDuration={6000}
+            onClose={handleCloseSnackbar}
+            anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+          >
+            <Alert onClose={handleCloseSnackbar} severity="warning" sx={{ width: "100%" }}>
+              {errorMessage}
+            </Alert>
+          </Snackbar>
+        </Box>
+      </ThemeProvider>
+    </Background>
   );
 };
 export default Journal;
