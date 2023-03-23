@@ -11,8 +11,27 @@ import {
   ListItem,
   ListItemText,
 } from "@mui/material";
+import { styled } from "@mui/material/styles";
 // import axios from "axios";
 import SendIcon from "@mui/icons-material/Send";
+
+const Background = styled("div")({
+  position: "fixed",
+  top: 0,
+  left: 0,
+  width: "100%",
+  height: "100%",
+  zIndex: -1,
+
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+
+  backgroundImage: `url(AIbackgroundAiMate.png)`,
+  backgroundRepeat: "no-repeat",
+  backgroundPosition: "center center",
+  backgroundSize: "cover",
+});
 
 const AImate = () => {
   const [conversationHistory, setConversationHistory] = useState(
@@ -69,74 +88,76 @@ const AImate = () => {
   }, []);
 
   return (
-    <Box
-      sx={{
-        display: "flex",
-        justifyContent: "space-around",
-        width: "80%",
-      }}
-    >
-      <Card
+    <Background>
+      <Box
         sx={{
           display: "flex",
-          flexDirection: "column",
-          padding: 2,
-          marginTop: 10,
-          width: "60%",
-          bgcolor: "rgba(255, 255, 255, 0.12)",
+          justifyContent: "space-around",
+          width: "80%",
         }}
       >
-        <Box
+        <Card
           sx={{
-            marginBottom: 3,
             display: "flex",
-            justifyContent: "flex-start",
-            alignItems: "center",
+            flexDirection: "column",
+            padding: 2,
+            marginTop: 10,
+            width: "60%",
+            bgcolor: "rgba(0, 0, 0, 0.9)",
           }}
         >
-          <Chip
-            label="AImate | My Mate"
-            sx={{ backgroundColor: "#90caf9", color: "black", mr: 1, fontWeight: "bold" }}
-          />
-          {chatbotResponse && (
-            <>
-              <Divider orientation="vertical" sx={{ bgcolor: "#90caf9", height: "100%" }} />
-              <Box sx={{ mx: 1, maxWidth: "80%" }}>
-                <List sx={{ maxHeight: 200, overflow: "auto" }}>
-                  <ListItem alignItems="flex-start" sx={{ py: 0, pl: 0, pr: 1 }}>
-                    <ListItemText
-                      primary="response:"
-                      primaryTypographyProps={{ color: "#90caf9", marginRight: 1, fontWeight: "bold" }}
-                    />
-                    <ListItemText
-                      primary={chatbotResponse}
-                      primaryTypographyProps={{ color: "rgba(255,255,255,0.8)", marginTop: 3 }}
-                    />
-                  </ListItem>
-                </List>
-              </Box>
-            </>
-          )}
-        </Box>
-        <Box component="form" onSubmit={handleSubmit}>
-          <OutlinedInput
-            sx={{ backgroundColor: "rgba(255, 255, 255, 0.12)", color: "rgba(255,255,255,0.8)" }}
-            fullWidth
-            placeholder="ask AImate here"
-            size="small"
-            value={userInput}
-            onChange={handleUserInput}
-            endAdornment={
-              <InputAdornment position="end">
-                <IconButton type="submit" edge="end" sx={{ color: "#90caf9" }}>
-                  <SendIcon />
-                </IconButton>
-              </InputAdornment>
-            }
-          />
-        </Box>
-      </Card>
-    </Box>
+          <Box
+            sx={{
+              marginBottom: 3,
+              display: "flex",
+              justifyContent: "flex-start",
+              alignItems: "center",
+            }}
+          >
+            <Chip
+              label="AImate | My Mate"
+              sx={{ backgroundColor: "#90caf9", color: "black", mr: 1, fontWeight: "bold" }}
+            />
+            {chatbotResponse && (
+              <>
+                <Divider orientation="vertical" sx={{ bgcolor: "#90caf9", height: "100%" }} />
+                <Box sx={{ mx: 1, maxWidth: "80%" }}>
+                  <List sx={{ maxHeight: 200, overflow: "auto" }}>
+                    <ListItem alignItems="flex-start" sx={{ py: 0, pl: 0, pr: 1 }}>
+                      {/* <ListItemText
+                        primary="response:"
+                        primaryTypographyProps={{ color: "#90caf9", marginRight: 1, fontWeight: "bold" }}
+                      /> */}
+                      <ListItemText
+                        primary={chatbotResponse}
+                        primaryTypographyProps={{ color: "rgba(255,255,255,0.8)" }}
+                      />
+                    </ListItem>
+                  </List>
+                </Box>
+              </>
+            )}
+          </Box>
+          <Box component="form" onSubmit={handleSubmit}>
+            <OutlinedInput
+              sx={{ backgroundColor: "rgba(255, 255, 255, 0.12)", color: "rgba(255,255,255,0.8)" }}
+              fullWidth
+              placeholder="ask AImate here"
+              size="small"
+              value={userInput}
+              onChange={handleUserInput}
+              endAdornment={
+                <InputAdornment position="end">
+                  <IconButton type="submit" edge="end" sx={{ color: "#90caf9" }}>
+                    <SendIcon />
+                  </IconButton>
+                </InputAdornment>
+              }
+            />
+          </Box>
+        </Card>
+      </Box>
+    </Background>
   );
 };
 

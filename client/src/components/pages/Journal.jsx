@@ -31,7 +31,7 @@ const Background = styled("div")({
   backgroundImage: `url(AIbackgroundJournal.png)`,
   backgroundRepeat: "no-repeat",
   backgroundPosition: "center center",
-  backgroundSize: "contain",
+  backgroundSize: "cover",
 });
 const Journal = () => {
   const [formData, setFormData] = useState({

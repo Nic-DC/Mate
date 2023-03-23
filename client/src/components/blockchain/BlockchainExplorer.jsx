@@ -10,6 +10,24 @@ import { styled } from "@mui/system";
 import dayjs from "dayjs";
 import ViewInArIcon from "@mui/icons-material/ViewInAr";
 
+const Background = styled("div")({
+  position: "fixed",
+  top: 0,
+  left: 0,
+  width: "100%",
+  height: "100%",
+  zIndex: -1,
+
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+
+  backgroundImage: `url(AIbackgroundBlockchain.png)`,
+  backgroundRepeat: "no-repeat",
+  backgroundPosition: "center center",
+  backgroundSize: "cover",
+});
+
 const theme = createTheme({
   palette: {
     primary: {
@@ -146,72 +164,74 @@ function JournalEntries() {
   });
 
   return (
-    <ThemeProvider theme={theme}>
-      <div style={{ width: "50%" }}>
-        <StyledTextField
-          label="Filter by title"
-          value={titleFilter}
-          onChange={handleTitleFilterChange}
-          InputProps={{
-            style: {
-              color: "rgba(255, 255, 255, 0.6)",
-              border: "1px solid rgba(255, 255, 255, 0.2)",
-            },
-          }}
-          fullWidth
-          sx={{ marginTop: "3rem", marginBottom: 2 }}
-        />
-        <StyledTextField
-          label="Filter by topic"
-          value={topicFilter}
-          onChange={handleTopicFilterChange}
-          InputProps={{
-            style: {
-              color: "rgba(255, 255, 255, 0.6)",
-              border: "1px solid rgba(255, 255, 255, 0.2)",
-            },
-          }}
-          fullWidth
-          sx={{ marginBottom: 2 }}
-        />
+    <Background>
+      <ThemeProvider theme={theme}>
+        <div style={{ width: "50%" }}>
+          <StyledTextField
+            label="Filter by title"
+            value={titleFilter}
+            onChange={handleTitleFilterChange}
+            InputProps={{
+              style: {
+                color: "rgba(255, 255, 255, 0.6)",
+                border: "1px solid rgba(255, 255, 255, 0.2)",
+              },
+            }}
+            fullWidth
+            sx={{ marginTop: "3rem", marginBottom: 2 }}
+          />
+          <StyledTextField
+            label="Filter by topic"
+            value={topicFilter}
+            onChange={handleTopicFilterChange}
+            InputProps={{
+              style: {
+                color: "rgba(255, 255, 255, 0.6)",
+                border: "1px solid rgba(255, 255, 255, 0.2)",
+              },
+            }}
+            fullWidth
+            sx={{ marginBottom: 2 }}
+          />
 
-        <List style={{ height: "300px", overflowY: "scroll", overflowX: "hidden" }}>
-          {entries.slice(0, 10).map((entry) => (
-            <EntryWrapper key={entry._id}>
-              <EntryDetails>
-                <EntryTitle>{entry.title}</EntryTitle>
-                <EntryContent>{entry.content}</EntryContent>
-              </EntryDetails>
+          <List style={{ height: "300px", overflowY: "scroll", overflowX: "hidden" }}>
+            {entries.slice(0, 10).map((entry) => (
+              <EntryWrapper key={entry._id}>
+                <EntryDetails>
+                  <EntryTitle>{entry.title}</EntryTitle>
+                  <EntryContent>{entry.content}</EntryContent>
+                </EntryDetails>
 
-              <div>
-                <EntryTimestamp>{dayjs(entry.createdAt).format("YYYY-MM-DD HH:mm")}</EntryTimestamp>
+                <div>
+                  <EntryTimestamp>{dayjs(entry.createdAt).format("YYYY-MM-DD HH:mm")}</EntryTimestamp>
 
-                <div style={{ display: "flex", alignItems: "center" }}>
-                  {/* <EntryValidity valid={entry.valid} color={entry.valid ? "green" : "red"}>
+                  <div style={{ display: "flex", alignItems: "center" }}>
+                    {/* <EntryValidity valid={entry.valid} color={entry.valid ? "green" : "red"}>
                     {entry.valid ? "Valid" : "Invalid"}
                   </EntryValidity> */}
-                  {/* <EntryValidity valid={!entry.tampered} color={!entry.tampered ? "green" : "red"}>
+                    {/* <EntryValidity valid={!entry.tampered} color={!entry.tampered ? "green" : "red"}>
                     {!entry.tampered ? "Valid" : "Invalid"}
                   </EntryValidity> */}
-                  <EntryValidity
-                    valid={entry.blockHash !== "Not found"}
-                    color={entry.blockHash !== "Not found" ? "green" : "red"}
-                  >
-                    {entry.blockHash !== "Not found" ? "Your entry" : "Tampered"}
-                  </EntryValidity>
+                    <EntryValidity
+                      valid={entry.blockHash !== "Not found"}
+                      color={entry.blockHash !== "Not found" ? "green" : "red"}
+                    >
+                      {entry.blockHash !== "Not found" ? "Your entry" : "Tampered"}
+                    </EntryValidity>
 
-                  <Tooltip title={`Block Hash: ${entry.blockHash}`}>
-                    <IconButton>
-                      <ViewInArIcon style={{ color: "#90caf9" }} />
-                    </IconButton>
-                  </Tooltip>
+                    <Tooltip title={`Block Hash: ${entry.blockHash}`}>
+                      <IconButton>
+                        <ViewInArIcon style={{ color: "#90caf9" }} />
+                      </IconButton>
+                    </Tooltip>
+                  </div>
                 </div>
-              </div>
-            </EntryWrapper>
-          ))}
-        </List>
-      </div>
-    </ThemeProvider>
+              </EntryWrapper>
+            ))}
+          </List>
+        </div>
+      </ThemeProvider>
+    </Background>
   );
 }
 
