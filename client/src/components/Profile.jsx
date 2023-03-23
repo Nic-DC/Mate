@@ -7,6 +7,7 @@ import { setIsRegisteredAction } from "../redux/actions";
 import LogoutIcon from "@mui/icons-material/Logout";
 import PersonPinIcon from "@mui/icons-material/PersonPin";
 import SettingsIcon from "@mui/icons-material/Settings";
+import { deepOrange } from "@mui/material/colors";
 
 const Profile = () => {
   const [anchorElUser, setAnchorElUser] = useState(null);
@@ -31,7 +32,8 @@ const Profile = () => {
     <Box sx={{ flexGrow: 0 }}>
       <Tooltip title="Open settings">
         <IconButton onClick={handleOpenUserMenu} sx={{ p: 2 }}>
-          <Avatar alt="Remy Sharp" src="/user.png" />
+          {/* <Avatar alt="Remy Sharp" src="/user.png" /> */}
+          <Avatar sx={{ bgcolor: deepOrange[500] }}>N</Avatar>
         </IconButton>
       </Tooltip>
       <Menu

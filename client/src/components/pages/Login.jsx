@@ -20,16 +20,35 @@ const theme = createTheme({
   },
 });
 
+// const StyledForm = styled("form")({
+//   display: "flex",
+//   flexDirection: "column",
+//   alignItems: "center",
+//   justifyContent: "center",
+//   marginTop: theme.spacing(4),
+// });
 const StyledForm = styled("form")({
+  // display: "flex",
+  // flexDirection: "column",
+  // alignItems: "center",
+  // justifyContent: "center",
+  // width: "100%",
+  // maxWidth: "400px",
+  // margin: "0 auto",
+  // marginTop: theme.spacing(4),
   display: "flex",
   flexDirection: "column",
   alignItems: "center",
   justifyContent: "center",
+  width: "100%",
+  maxWidth: "400px",
+  margin: "0 auto",
   marginTop: theme.spacing(4),
 });
 
 const StyledTextField = styled(TextField)({
   margin: theme.spacing(1),
+  textAlign: "center",
   "& .MuiOutlinedInput-root": {
     color: "white",
     "& fieldset": {
@@ -45,6 +64,32 @@ const StyledTextField = styled(TextField)({
   "& .MuiInputLabel-root": {
     color: "rgba(255, 255, 255, 0.6)",
   },
+});
+
+// const StyledTextField = styled(TextField)({
+//   margin: theme.spacing(1),
+//   "& .MuiOutlinedInput-root": {
+//     color: "white",
+//     "& fieldset": {
+//       borderColor: "rgba(255, 255, 255, 0.12)",
+//     },
+//     "&:hover fieldset": {
+//       borderColor: "rgba(255, 255, 255, 0.2)",
+//     },
+//     "&.Mui-focused fieldset": {
+//       borderColor: "rgba(255, 255, 255, 0.6)",
+//     },
+//   },
+//   "& .MuiInputLabel-root": {
+//     color: "rgba(255, 255, 255, 0.6)",
+//   },
+// });
+
+const StyledContainer = styled(Box)({
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  height: "100%",
 });
 
 const StyledButton = styled(Button)({
@@ -99,35 +144,49 @@ const Login = ({ handleCloseLogin, handleOpenLogin, openLogin, setIsAuthenticate
         aria-labelledby="login-modal-title"
         aria-describedby="login-modal-description"
       >
-        <Box sx={{ ...theme.palette.primary, backgroundColor: "rgba(0, 0, 0, 1)", p: 2, m: 12 }}>
+        {/* <Box sx={{ ...theme.palette.primary, backgroundColor: "rgba(0, 0, 0, 1)", p: 2, m: 12 }}> */}
+        <Box
+          sx={{
+            ...theme.palette.primary,
+            position: "fixed",
+            top: 0,
+            left: 0,
+            height: "100vh",
+            width: "100vw",
+            backgroundColor: "rgba(0, 0, 0, 1)",
+            p: 2,
+          }}
+        >
           <ThemeProvider theme={theme}>
-            <StyledForm onSubmit={handleSubmit}>
-              {/* <StyledTextField
+            <StyledContainer>
+              <StyledForm onSubmit={handleSubmit}>
+                {/* <StyledTextField
                 label="Username"
                 variant="outlined"
                 name="username"
                 value={formData.username}
                 onChange={handleChange}
               /> */}
-              <StyledTextField
-                label="Email"
-                variant="outlined"
-                name="email"
-                value={formData.email}
-                onChange={handleChange}
-              />
-              <StyledTextField
-                label="Password"
-                variant="outlined"
-                type="password"
-                name="password"
-                value={formData.password}
-                onChange={handleChange}
-              />
-              <StyledButton variant="contained" color="primary" type="submit">
-                Login
-              </StyledButton>
-            </StyledForm>
+                <StyledTextField
+                  label="Email"
+                  variant="outlined"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleChange}
+                />
+                <StyledTextField
+                  label="Password"
+                  variant="outlined"
+                  type="password"
+                  name="password"
+                  value={formData.password}
+                  onChange={handleChange}
+                />
+                <StyledButton variant="contained" color="primary" type="submit">
+                  Login
+                </StyledButton>
+              </StyledForm>
+            </StyledContainer>
           </ThemeProvider>
         </Box>
       </Modal>

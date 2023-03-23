@@ -53,6 +53,9 @@ const StyledTextField = styled(TextField)({
 
 const StyledButton = styled(Button)({
   margin: theme.spacing(2),
+
+  backgroundColor: theme.palette.primary.main,
+  color: "#000",
 });
 
 const PasswordStrengthText = styled("div")({
@@ -154,9 +157,9 @@ const Register = ({ handleOpenRegister, handleCloseRegister, openRegister, setIs
         <Box
           sx={{
             ...theme.palette.primary,
-            position: "fixed", // Add this line
-            top: 0, // Add this line
-            left: 0, // Add this line
+            position: "fixed",
+            top: 0,
+            left: 0,
             height: "100vh",
             width: "100vw",
             backgroundColor: "rgba(0, 0, 0, 1)",
