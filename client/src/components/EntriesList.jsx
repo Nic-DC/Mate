@@ -24,9 +24,6 @@ const theme = createTheme({
   },
 });
 
-// const Demo = styled("div")(({ theme }) => ({
-//   backgroundColor: theme.palette.background.default,
-// }));
 const Demo = styled("div")(({ theme }) => ({
   backgroundColor: theme.palette.background.default,
   maxHeight: "calc(1.75rem * 4 + 48px * 4)",
@@ -43,20 +40,21 @@ const EntriesList = ({ filteredJournals, count, setCount, submittedSearchTerm, s
           sx={{
             display: "flex",
             alignItems: "center",
-            justifyContent: "flex-end",
-            marginTop: 2,
-            marginBottom: 2,
+            // justifyContent: "flex-start",
+            // marginTop: 2,
+            // marginBottom: 2,
+            m: 2,
           }}
         >
           <Box
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              border: "1px solid rgba(255, 255, 255, 0.12)",
-              borderRadius: 1,
-              width: "92.5%",
-            }}
+          // sx={{
+          //   display: "flex",
+          //   alignItems: "center",
+          //   justifyContent: "space-between",
+          //   border: "1px solid rgba(255, 255, 255, 0.12)",
+          //   borderRadius: 1,
+          //   width: "92.5%",
+          // }}
           >
             <Demo>
               <List sx={{ color: "white", padding: 0 }}>
@@ -64,7 +62,7 @@ const EntriesList = ({ filteredJournals, count, setCount, submittedSearchTerm, s
                   filteredJournals.map((journal) => (
                     <ListItem
                       key={journal._id}
-                      sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}
+                      sx={{ display: "flex", justifyContent: "flex-start", alignItems: "center" }}
                       onClick={() => dispatch(setSelectedJournalAction(journal))}
                     >
                       <Entry
@@ -76,7 +74,7 @@ const EntriesList = ({ filteredJournals, count, setCount, submittedSearchTerm, s
                       />
                     </ListItem>
                   ))
-                ) : submittedSearchTerm && searchSubmitted ? ( // Update this condition
+                ) : submittedSearchTerm && searchSubmitted ? (
                   <ListItem sx={{ fontSize: "0.8rem", color: "rgba(255, 255, 255, 0.6)" }}>No journals match</ListItem>
                 ) : null}
               </List>
@@ -88,7 +86,3 @@ const EntriesList = ({ filteredJournals, count, setCount, submittedSearchTerm, s
   );
 };
 export default EntriesList;
-
-// ) : (
-//   <ListItem sx={{ fontSize: "0.8rem", color: "rgba(255, 255, 255, 0.6)" }}>No journals match</ListItem>
-// )}

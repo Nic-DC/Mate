@@ -34,10 +34,13 @@ const Entry = ({ title, topic, content, count, setCount }) => {
 
   return (
     <>
+      {/* <Box sx={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+        <Box sx={{ display: "flex", alignItems: "center", justifyContent: "flex-start" }}> */}
       <Box sx={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-        <Box sx={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
+        <Box sx={{ display: "flex", alignItems: "center", justifyContent: "flex-start" }}>
           <ListItemAvatar>
-            <Avatar sx={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
+            {/* <Avatar sx={{ display: "flex", alignItems: "center", justifyContent: "flex-start" }}> */}
+            <Avatar>
               <EntryEditModal
                 handleOpenEdit={handleOpenEdit}
                 handleCloseEdit={handleCloseEdit}
@@ -49,18 +52,29 @@ const Entry = ({ title, topic, content, count, setCount }) => {
             </Avatar>
           </ListItemAvatar>
           <Box
-            sx={{
-              display: "flex",
-              flexDirection: "column",
-              flexGrow: 1,
-              overflow: "hidden",
-              whiteSpace: "nowrap",
-              textOverflow: "ellipsis",
-            }}
+            // sx={{
+            //   display: "flex",
+            //   flexDirection: "column",
+            //   flexGrow: 1,
+            //   overflow: "hidden",
+            //   whiteSpace: "nowrap",
+            //   textOverflow: "ellipsis",
+            //   marginRight: "auto",
+            //   marginLeft: "auto",
+            // }}
+            sx={{ marginRight: "auto" }}
           >
             <ListItemText
+              // sx={{ marginRight: "auto" }}
               primary={
-                <Typography sx={{ fontSize: "1rem", textOverflow: "ellipsis", overflow: "hidden" }} noWrap>
+                <Typography
+                  sx={{
+                    fontSize: "1rem",
+                    textOverflow: "ellipsis",
+                    overflow: "hidden",
+                  }}
+                  noWrap
+                >
                   {title.length > 8 ? title.substring(0, 8) + "..." : title}
                 </Typography>
               }
@@ -75,20 +89,22 @@ const Entry = ({ title, topic, content, count, setCount }) => {
                   }}
                   noWrap
                 >
-                  {topic.length > 8 ? topic.substring(0, 8) + "..." : topic}
+                  {topic.length > 15 ? topic.substring(0, 8) + "..." : topic}
                 </Typography>
               }
             />
           </Box>
         </Box>
-
-        <EntryDeleteModal
-          handleOpenDelete={handleOpenDelete}
-          handleCloseDelete={handleCloseDelete}
-          openDelete={openDelete}
-          count={count}
-          setCount={setCount}
-        />
+        {/* <Box sx={{ flexShrink: 1 }}> */}
+        <Box sx={{ display: "flex", justifySelf: "flex-end" }}>
+          <EntryDeleteModal
+            handleOpenDelete={handleOpenDelete}
+            handleCloseDelete={handleCloseDelete}
+            openDelete={openDelete}
+            count={count}
+            setCount={setCount}
+          />
+        </Box>
       </Box>
     </>
   );

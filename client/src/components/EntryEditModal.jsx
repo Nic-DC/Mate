@@ -18,6 +18,9 @@ const theme = createTheme({
     primary: {
       main: "#90caf9",
     },
+    secondary: {
+      main: "#90ca",
+    },
   },
 });
 
@@ -77,7 +80,8 @@ const EntryEditModal = ({ content, title, topic }) => {
     setFormData({ ...formData, [event.target.name]: event.target.value });
   };
 
-  const id = useSelector((store) => store.journals.selectedJournal._id);
+  // const id = useSelector((store) => store.journals.selectedJournal._id);
+  const id = useSelector((store) => store.main.journals.selectedJournal._id);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -115,7 +119,7 @@ const EntryEditModal = ({ content, title, topic }) => {
     <>
       {!openEdit && (
         <IconButton edge="end" aria-label="create" onClick={handleOpenEdit} sx={{ m: 0 }}>
-          <CreateIcon sx={{ color: "rgba(0, 0, 0, 0.7)" }} />
+          <CreateIcon sx={{ color: "rgba(0, 0, 0, 0.8)" }} />
         </IconButton>
       )}
 
@@ -164,8 +168,9 @@ const EntryEditModal = ({ content, title, topic }) => {
               />
 
               <StyledButton variant="contained" color="primary" type="submit">
-                Edit
+                Edit & Save Entry
               </StyledButton>
+
               <JournalPDFbutton id={id} />
             </StyledForm>
           </ThemeProvider>

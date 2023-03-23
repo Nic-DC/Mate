@@ -1,4 +1,19 @@
-import { Button } from "@mui/material";
+import { Button, Tooltip } from "@mui/material";
+import DownloadIcon from "@mui/icons-material/Download";
+import { useNavigate } from "react-router-dom";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { styled } from "@mui/material/styles";
+
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: "#90ca",
+    },
+  },
+});
+const StyledButton = styled(Button)({
+  margin: theme.spacing(2),
+});
 
 const JournalPDFbutton = ({ id }) => {
   const handleDownloadPdf = async (id) => {
@@ -22,9 +37,14 @@ const JournalPDFbutton = ({ id }) => {
   };
 
   return (
-    <Button variant="contained" color="primary" onClick={() => handleDownloadPdf(id)}>
-      Download
-    </Button>
+    <StyledButton variant="contained" color="primary" onClick={() => handleDownloadPdf(id)}>
+      <Tooltip title="Download as .pdf">
+        <DownloadIcon />
+      </Tooltip>
+    </StyledButton>
+    // <Button variant="contained" color="primary" onClick={() => handleDownloadPdf(id)}>
+
+    // </Button>
   );
 };
 export default JournalPDFbutton;

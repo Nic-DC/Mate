@@ -73,7 +73,7 @@ const WelcomeCard = ({
       <Collapse in={expanded} timeout="auto" unmountOnExit>
         <CardContent>
           <Typography paragraph color="#90caf9">
-            Method:
+            Tech Overview: MERN stack, JWT Refresh Tokens, Socket.io, REST API CRUD, Blockchain,
           </Typography>
           <Typography paragraph color="#90caf9">
             Heat 1/2 cup of the broth .

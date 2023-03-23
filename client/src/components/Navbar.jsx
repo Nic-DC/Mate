@@ -39,9 +39,11 @@ const Navbar = ({ socket }) => {
   const passedSocket = socket;
   console.log("NAVBAR SOCKET: ", passedSocket);
   const navigate = useNavigate();
-  const isRegistered = useSelector((store) => store.authentication.isRegistered);
+  // const isRegistered = useSelector((store) => store.authentication.isRegistered);
+  const isRegistered = useSelector((store) => store.main.authentication.isRegistered);
   console.log("IS THE USER REGISTERED: ", isRegistered);
-  const isLogged = useSelector((store) => store.authentication.isLogged);
+  // const isLogged = useSelector((store) => store.authentication.isLogged);
+  const isLogged = useSelector((store) => store.main.authentication.isLogged);
   console.log("IS THE USER LOGGED: ", isLogged);
 
   const [openLogin, setOpenLogin] = useState(false);
@@ -86,7 +88,7 @@ const Navbar = ({ socket }) => {
               </Stack>
 
               <Stack direction="row" spacing={2}>
-                <Tooltip title="Ai counselor">
+                <Tooltip title="My Mate">
                   <Button onClick={() => navigate(`/aimate`)}>
                     <Diversity2Icon />
                   </Button>

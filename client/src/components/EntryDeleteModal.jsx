@@ -47,7 +47,8 @@ const StyledButton = styled(Button)({
 });
 
 const EntryDeleteModal = ({ openDelete, handleOpenDelete, handleCloseDelete, count, setCount }) => {
-  const id = useSelector((store) => store.journals.selectedJournal._id);
+  // const id = useSelector((store) => store.journals.selectedJournal._id);
+  const id = useSelector((store) => store.main.journals.selectedJournal._id);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -79,7 +80,12 @@ const EntryDeleteModal = ({ openDelete, handleOpenDelete, handleCloseDelete, cou
   return (
     <>
       {!openDelete && (
-        <IconButton edge="end" aria-label="delete" onClick={handleOpenDelete} sx={{ alignSelf: "center" }}>
+        <IconButton
+          edge="end"
+          aria-label="delete"
+          onClick={handleOpenDelete}
+          sx={{ alignSelf: "center", marginLeft: "auto" }}
+        >
           <DeleteIcon sx={{ color: "rgba(255, 255, 255, 0.6)" }} />
         </IconButton>
       )}
