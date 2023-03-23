@@ -139,7 +139,7 @@ const Journal = () => {
             p: 2,
             m: 2,
             marginTop: 9,
-            width: "60%",
+            width: "50%",
           }}
         >
           <Box sx={{ width: "65%" }}>

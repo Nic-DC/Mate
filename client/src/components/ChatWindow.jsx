@@ -39,6 +39,10 @@ const Background = styled("div")({
   backgroundRepeat: "no-repeat",
   backgroundPosition: "center center",
   backgroundSize: "cover",
+
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
 });
 
 const ChatWindow = ({ socket, countRooms, setCountRooms }) => {
@@ -215,9 +219,7 @@ const ChatWindow = ({ socket, countRooms, setCountRooms }) => {
 
   return (
     <Background>
-      <Box
-        sx={{ display: "flex", justifyContent: "space-around", alignItems: "center", width: "100%", height: "100%" }}
-      >
+      <Box sx={{ display: "flex", justifyContent: "space-around", alignItems: "center", width: "80%", height: "100%" }}>
         <Card
           sx={{
             display: "flex",

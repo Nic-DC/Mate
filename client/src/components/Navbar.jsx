@@ -41,6 +41,8 @@ const Navbar = ({ socket }) => {
   const navigate = useNavigate();
   const isRegistered = useSelector((store) => store.authentication.isRegistered);
   console.log("IS THE USER REGISTERED: ", isRegistered);
+  const isLogged = useSelector((store) => store.authentication.isLogged);
+  console.log("IS THE USER LOGGED: ", isLogged);
 
   const [openLogin, setOpenLogin] = useState(false);
 
@@ -58,7 +60,7 @@ const Navbar = ({ socket }) => {
         <Box>
           <Logo />
         </Box>
-        {isRegistered && (
+        {(isRegistered || isLogged) && (
           <>
             <Box sx={{ display: "flex", justifyContent: "flex-start" }}>
               <Stack direction="row" spacing={2}>

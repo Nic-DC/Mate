@@ -59,7 +59,7 @@ const StyledButton = styled(Button)({
 });
 
 const PasswordStrengthText = styled("div")({
-  color: (props) => (props.passwordStrength >= 2 ? theme.palette.success.main : theme.palette.error.main),
+  // color: (props) => (props.passwordStrength >= 2 ? theme.palette.success.main : theme.palette.error.main),
   fontSize: "0.75rem",
   color: "rgba(255,255,255,0.4)",
 });

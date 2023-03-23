@@ -6,10 +6,18 @@ export const SET_IS_REGISTERED = `SET_IS_REGISTERED`;
 export const SET_NEW_ROOM = `SET_NEW_ROOM`;
 export const GET_FILTERED_JOURNALS = `GET_FILTERED_JOURNALS`;
 export const SELECTED_JOURNAL = `SELECT_JOURNAL`;
+export const SET_IS_LOGGED = `SET_IS_LOGGED`;
 
 export const setIsRegisteredAction = (bool) => {
   return {
     type: SET_IS_REGISTERED,
+    payload: bool,
+  };
+};
+
+export const setIsLoggedAction = (bool) => {
+  return {
+    type: SET_IS_LOGGED,
     payload: bool,
   };
 };

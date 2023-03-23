@@ -2,7 +2,7 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 // import zxcvbn from "zxcvbn";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { styled } from "@mui/material/styles";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
@@ -10,6 +10,9 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
 import { display } from "@mui/system";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { setIsLoggedAction } from "../../redux/actions";
 //import { orange } from "@mui/material/colors";
 
 const theme = createTheme({
@@ -20,22 +23,7 @@ const theme = createTheme({
   },
 });
 
-// const StyledForm = styled("form")({
-//   display: "flex",
-//   flexDirection: "column",
-//   alignItems: "center",
-//   justifyContent: "center",
-//   marginTop: theme.spacing(4),
-// });
 const StyledForm = styled("form")({
-  // display: "flex",
-  // flexDirection: "column",
-  // alignItems: "center",
-  // justifyContent: "center",
-  // width: "100%",
-  // maxWidth: "400px",
-  // margin: "0 auto",
-  // marginTop: theme.spacing(4),
   display: "flex",
   flexDirection: "column",
   alignItems: "center",
@@ -66,25 +54,6 @@ const StyledTextField = styled(TextField)({
   },
 });
 
-// const StyledTextField = styled(TextField)({
-//   margin: theme.spacing(1),
-//   "& .MuiOutlinedInput-root": {
-//     color: "white",
-//     "& fieldset": {
-//       borderColor: "rgba(255, 255, 255, 0.12)",
-//     },
-//     "&:hover fieldset": {
-//       borderColor: "rgba(255, 255, 255, 0.2)",
-//     },
-//     "&.Mui-focused fieldset": {
-//       borderColor: "rgba(255, 255, 255, 0.6)",
-//     },
-//   },
-//   "& .MuiInputLabel-root": {
-//     color: "rgba(255, 255, 255, 0.6)",
-//   },
-// });
-
 const StyledContainer = styled(Box)({
   display: "flex",
   alignItems: "center",
@@ -97,14 +66,18 @@ const StyledButton = styled(Button)({
 });
 
 const Login = ({ handleCloseLogin, handleOpenLogin, openLogin, setIsAuthenticated }) => {
-  // const [open, setOpen] = useState(false);
   const [formData, setFormData] = useState({
-    // username: "",
     email: "",
     password: "",
   });
 
-  console.log("login - formData", formData);
+  const [isLogged, setIsLogged] = useState(false);
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  console.log("Login submitted", formData.email, formData.password);
+
   const handleChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
 
   // const handleOpen = () => {
@@ -115,21 +88,46 @@ const Login = ({ handleCloseLogin, handleOpenLogin, openLogin, setIsAuthenticate
   //   setOpen(false);
   // };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Check password strength
-    const strongRegex = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})");
-    if (!strongRegex.test(formData.password)) {
-      toast.error(
-        "Password must be at least 8 characters long and include at least one uppercase letter, one lowercase letter, one number, and one special character."
-      );
-      return;
-    }
+    const options = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(formData),
+    };
+    const endpoint = "http://localhost:3009/users/session";
+    try {
+      const response = await fetch(endpoint, options);
+      if (!response.ok) {
+        throw new Error("Network response was not ok. Failed to login user");
+      }
+      const data = await response.json();
+      console.log("data from fetch: ", data);
 
-    // Handle login logic here
-    console.log("Login submitted", formData.username, formData.email, formData.password);
+      console.log("REGISTER data from fetch: ", data);
+      localStorage.setItem("accessToken", `${data.accessToken}`);
+      localStorage.setItem("refreshToken", `${data.refreshToken}`);
+
+      dispatch(setIsLoggedAction(true));
+      setIsLogged(true);
+
+      toast.success("Registration successful!");
+    } catch (error) {
+      console.error("There was a problem with the fetch operation:", error);
+      const errorMessage = "Login failed. Please try again later.";
+
+      toast.error(errorMessage);
+    }
   };
+
+  useEffect(() => {
+    if (isLogged) {
+      navigate("/home");
+    }
+  }, [isLogged]);
 
   return (
     <>
