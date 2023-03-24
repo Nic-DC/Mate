@@ -7,7 +7,8 @@ class Block {
     this.previousHash = previousHash;
     this.hash = this.calculateHash();
     this.nonce = 0;
-    this.difficulty = 2; // number of leading zeros required in the hash
+    // this.difficulty = 2; // number of leading zeros required in the hash
+    this.difficulty = 0;
   }
 
   calculateHash() {
