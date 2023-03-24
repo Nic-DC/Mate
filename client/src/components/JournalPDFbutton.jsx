@@ -16,9 +16,11 @@ const StyledButton = styled(Button)({
 });
 
 const JournalPDFbutton = ({ id }) => {
+  const serverUrl = process.env.REACT_APP_BE_URL;
+
   const handleDownloadPdf = async (id) => {
     try {
-      const response = await fetch(`http://localhost:3009/journals/journal/${id}/pdf`);
+      const response = await fetch(`${serverUrl}/journals/journal/${id}/pdf`);
 
       if (!response.ok) {
         throw new Error(`Network response was not ok. Failed to DOWNLOAD PDF journal`);

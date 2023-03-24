@@ -40,6 +40,9 @@ const AImate = () => {
   const [userInput, setUserInput] = useState("");
   const [chatbotResponse, setChatbotResponse] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const serverUrl = process.env.REACT_APP_BE_URL;
+
   const debounceTimeout = useRef(null);
 
   const handleUserInput = (event) => {
@@ -70,7 +73,8 @@ const AImate = () => {
           conversation_History: conversationHistory,
           user_Input: userInput,
         };
-        const response = await fetch("http://localhost:3009/api/response", {
+
+        const response = await fetch(`${serverUrl}/api/response`, {
           method: "POST",
           headers: headers,
           body: JSON.stringify(body),

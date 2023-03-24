@@ -32,6 +32,9 @@ const ChatsRight = ({ countRooms, socket }) => {
   const [position, setPosition] = useState({});
 
   const [rooms, setRooms] = useState([]);
+
+  const serverUrl = process.env.REACT_APP_BE_URL;
+
   const passedSocket = socket;
   const navigate = useNavigate();
 
@@ -48,7 +51,7 @@ const ChatsRight = ({ countRooms, socket }) => {
   console.log("baseendpoint: ", baseEndpoint);
   const fetchRooms = async () => {
     try {
-      const endpoint = `http://localhost:3009/rooms`;
+      const endpoint = ` ${serverUrl}/rooms`;
       const response = await fetch(endpoint);
 
       if (!response.ok) {

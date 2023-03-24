@@ -73,6 +73,8 @@ const Login = ({ handleCloseLogin, handleOpenLogin, openLogin, setIsAuthenticate
 
   const [isLogged, setIsLogged] = useState(false);
 
+  const serverUrl = process.env.REACT_APP_BE_URL;
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -98,7 +100,8 @@ const Login = ({ handleCloseLogin, handleOpenLogin, openLogin, setIsAuthenticate
       },
       body: JSON.stringify(formData),
     };
-    const endpoint = "http://localhost:3009/users/session";
+    // const endpoint = "http://localhost:3009/users/session";
+    const endpoint = `${serverUrl}/users/session`;
     try {
       const response = await fetch(endpoint, options);
       if (!response.ok) {

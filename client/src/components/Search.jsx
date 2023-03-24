@@ -47,6 +47,8 @@ const Search = ({ count, setCount }) => {
   const [searchSubmitted, setSearchSubmitted] = useState(false);
   const [submittedSearchTerm, setSubmittedSearchTerm] = useState("");
 
+  const serverUrl = process.env.REACT_APP_BE_URL;
+
   console.log("SEARCH TERM - search: ", searchTerm);
   console.log("FILTERED JOURNALS - search: ", filteredJournals);
 
@@ -59,7 +61,8 @@ const Search = ({ count, setCount }) => {
 
   /* ------ SEARCH: JOURNAL ENTRIES ------- */
   const fetchFilteredJournals = async () => {
-    const endpoint = `http://localhost:3009/journals/filtered?topic=${searchTerm}`;
+    // const endpoint = `http://localhost:3009/journals/filtered?topic=${searchTerm}`;
+    const endpoint = `${serverUrl}/journals/filtered?topic=${searchTerm}`;
 
     try {
       const response = await fetch(endpoint);

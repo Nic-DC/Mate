@@ -66,11 +66,11 @@ function JournalEntries() {
   const [entries, setEntries] = useState([]);
   const [titleFilter, setTitleFilter] = useState("");
   const [topicFilter, setTopicFilter] = useState("");
-
+  const serverUrl = process.env.REACT_APP_BE_URL;
   useEffect(() => {
     const fetchEntries = async () => {
       try {
-        const response = await fetch(`http://localhost:3009/blockchain?title=${titleFilter}&topic=${topicFilter}`);
+        const response = await fetch(`${serverUrl}/blockchain?title=${titleFilter}&topic=${topicFilter}`);
         const data = await response.json();
         setEntries(data);
       } catch (error) {

@@ -52,6 +52,8 @@ const ChatWindow = ({ socket, countRooms, setCountRooms }) => {
   const [typingTimeout, setTypingTimeout] = useState(null); // for the debounce effect - "typing" render
   const [rooms, setRooms] = useState([]);
 
+  const serverUrl = process.env.REACT_APP_BE_URL;
+
   const params = useParams();
 
   const passedSocket = socket;
@@ -93,7 +95,9 @@ const ChatWindow = ({ socket, countRooms, setCountRooms }) => {
 
   const fetchRooms = async () => {
     try {
-      const endpoint = `http://localhost:3009/rooms`;
+      // const endpoint = `http://localhost:3009/rooms`;
+      const endpoint = ` ${serverUrl}/rooms`;
+
       const response = await fetch(endpoint);
 
       if (!response.ok) {

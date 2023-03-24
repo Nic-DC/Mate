@@ -33,10 +33,10 @@ const StyledForm = styled("form")({
 });
 
 const StyledTextField = styled(TextField)({
-  width: "30%", // Add this line
+  width: "30%",
   margin: theme.spacing(2),
-  marginLeft: "auto", // Add this line
-  marginRight: "auto", // Add this line
+  marginLeft: "auto",
+  marginRight: "auto",
 
   "& .MuiOutlinedInput-root": {
     color: "white",
@@ -68,6 +68,9 @@ const EntryEditModal = ({ content, title, topic }) => {
   console.log("formData", formData);
 
   const [openEdit, setOpenEdit] = useState(false);
+
+  const serverUrl = process.env.REACT_APP_BE_URL;
+
   const handleOpenEdit = () => {
     setOpenEdit(true);
   };
@@ -94,7 +97,8 @@ const EntryEditModal = ({ content, title, topic }) => {
       body: JSON.stringify(formData),
     };
     console.log("ID EDIT MODAL: ", id);
-    const endpoint = `http://localhost:3009/journals/journal/${id}`;
+    // const endpoint = `http://localhost:3009/journals/journal/${id}`;
+    const endpoint = `${serverUrl}/journals/journal/${id}`;
     console.log("ENDPOINT EDIT MODAL: ", endpoint);
     try {
       const response = await fetch(endpoint, options);
@@ -132,9 +136,9 @@ const EntryEditModal = ({ content, title, topic }) => {
         <Box
           sx={{
             ...theme.palette.primary,
-            position: "fixed", // Add this line
-            top: 0, // Add this line
-            left: 0, // Add this line
+            position: "fixed",
+            top: 0,
+            left: 0,
             height: "100vh",
             width: "100vw",
             backgroundColor: "rgba(0, 0, 0, 1)",

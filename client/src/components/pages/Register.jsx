@@ -14,12 +14,13 @@ import TextField from "@mui/material/TextField";
 
 import Modal from "@mui/material/Modal";
 import { setIsRegisteredAction } from "../../redux/actions";
-// import { orange } from "@mui/material/colors";
+import { deepOrange } from "@mui/material/colors";
 
 const theme = createTheme({
   palette: {
     primary: {
-      main: "#90ca",
+      // main: "#90ca",
+      main: deepOrange[500],
     },
   },
 });
@@ -78,6 +79,8 @@ const Register = ({ handleOpenRegister, handleCloseRegister, openRegister, setIs
   const [isRegistered, setIsRegistered] = useState(false);
   const [passwordStrength, setPasswordStrength] = useState(0);
 
+  const serverUrl = process.env.REACT_APP_BE_URL;
+
   const passwordStrengthArray = ["Weak", "Fair", "Good", "Strong", "Very strong"];
 
   const calculatePasswordStrength = (password) => {
@@ -109,7 +112,8 @@ const Register = ({ handleOpenRegister, handleCloseRegister, openRegister, setIs
       },
       body: JSON.stringify(formData),
     };
-    const endpoint = "http://localhost:3009/users/account";
+    //const endpoint = "http://localhost:3009/users/account";
+    const endpoint = `${serverUrl}/users/account`;
     try {
       const response = await fetch(endpoint, options);
       if (!response.ok) {

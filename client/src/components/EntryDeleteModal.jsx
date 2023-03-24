@@ -53,6 +53,7 @@ const StyledButton = styled(Button)({
 const EntryDeleteModal = ({ openDelete, handleOpenDelete, handleCloseDelete, count, setCount, title, topic }) => {
   // const id = useSelector((store) => store.journals.selectedJournal._id);
   const id = useSelector((store) => store.main.journals.selectedJournal._id);
+  const serverUrl = process.env.REACT_APP_BE_URL;
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -61,7 +62,9 @@ const EntryDeleteModal = ({ openDelete, handleOpenDelete, handleCloseDelete, cou
       method: "DELETE",
     };
     console.log("ID DELETE MODAL: ", id);
-    const endpoint = `http://localhost:3009/journals/journal/${id}`;
+    // const endpoint = `http://localhost:3009/journals/journal/${id}`;
+    const endpoint = `${serverUrl}/journals/journal/${id}`;
+
     console.log("ENDPOINT DELETE MODAL: ", endpoint);
     try {
       const response = await fetch(endpoint, options);

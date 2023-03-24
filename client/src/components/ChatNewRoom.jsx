@@ -32,11 +32,12 @@ const ChatNewRoom = ({ socket }) => {
   };
 
   // fetch the rooms
-  const baseEndpoint = process.env.BE_URL;
-  console.log("baseendpoint: ", baseEndpoint);
+  const serverUrl = process.env.REACT_APP_BE_URL;
+  console.log("baseendpoint: ", serverUrl);
   const fetchRooms = async () => {
     try {
-      const endpoint = `http://localhost:3009/rooms`;
+      // const endpoint = `http://localhost:3009/rooms`;
+      const endpoint = `${serverUrl}/rooms`;
       const response = await fetch(endpoint);
 
       if (!response.ok) {
