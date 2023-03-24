@@ -2,7 +2,8 @@ import express from "express";
 import createHttpError from "http-errors";
 import UsersModel from "./userModel.js";
 import { checkFilteredSchema, checkUserSchema, triggerBadRequest } from "./userValidator.js";
-import { JWTAuthMiddleware } from "../../lib/auth/JWTAuth.js";
+// import { JWTAuthMiddleware } from "../../lib/auth/JWTauth.js";
+import { JWTAuthMiddleware } from "../../lib/auth/JWTauth.js";
 // import { createAccessToken } from "../../lib/tools/tools.js";
 import sendRegistrationMail from "../../lib/tools/email-tools.js";
 import {

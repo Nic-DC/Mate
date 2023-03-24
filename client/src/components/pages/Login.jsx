@@ -102,6 +102,7 @@ const Login = ({ handleCloseLogin, handleOpenLogin, openLogin, setIsAuthenticate
     };
     // const endpoint = "http://localhost:3009/users/session";
     const endpoint = `${serverUrl}/users/session`;
+
     try {
       const response = await fetch(endpoint, options);
       if (!response.ok) {
