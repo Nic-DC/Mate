@@ -18,11 +18,12 @@ import Register from "./pages/Register";
 import Login from "./pages/Login";
 import Logo from "./Logo";
 import { Stack } from "@mui/system";
-import { Button, Tooltip } from "@mui/material";
+import { Button, Divider, Tooltip } from "@mui/material";
 import ChatIcon from "@mui/icons-material/Chat";
 import CreateIcon from "@mui/icons-material/Create";
 import Diversity2Icon from "@mui/icons-material/Diversity2";
 import { useNavigate } from "react-router-dom";
+import { deepOrange } from "@mui/material/colors";
 
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
@@ -44,7 +45,7 @@ const HomeCard = () => {
   };
 
   return (
-    <Card sx={{ maxWidth: 1000, bgcolor: "rgba(0, 0, 0, 0.8)", color: "#90caf9" }}>
+    <Card sx={{ maxWidth: 1000, bgcolor: "rgba(0, 0, 0, 0.8)", color: "#90caf9", marginBottom: 0 }}>
       <CardHeader
         avatar={<Logo />}
         action={
@@ -57,13 +58,18 @@ const HomeCard = () => {
       />
 
       <CardContent>
-        <Typography variant="body2" color="#90caf9" fontSize={40}>
-          Welcome home!
+        <Divider sx={{ backgroundColor: "rgba(255,255,255,0.2)", marginBottom: 2 }} />
+        <Typography variant="body2" color="#90caf9" fontSize={45}>
+          {/* Welcome home! */}
+          Welcome <span style={{ fontSize: 47, fontWeight: "bold", color: deepOrange[500] }}>home</span> !
         </Typography>
-        <Typography variant="body2" color="#90caf9" fontSize={17}>
-          What do you want to do?
+        <Typography variant="body2" color="#90caf9" fontSize={27}>
+          {/* What do you want to do? */}
+          What do you want to <span style={{ fontSize: 29, fontWeight: "bold", color: deepOrange[500] }}>write</span> ?
         </Typography>
+        <Divider sx={{ backgroundColor: "rgba(255,255,255,0.2)", marginTop: 3 }} />
       </CardContent>
+
       <CardActions disableSpacing>
         <Stack direction="row" spacing={2}>
           <Tooltip title="My chat">

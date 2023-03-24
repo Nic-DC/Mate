@@ -24,6 +24,10 @@ const StyledForm = styled("form")({
 });
 
 const StyledTextField = styled(TextField)({
+  width: "30%",
+
+  marginLeft: "auto",
+  marginRight: "auto",
   margin: theme.spacing(1),
   "& .MuiOutlinedInput-root": {
     color: "white",
@@ -46,7 +50,7 @@ const StyledButton = styled(Button)({
   margin: theme.spacing(2),
 });
 
-const EntryDeleteModal = ({ openDelete, handleOpenDelete, handleCloseDelete, count, setCount }) => {
+const EntryDeleteModal = ({ openDelete, handleOpenDelete, handleCloseDelete, count, setCount, title, topic }) => {
   // const id = useSelector((store) => store.journals.selectedJournal._id);
   const id = useSelector((store) => store.main.journals.selectedJournal._id);
 
@@ -95,27 +99,46 @@ const EntryDeleteModal = ({ openDelete, handleOpenDelete, handleCloseDelete, cou
         onClose={handleCloseDelete}
         aria-labelledby="login-modal-title"
         aria-describedby="login-modal-description"
-        sx={{ height: "100vh", width: "100vw", display: "flex", alignItems: "center", justifyContent: "center" }}
+        // sx={{
+
+        //   height: "100%",
+        //   width: "100%",
+        //   display: "flex",
+        //   alignItems: "center",
+        //   justifyContent: "center",
+        // }}
       >
         <Box
           sx={{
             ...theme.palette.primary,
+            position: "fixed",
+            top: 0,
+            left: 0,
             height: "100vh",
             width: "100vw",
             backgroundColor: "rgba(0, 0, 0, 1)",
             p: 2,
-            m: 5,
-            borderRadius: "4px",
+            // m: 5,
+            // borderRadius: "4px",
           }}
         >
           <ThemeProvider theme={theme}>
             <StyledForm onSubmit={handleSubmit}>
-              <Typography variant="h6" color="textSecondary" sx={{ color: "rgba(255, 255, 255, 0.6)" }} gutterBottom>
-                Are you sure you want to delete journal?
+              {/* <StyledTextField> */}
+              <Typography
+                variant="h6"
+                color="textSecondary"
+                sx={{ color: "rgba(255, 255, 255, 0.6)", textAlign: "center", margin: "0 auto", alignSelf: "center" }}
+                gutterBottom
+              >
+                Are you sure you want to delete the journal with title:{" "}
+                <span sx={{ fontWeight: "bold", color: "magenta" }}>"{title}"</span> and topic:{" "}
+                <span sx={{ fontWeight: "bold", color: "#90caf9" }}>"{topic}"</span> ?
               </Typography>
               <StyledButton variant="contained" color="primary" type="submit">
                 Delete
               </StyledButton>
+              {/* </StyledTextField> */}
             </StyledForm>
           </ThemeProvider>
         </Box>

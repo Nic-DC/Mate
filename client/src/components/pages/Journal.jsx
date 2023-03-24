@@ -178,7 +178,7 @@ const Journal = () => {
           <Box sx={{ width: "40%", display: "flex", flexDirection: "column", alignItems: "flex-end", marginTop: 2 }}>
             <Box sx={{ display: "flex" }}>
               <Stack direction="row" spacing={3}>
-                <Tooltip title="Valid entries" placement="top">
+                <Tooltip title="Blockchain" placement="top">
                   <Button sx={{ marginRight: 2 }} onClick={() => navigate(`/blockchain`)}>
                     <ViewInArIcon sx={{ fontSize: "3rem" }} />
                   </Button>

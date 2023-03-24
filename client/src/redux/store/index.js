@@ -1,4 +1,4 @@
-import { combineReducers, configureStore } from "@reduxjs/toolkit";
+import { combineReducers, configureStore, getDefaultMiddleware } from "@reduxjs/toolkit";
 import { persistReducer, persistStore } from "redux-persist";
 import localStorage from "redux-persist/lib/storage";
 import mainReducer from "../reducers";
@@ -16,6 +16,9 @@ const persistedReducer = persistReducer(persistConfig, bigReducer);
 
 export const store = configureStore({
   reducer: persistedReducer, // here there's place for just 1 value!
+  middleware: (getDefaultMiddleware) => {
+    return getDefaultMiddleware({ serializableCheck: false });
+  },
 });
 
 export const persistor = persistStore(store);

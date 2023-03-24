@@ -103,6 +103,8 @@ const Entry = ({ title, topic, content, count, setCount }) => {
             openDelete={openDelete}
             count={count}
             setCount={setCount}
+            title={title}
+            topic={topic}
           />
         </Box>
       </Box>
