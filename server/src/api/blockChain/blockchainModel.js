@@ -53,16 +53,20 @@ class Blockchain {
 
     if (!entryExists) {
       this.pendingEntries.push(entry);
+      console.log("Entry added to pendingEntries:", entry);
 
       if (this.pendingEntries.length === this.maxEntriesPerBlock) {
+        console.log("Pending entries reached maxEntriesPerBlock, creating a new block...");
         const newBlock = new Block(Date.now(), this.pendingEntries);
         await this.addBlock(newBlock);
         this.pendingEntries = [];
 
+        console.log("New block added:", newBlock);
         return newBlock;
       }
     }
 
+    console.log("Entry not added to blockchain:", entry);
     return null;
   }
 
